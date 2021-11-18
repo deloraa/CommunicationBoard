@@ -5,8 +5,10 @@ var imagesswap = [document.getElementById("img000"),document.getElementById("img
 var calibrationMode=true;
 document.getElementById("calibrationbutton").addEventListener("click", function(){
    if(calibrationMode === true){ 
+       calibrationMode = false;
        document.getElementById("calibrationbutton").value = "Stop Calibration"
    }else{
+       calibrationMode = true;
        document.getElementById("calibrationbutton").value = "Start Calibration"
    }
 });
