@@ -5,6 +5,7 @@ var imagesswap = [document.getElementById("img000"),document.getElementById("img
 var calibrationMode=true;
 const calibratebutton = document.getElementById("calibrationbutton")
 calibratebutton.addEventListener("click", ()=>{
+    alert("buttonclicked");
     if(calibrationMode===true){
         calibrationMode=false;
         calibratebutton.innerText = "Start Calibration";
