@@ -3,7 +3,9 @@ var imagelinks = ["images/amafraid.jpg", "images/amfeelingsick.jpg", "images/ami
 var imagesswap = [document.getElementById("img000"),document.getElementById("img001"),document.getElementById("img002"),document.getElementById("img010"),document.getElementById("img011"),document.getElementById("img012"),document.getElementById("img020"),document.getElementById("img021"),document.getElementById("img022"),document.getElementById("img030"),document.getElementById("img031"),document.getElementById("img032"),document.getElementById("img100"),document.getElementById("img101"),document.getElementById("img102"),document.getElementById("img110"),document.getElementById("img111"),document.getElementById("img112"),document.getElementById("img120"),document.getElementById("img121"),document.getElementById("img122"),document.getElementById("img130"),document.getElementById("img131"),document.getElementById("img132")];
 
 var calibrationMode=true;
-document.getElementById("calibrationbutton").addEventListener("click", function(){
+document.getElementById("calibrationbutton").addEventListener("click", calibrateButton);
+
+function calibrateButton(){
    if(calibrationMode === true){ 
        calibrationMode = false;
        document.getElementById("calibrationbutton").value = "Stop Calibration"
@@ -11,8 +13,7 @@ document.getElementById("calibrationbutton").addEventListener("click", function(
        calibrationMode = true;
        document.getElementById("calibrationbutton").value = "Start Calibration"
    }
-});
-
+}
 /*
 
 window.saveDataAcrossSessions = true
