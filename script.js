@@ -16,29 +16,29 @@ calibratebutton.addEventListener("click", ()=>{
     calibratebutton.className = "btn btn-primary";
     calibrationmessage.innerText = ""
     webgazer.removeMouseEventListeners();
-    webgazer.showVideoPreview(false).showPredictionPoints(false);
+    webgazer.showVideoPreview(false)
   }else{
     calibrationMode=true;
     calibratebutton.innerText= "Stop Calibration";
     calibratebutton.className = "btn btn-danger";
     calibrationmessage.innerText = "You are currently in eye tracking calibration mode. Look at mouse while clicking to calibrate and click the button above to stop calibration."
     webgazer.addMouseEventListeners();
-    webgazer.showVideoPreview(true).showPredictionPoints(true);
+    webgazer.showVideoPreview(true)
   }
 });
 
 
 
 
-const LOOK_DELAY = 1000; // 1 second
+const LOOK_DELAY = 2000; // 1 second
 const LEFT_CUTOFF = window.innerWidth / 4;
 const RIGHT_CUTOFF = window.innerWidth - window.innerWidth / 4;
 
 let startLookTime = Number.POSITIVE_INFINITY;
 let lookDirection = null;
 
-var leftImages = [];
-var rightImages = [];
+var leftImages = imagelinks.slice(0,imagelinks.length/2);
+var rightImages = imagelinks.slice(imagelinks.length/2,imagelinks.length);
 
 webgazer
 .setGazeListener((data, timestamp) => {
@@ -67,47 +67,70 @@ webgazer
     if (startLookTime + LOOK_DELAY < timestamp) {
       if (lookDirection === "LEFT") {
         if(leftImages.length == 1){
-          alert("done");
+          // Get the modal
+          var modal = document.getElementById('myModal');
+
+          // Get the image and insert it inside the modal - use its "alt" text as a caption
+          var modalImg = document.getElementById("modalImgID");
+
+          modal.style.display = "block";
+          modalImg.src = leftImages[0];
+
+
+          //modal.style.display = "none";
+
           //do something with last image
-        }else{
+        }else {
           rightImages = leftImages.slice(Math.ceil(leftImages.length/2),leftImages.length);
           leftImages = leftImages.slice(0,Math.ceil(leftImages.length/2));
             //set images here
             for (let i = 0; i < leftImages.length; i++) {
-              
+                imagesswapL[i].src = leftImages[i];
             }
             for (let i = leftImages.length; i < imagesswapL.length; i++) {
-              
+                imagesswapL[i].style.visibility = "hidden";
             }
             for (let i = 0; i < rightImages.length; i++) {
-              
+                imagesswapR[i].src = rightImages[i];
             }
             for (let i = rightImages.length; i < imagesswapR.length; i++) {
-              
+                imagesswapR[i].style.visibility = "hidden";
             }
+            lookDirection = "STOP"
+            startLookTime = Number.POSITIVE_INFINITY;
         }
-        
-      } else {
+
+      } else if(lookDirection === "RIGHT"){
         if(rightImages.length == 1){
-          alert("done");
+            alert("doneRight");
+          // Get the modal
+          var modal = document.getElementById('myModal');
+
+          // Get the image and insert it inside the modal - use its "alt" text as a caption
+          var modalImg = document.getElementById("modalImgID");
+
+          modal.style.display = "block";
+          modalImg.src = rightImages[0];
           //do something with last image
         }else{
           leftImages = rightImages.slice(0,Math.ceil(leftImages.length/2));
           rightImages = rightImages.slice(Math.ceil(leftImages.length/2),leftImages.length);
-          //set images here
-            for (let i = 0; i < leftImages.length; i++) {
-              
-            }
-            for (let i = leftImages.length; i < imagesswapL.length; i++) {
-              
-            }
-            for (let i = 0; i < rightImages.length; i++) {
-              
-            }
-            for (let i = rightImages.length; i < imagesswapR.length; i++) {
-              
-            }
+          //set images here - should make this a function.
+          for (let i = 0; i < leftImages.length; i++) {
+              imagesswapL[i].src = leftImages[i];
+          }
+          for (let i = leftImages.length; i < imagesswapL.length; i++) {
+              imagesswapL[i].style.visibility = "hidden";
+          }
+          for (let i = 0; i < rightImages.length; i++) {
+              imagesswapR[i].src = rightImages[i];
+          }
+          for (let i = rightImages.length; i < imagesswapR.length; i++) {
+              imagesswapR[i].style.visibility = "hidden";
+          }
         }
+        lookDirection = "STOP"
+        startLookTime = Number.POSITIVE_INFINITY;
       }
 
       lookDirection = "RESET";
@@ -118,4 +141,3 @@ webgazer
   }
 })
 .begin();
-
