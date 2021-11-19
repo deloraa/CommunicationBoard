@@ -16,19 +16,16 @@ calibratebutton.addEventListener("click", ()=>{
     calibratebutton.className = "btn btn-primary";
     calibrationmessage.innerText = ""
     webgazer.removeMouseEventListeners();
-    webgazer.showVideoPreview(false)
+    webgazer.showVideo(false)
   }else{
     calibrationMode=true;
     calibratebutton.innerText= "Stop Calibration";
     calibratebutton.className = "btn btn-danger";
     calibrationmessage.innerText = "You are currently in eye tracking calibration mode. Look at mouse while clicking to calibrate and click the button above to stop calibration."
     webgazer.addMouseEventListeners();
-    webgazer.showVideoPreview(true)
+    webgazer.showVideo(true)
   }
 });
-
-
-
 
 const LOOK_DELAY = 1000; // 1 second
 const LEFT_CUTOFF = window.innerWidth / 4;
@@ -67,6 +64,7 @@ webgazer
     if (startLookTime + LOOK_DELAY < timestamp) {
       if (lookDirection === "LEFT") {
         if(leftImages.length == 1){
+          webgazer.showPredictionPoints(false);
           // Get the modal
           var modal = document.getElementById('myModal');
 
@@ -102,6 +100,7 @@ webgazer
 
       } else if(lookDirection === "RIGHT"){
         if(rightImages.length == 1){
+          webgazer.showPredictionPoints(false);
           // Get the modal
           var modal = document.getElementById('myModal');
 
