@@ -16,14 +16,14 @@ calibratebutton.addEventListener("click", ()=>{
     calibratebutton.className = "btn btn-primary";
     calibrationmessage.innerText = ""
     webgazer.removeMouseEventListeners();
-    webgazer.showVideoPreview(false)
+    webgazer.showVideoPreview(false).showPredictionPoints(false);
   }else{
     calibrationMode=true;
     calibratebutton.innerText= "Stop Calibration";
     calibratebutton.className = "btn btn-danger";
     calibrationmessage.innerText = "You are currently in eye tracking calibration mode. Look at mouse while clicking to calibrate and click the button above to stop calibration."
     webgazer.addMouseEventListeners();
-    webgazer.showVideoPreview(true)
+    webgazer.showVideoPreview(true).showPredictionPoints(true);
   }
 });
 
@@ -36,6 +36,8 @@ const RIGHT_CUTOFF = window.innerWidth - window.innerWidth / 4;
 
 let startLookTime = Number.POSITIVE_INFINITY;
 let lookDirection = null;
+//let imageElement = getNewImage()
+//let nextImageElement = getNewImage(true)
 
 var leftImages = [];
 var rightImages = [];
@@ -72,7 +74,19 @@ webgazer
         }else{
           rightImages = leftImages.slice(Math.ceil(leftImages.length/2),leftImages.length);
           leftImages = leftImages.slice(0,Math.ceil(leftImages.length/2));
-          //set images here
+            //set images here
+            for (let i = 0; i < leftImages.length; i++) {
+              
+            }
+            for (let i = leftImages.length; i < imagesswapL.length; i++) {
+              
+            }
+            for (let i = 0; i < rightImages.length; i++) {
+              
+            }
+            for (let i = rightImages.length; i < imagesswapR.length; i++) {
+              
+            }
         }
         
       } else {
@@ -83,6 +97,18 @@ webgazer
           leftImages = rightImages.slice(0,Math.ceil(leftImages.length/2));
           rightImages = rightImages.slice(Math.ceil(leftImages.length/2),leftImages.length);
           //set images here
+            for (let i = 0; i < leftImages.length; i++) {
+              
+            }
+            for (let i = leftImages.length; i < imagesswapL.length; i++) {
+              
+            }
+            for (let i = 0; i < rightImages.length; i++) {
+              
+            }
+            for (let i = rightImages.length; i < imagesswapR.length; i++) {
+              
+            }
         }
       }
 
