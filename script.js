@@ -36,8 +36,6 @@ const RIGHT_CUTOFF = window.innerWidth - window.innerWidth / 4;
 
 let startLookTime = Number.POSITIVE_INFINITY;
 let lookDirection = null;
-//let imageElement = getNewImage()
-//let nextImageElement = getNewImage(true)
 
 var leftImages = [];
 var rightImages = [];
