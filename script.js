@@ -31,6 +31,9 @@ const LOOK_DELAY = 1000; // 1 second
 const LEFT_CUTOFF = window.innerWidth / 4;
 const RIGHT_CUTOFF = window.innerWidth - window.innerWidth / 4;
 
+var modal = document.getElementById('myModal');
+var modalImg = document.getElementById("modalImgID");
+
 let startLookTime = Number.POSITIVE_INFINITY;
 let lookDirection = null;
 
@@ -66,10 +69,7 @@ webgazer
         if(leftImages.length == 1){
           webgazer.showPredictionPoints(false);
           // Get the modal
-          var modal = document.getElementById('myModal');
 
-          // Get the image and insert it inside the modal - use its "alt" text as a caption
-          var modalImg = document.getElementById("modalImgID");
 
           modal.style.display = "block";
           modalImg.src = leftImages[0];
@@ -101,11 +101,6 @@ webgazer
       } else if(lookDirection === "RIGHT"){
         if(rightImages.length == 1){
           webgazer.showPredictionPoints(false);
-          // Get the modal
-          var modal = document.getElementById('myModal');
-
-          // Get the image and insert it inside the modal - use its "alt" text as a caption
-          var modalImg = document.getElementById("modalImgID");
 
           modal.style.display = "block";
           modalImg.src = rightImages[0];
