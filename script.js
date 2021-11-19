@@ -30,7 +30,7 @@ calibratebutton.addEventListener("click", ()=>{
 
 
 
-const LOOK_DELAY = 2000; // 1 second
+const LOOK_DELAY = 1000; // 1 second
 const LEFT_CUTOFF = window.innerWidth / 4;
 const RIGHT_CUTOFF = window.innerWidth - window.innerWidth / 4;
 
@@ -112,8 +112,8 @@ webgazer
           modalImg.src = rightImages[0];
           //do something with last image
         }else{
-          leftImages = rightImages.slice(0,Math.ceil(leftImages.length/2));
-          rightImages = rightImages.slice(Math.ceil(leftImages.length/2),leftImages.length);
+          leftImages = rightImages.slice(0,Math.ceil(rightImages.length/2));
+          rightImages = rightImages.slice(Math.ceil(rightImages.length/2),rightImages.length);
           //set images here - should make this a function.
           for (let i = 0; i < leftImages.length; i++) {
               imagesswapL[i].src = leftImages[i];
