@@ -14,7 +14,7 @@ calibratebutton.addEventListener("click", ()=>{
     calibrationMode=false;
     calibratebutton.innerText = "Start Calibration";
     calibratebutton.className = "btn btn-primary";
-    calibrationmessage.innerText = ""
+    calibrationmessage.innerText = "You are no longer in calibration mode. Look to the right/left for 2 seconds to choose the images on the right/left and then return your gaze back to center."
     webgazer.removeMouseEventListeners();
     webgazer.showVideo(false)
   }else{
@@ -28,8 +28,7 @@ calibratebutton.addEventListener("click", ()=>{
 });
 
 const LOOK_DELAY = 1000; // 1 second
-const LEFT_CUTOFF = window.innerWidth / 4;
-const RIGHT_CUTOFF = window.innerWidth - window.innerWidth / 4;
+
 
 var modal = document.getElementById('myModal');
 var modalImg = document.getElementById("modalImgID");
@@ -42,7 +41,8 @@ var rightImages = imagelinks.slice(imagelinks.length/2,imagelinks.length);
 
 webgazer
 .setGazeListener((data, timestamp) => {
-
+  const LEFT_CUTOFF = window.innerWidth / 5;
+  const RIGHT_CUTOFF = window.innerWidth - window.innerWidth / 5;
   if(!calibrationMode){
     if (data == null || lookDirection === "STOP") return
       if (
@@ -69,13 +69,18 @@ webgazer
         if(leftImages.length == 1){
           webgazer.showPredictionPoints(false);
           // Get the modal
-
-
           modal.style.display = "block";
           modalImg.src = leftImages[0];
+          //pause for 5000 ms on selection
+          setTimeout(() => {
+            startLookTime = Number.POSITIVE_INFINITY;
+            lookDirection = null;
+            resetImages();
+            modal.style.display = "none";
+            webgazer.showPredictionPoints(true);
+          }, 5000);
 
 
-          //modal.style.display = "none";
 
           //do something with last image
         }else {
@@ -104,6 +109,13 @@ webgazer
 
           modal.style.display = "block";
           modalImg.src = rightImages[0];
+          setTimeout(() => {
+            startLookTime = Number.POSITIVE_INFINITY;
+            lookDirection = null;
+            resetImages();
+            modal.style.display = "none";
+            webgazer.showPredictionPoints(true);
+          }, 5000);
           //do something with last image
         }else{
           leftImages = rightImages.slice(0,Math.ceil(rightImages.length/2));
@@ -134,3 +146,16 @@ webgazer
   }
 })
 .begin();
+
+function resetImages(){
+  leftImages = imagelinks.slice(0,Math.ceil(imagelinks.length/2));
+  rightImages = imagelinks.slice(Math.ceil(imagelinks.length/2),imagelinks.length);
+  for (let i = 0; i < leftImages.length; i++) {
+      imagesswapL[i].src = leftImages[i];
+      imagesswapL[i].style.visibility = "visible";
+  }
+  for (let i = 0; i < rightImages.length; i++) {
+      imagesswapR[i].src = rightImages[i];
+      imagesswapR[i].style.visibility = "visible";
+  }
+}
