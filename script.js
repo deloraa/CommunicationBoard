@@ -33,6 +33,9 @@ const LOOK_DELAY = 1000; // 1 second
 var modal = document.getElementById('myModal');
 var modalImg = document.getElementById("modalImgID");
 
+var leftarrowelement = document.getElementById("leftarrow");
+var rightarrowelement = document.getElementById("rightarrow");
+
 let startLookTime = Number.POSITIVE_INFINITY;
 let lookDirection = null;
 
@@ -52,6 +55,7 @@ webgazer
         ) {
         startLookTime = timestamp;
         lookDirection = "LEFT";
+        leftarrowelement.style.backgroundColor="#0b5ed7";
     } else if (
       data.x > RIGHT_CUTOFF &&
       lookDirection !== "RIGHT" &&
@@ -59,9 +63,12 @@ webgazer
       ) {
       startLookTime = timestamp;
       lookDirection = "RIGHT";
+      rightarrowelement.style.backgroundColor="#0b5ed7"
     } else if (data.x >= LEFT_CUTOFF && data.x <= RIGHT_CUTOFF) {
       startLookTime = Number.POSITIVE_INFINITY;
       lookDirection = null;
+      leftarrowelement.style.backgroundColor="transparent";
+      rightarrowelement.style.backgroundColor="transparent";
     }
 
     if (startLookTime + LOOK_DELAY < timestamp) {
@@ -79,8 +86,6 @@ webgazer
             modal.style.display = "none";
             webgazer.showPredictionPoints(true);
           }, 5000);
-
-
 
           //do something with last image
         }else {
