@@ -71,8 +71,19 @@ let lookDirection = null;
 var leftImages = imagelinks.slice(0,imagelinks.length/2);
 var rightImages = imagelinks.slice(imagelinks.length/2,imagelinks.length);
 
+var loaderelement = document.getElementById("loader");
+var loadingtext = document.getElementById("loadingtext");
+
+var iamelement = document.getElementById("iamtag");
+var iwantelement = document.getElementById("iwanttag");
+
+var depthOfSelection=0;
+
 function onResults(results) {
-  //console.log("hello");
+
+    loaderelement.style.display = 'none';
+    loadingtext.style.display = 'none';
+
     var minLeftEye = 0;
     var maxLeftEye = 0;
     var avgLIris = 0;
@@ -122,10 +133,18 @@ function onResults(results) {
             lookDirection = null;
             resetImages();
             modal.style.display = "none";
+            iwantelement.innerText = "I want...";
+            iamelement.innerText = "I am..."
+            depthOfSelection = 0;
           }, 5000);
 
           //do something with last image
         }else {
+          if(depthOfSelection === 0){
+              iwantelement.innerText = "I am..."
+          }
+          depthOfSelection = depthOfSelection + 1;
+
           rightImages = leftImages.slice(Math.ceil(leftImages.length/2),leftImages.length);
           leftImages = leftImages.slice(0,Math.ceil(leftImages.length/2));
             //set images here
@@ -155,9 +174,17 @@ function onResults(results) {
             lookDirection = null;
             resetImages();
             modal.style.display = "none";
+            modal.style.display = "none";
+            iwantelement.innerText = "I want...";
+            iamelement.innerText = "I am..."
+            depthOfSelection = 0;
           }, 5000);
           //do something with last image
         }else{
+          if(depthOfSelection === 0){
+              iamelement.innerText = "I want..."
+          }
+          depthOfSelection = depthOfSelection + 1;
           leftImages = rightImages.slice(0,Math.ceil(rightImages.length/2));
           rightImages = rightImages.slice(Math.ceil(rightImages.length/2),rightImages.length);
           //set images here - should make this a function.
