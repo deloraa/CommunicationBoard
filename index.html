@@ -18,6 +18,8 @@
   <div class="container" style="display: none">
     <video style="visibility: hidden" class="input_video"></video>
   </div>
+  <h6 id="loadingtext" style="Text-align: center">Loading...</h6>
+  <div id="loader" class="loader"></div>
   <div class="container-fluid" style="max-width:175vh">
     <div class="row">
       <div class="col-xs-1" style="max-width:7%">
@@ -27,7 +29,7 @@
       </div>
       <div class="col-sm-5 border border-secondary">
         <div class="row">
-          <h1 style="Text-align: center">I am...</h1>
+          <h1 id="iamtag" style="Text-align: center">I am...</h1>
           <div class="col">
             <img src="images/amafraid.jpg" alt="I am afraid" id="img000" style="max-height:100%; max-width:100%">
             <img src="images/amangry.jpg" alt="I am angry" id="img010" style="max-height:100%; max-width:100%">
@@ -51,7 +53,7 @@
 
       <div class="col-sm-5 border border-start-0 border-secondary">
         <div class="row">
-          <h1 style="Text-align: center">I want...</h1>
+          <h1 id="iwanttag" style="Text-align: center">I want...</h1>
 
           <div class="col">
             <img src="images/wanthobupdown.jpg" alt="Want head of bed up/down" id="img100" style="max-height:100%; max-width:100%">
@@ -146,6 +148,28 @@
       text-decoration: none;
       cursor: pointer;
   }
+
+  .loader {
+    position: fixed;
+    height: 100px;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    position: absolute;
+    top: 50%;
+    width: 100px;
+    z-index: 1000;
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
   </style>
   <div id="myModal" class="modal">
