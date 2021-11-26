@@ -111,8 +111,6 @@ function getEyeMarkers(eyepts, eyeindicies, irisindicies){
 
 //between 0.00-0.5
 var widthThreshold = 0.08;
-var minThreshold = 0.5-widthThreshold;
-var maxThreshold = 0.5+widthThreshold;
 
 var LOOK_DELAY = 400; // 0.3 second
 
@@ -138,6 +136,8 @@ var iwantelement = document.getElementById("iwanttag");
 var depthOfSelection=0;
 
 function onResults(results) {
+    var minThreshold = 0.5-widthThreshold;
+    var maxThreshold = 0.5+widthThreshold;
     fpsControl.tick();
     loaderelement.style.display = 'none';
     loadingtext.style.display = 'none';
@@ -305,14 +305,13 @@ new controls
     new controls.Slider({
       title: 'Look Width Threshold',
       field: 'lookWidthThreshold',
-      range: [0.02, 0.2],
+      range: [0.02, 0.3],
       step: 0.01
     }),
 ])
     .on(x => {
     const options = x;
     LOOK_DELAY = options.lookDelay;
-    console.log("look delay: " + LOOK_DELAY);
     widthThreshold = options.lookWidthThreshold;
     faceMesh.setOptions(options);
 });
