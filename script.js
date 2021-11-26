@@ -285,6 +285,12 @@ new controls
         },
     }),
     new controls.Slider({
+        title: 'Min Detection Confidence',
+        field: 'minDetectionConfidence',
+        range: [0, 1],
+        step: 0.01
+    }),
+    new controls.Slider({
         title: 'Min Tracking Confidence',
         field: 'minTrackingConfidence',
         range: [0, 1],
