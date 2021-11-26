@@ -79,15 +79,48 @@ function resetImages(){
 }
 
 const LEFT_IRIS = [474,475,476,477];
-const LEFT_EYE = [263,249,390,373,374,380,381,382,263,466,388,387,386,385,384,398,362];
+const LEFT_EYE = [362, 382, 381, 380, 374, 373, 390, 249, 263, 466, 388, 387, 386, 385, 384, 398];
 
 const RIGHT_IRIS = [469,470,471,472];
-const RIGHT_EYE = [33,7,163,144,145,153,154,155,33,246,161,160,159,158,157,173,133];
+const RIGHT_EYE= [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161 , 246] ;
 
 var lefteyepts = new Array(LEFT_EYE.length);
 var leftirispts = new Array(LEFT_IRIS.length);
 var righteyepts = new Array(RIGHT_EYE.length);
 var rightirispts = new Array(RIGHT_IRIS.length);
+
+function euclideanDistance(x1,y1,x2,y2){
+    return Math.sqrt( (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) );
+}
+
+function blinkRatio(landmarks):
+    //Horizontal line right eyes
+    var rh_right = landmarks[right_indices[0]]
+    var rh_left = landmarks[right_indices[8]]
+    //vertical line 
+    var rv_top = landmarks[right_indices[12]]
+    var rv_bottom = landmarks[right_indices[4]]
+
+    //LEFT_EYE 
+    //horizontal line 
+    var lh_right = landmarks[left_indices[0]]
+    var lh_left = landmarks[left_indices[8]]
+
+    //vertical line 
+    var lv_top = landmarks[left_indices[12]]
+    var lv_bottom = landmarks[left_indices[4]]
+
+    var rhDistance = euclaideanDistance(rh_right, rh_left)
+    var rvDistance = euclaideanDistance(rv_top, rv_bottom)
+
+    var lvDistance = euclaideanDistance(lv_top, lv_bottom)
+    var lhDistance = euclaideanDistance(lh_right, lh_left)
+
+    var reRatio = rhDistance/rvDistance
+    var leRatio = lhDistance/lvDistance
+
+    var ratio = (reRatio+leRatio)/2
+    return ratio 
 
 function getEyeMarkers(eyepts, eyeindicies, irisindicies){
   var maxEyeX = eyepts[0][eyeindicies[0]].x;
