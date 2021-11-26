@@ -226,10 +226,12 @@ const camera = new Camera(videoElement, {
   onFrame: async () => {
     await faceMesh.send({image: videoElement});
   },
-  width: 1280,
-  height: 720
+  width: window.innerWidth,
+  height: window.innerHeight
 });
 camera.start();
+
+
 
 function resetImages(){
   leftImages = imagelinks.slice(0,Math.ceil(imagelinks.length/2));
