@@ -1,3 +1,64 @@
+import DeviceDetector from "https://cdn.skypack.dev/device-detector-js@2.2.10";
+// Usage: testSupport({client?: string, os?: string}[])
+// Client and os are regular expressions.
+// See: https://cdn.jsdelivr.net/npm/device-detector-js@2.2.10/README.md for
+// legal values for client and os
+testSupport([
+    { client: 'Chrome' },
+]);
+function testSupport(supportedDevices) {
+    const deviceDetector = new DeviceDetector();
+    const detectedDevice = deviceDetector.parse(navigator.userAgent);
+    let isSupported = false;
+    for (const device of supportedDevices) {
+        if (device.client !== undefined) {
+            const re = new RegExp(`^${device.client}$`);
+            if (!re.test(detectedDevice.client.name)) {
+                continue;
+            }
+        }
+        if (device.os !== undefined) {
+            const re = new RegExp(`^${device.os}$`);
+            if (!re.test(detectedDevice.os.name)) {
+                continue;
+            }
+        }
+        isSupported = true;
+        break;
+    }
+    if (!isSupported) {
+        alert(`This demo, running on ${detectedDevice.client.name}/${detectedDevice.os.name}, ` +
+            `is not well supported at this time, continue at your own risk.`);
+    }
+}
+const controls = window;
+const drawingUtils = window;
+const mpFaceMesh = window;
+const config = { locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@` +
+            `${mpFaceMesh.VERSION}/${file}`;
+    } };
+
+const videoElement = document.getElementsByClassName('input_video')[0];
+const controlsElement = document.getElementsByClassName('control-panel')[0];
+const canvasElement = document.getElementsByClassName('output_canvas')[0];
+
+/**
+ * Solution options.
+ */
+const solutionOptions = {
+    selfieMode: false,
+    enableFaceGeometry: false,
+    maxNumFaces: 1,
+    refineLandmarks: true,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5,
+
+};
+// We'll add this to our control panel later, but we'll save it here so we can
+// call tick() each time the graph runs.
+const fpsControl = new controls.FPS();
+
 var imagelinks = ["images/amafraid.jpg", "images/amfeelingsick.jpg", "images/aminpain.jpg","images/amangry.jpg","images/amfrustrated.jpg","images/amsad.jpg","images/amchoking.jpg","images/amhotcold.jpg","images/amshortofbreath.jpg","images/amdizzy.jpg","images/amhungrythirsty.jpg","images/amtired.jpg","images/wanthobupdown.jpg","images/wanttvvideo.jpg","images/wanttobecomforted.jpg","images/wantliedown.jpg","images/wantquiet.jpg","images/wanttobesucctioned.jpg","images/wantlightsoffon.jpg","images/wantremote.jpg","images/wanttogohome.jpg","images/wantwater.jpg","images/wantsitup.jpg","images/wanttosleep.jpg"];
 
 var imagesswapL = [document.getElementById("img000"),document.getElementById("img001"),document.getElementById("img002"),document.getElementById("img010"),document.getElementById("img011"),document.getElementById("img012"),document.getElementById("img020"),document.getElementById("img021"),document.getElementById("img022"),document.getElementById("img030"),document.getElementById("img031"),document.getElementById("img032")];
@@ -15,10 +76,6 @@ function resetImages(){
       imagesswapR[i].style.visibility = "visible";
   }
 }
-
-
-const videoElement = document.getElementsByClassName('input_video')[0];
-
 
 const LEFT_IRIS = [474,475,476,477];
 const LEFT_EYE = [263,249,390,373,374,380,381,382,263,466,388,387,386,385,384,398,362];
@@ -80,7 +137,7 @@ var iwantelement = document.getElementById("iwanttag");
 var depthOfSelection=0;
 
 function onResults(results) {
-
+    fpsControl.tick();
     loaderelement.style.display = 'none';
     loadingtext.style.display = 'none';
 
@@ -210,7 +267,7 @@ function onResults(results) {
 
 
 }
-
+/*
 const faceMesh = new FaceMesh({locateFile: (file) => {
   return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
 }});
@@ -230,18 +287,49 @@ const camera = new Camera(videoElement, {
   height: window.innerHeight
 });
 camera.start();
+*/
+const faceMesh = new mpFaceMesh.FaceMesh(config);
+faceMesh.setOptions(solutionOptions);
+faceMesh.onResults(onResults);
+// Present a control panel through which the user can manipulate the solution
+// options.
+new controls
+    .ControlPanel(controlsElement, solutionOptions)
+    .add([
+    new controls.StaticText({ title: 'MediaPipe Face Mesh' }),
+    fpsControl,
+    new controls.Toggle({ title: 'Selfie Mode', field: 'selfieMode' }),
+    new controls.SourcePicker({
+        onFrame: async (input, size) => {
+            await faceMesh.send({ image: input });
+        },
+    }),
+    new controls.Slider({
+        title: 'Max Number of Faces',
+        field: 'maxNumFaces',
+        range: [1, 4],
+        step: 1
+    }),
+    new controls.Toggle({ title: 'Refine Landmarks', field: 'refineLandmarks' }),
+    new controls.Slider({
+        title: 'Min Detection Confidence',
+        field: 'minDetectionConfidence',
+        range: [0, 1],
+        step: 0.01
+    }),
+    new controls.Slider({
+        title: 'Min Tracking Confidence',
+        field: 'minTrackingConfidence',
+        range: [0, 1],
+        step: 0.01
+    }),
+])
+    .on(x => {
+    const options = x;
+    //console.log("Slider value" + options.accuracy);
+    videoElement.classList.toggle('selfie', options.selfieMode);
+    faceMesh.setOptions(options);
+});
 
 
 
-function resetImages(){
-  leftImages = imagelinks.slice(0,Math.ceil(imagelinks.length/2));
-  rightImages = imagelinks.slice(Math.ceil(imagelinks.length/2),imagelinks.length);
-  for (let i = 0; i < leftImages.length; i++) {
-      imagesswapL[i].src = leftImages[i];
-      imagesswapL[i].style.visibility = "visible";
-  }
-  for (let i = 0; i < rightImages.length; i++) {
-      imagesswapR[i].src = rightImages[i];
-      imagesswapR[i].style.visibility = "visible";
-  }
-}
