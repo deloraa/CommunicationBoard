@@ -53,7 +53,8 @@ const solutionOptions = {
     refineLandmarks: true,
     minDetectionConfidence: 0.5,
     minTrackingConfidence: 0.5,
-
+    lookDelay: 500,
+    lookWidthThreshold: 0.08
 };
 // We'll add this to our control panel later, but we'll save it here so we can
 // call tick() each time the graph runs.
@@ -113,7 +114,7 @@ var widthThreshold = 0.08;
 var minThreshold = 0.5-widthThreshold;
 var maxThreshold = 0.5+widthThreshold;
 
-const LOOK_DELAY = 300; // 1 second
+var LOOK_DELAY = 400; // 0.3 second
 
 
 var modal = document.getElementById('myModal');
@@ -267,27 +268,7 @@ function onResults(results) {
 
 
 }
-/*
-const faceMesh = new FaceMesh({locateFile: (file) => {
-  return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
-}});
-faceMesh.setOptions({
-  maxNumFaces: 1,
-  refineLandmarks: true,
-  minDetectionConfidence: 0.5,
-  minTrackingConfidence: 0.5
-});
-faceMesh.onResults(onResults);
 
-const camera = new Camera(videoElement, {
-  onFrame: async () => {
-    await faceMesh.send({image: videoElement});
-  },
-  width: window.innerWidth,
-  height: window.innerHeight
-});
-camera.start();
-*/
 const faceMesh = new mpFaceMesh.FaceMesh(config);
 faceMesh.setOptions(solutionOptions);
 faceMesh.onResults(onResults);
@@ -296,26 +277,12 @@ faceMesh.onResults(onResults);
 new controls
     .ControlPanel(controlsElement, solutionOptions)
     .add([
-    new controls.StaticText({ title: 'MediaPipe Face Mesh' }),
+    new controls.StaticText({ title: 'Settings' }),
     fpsControl,
-    new controls.Toggle({ title: 'Selfie Mode', field: 'selfieMode' }),
     new controls.SourcePicker({
         onFrame: async (input, size) => {
             await faceMesh.send({ image: input });
         },
-    }),
-    new controls.Slider({
-        title: 'Max Number of Faces',
-        field: 'maxNumFaces',
-        range: [1, 4],
-        step: 1
-    }),
-    new controls.Toggle({ title: 'Refine Landmarks', field: 'refineLandmarks' }),
-    new controls.Slider({
-        title: 'Min Detection Confidence',
-        field: 'minDetectionConfidence',
-        range: [0, 1],
-        step: 0.01
     }),
     new controls.Slider({
         title: 'Min Tracking Confidence',
@@ -323,11 +290,24 @@ new controls
         range: [0, 1],
         step: 0.01
     }),
+    new controls.Slider({
+      title: 'Look Delay Threshold in milliseconds',
+      field: 'lookDelay',
+      range: [200, 3000],
+      step: 100
+    }),
+    new controls.Slider({
+      title: 'Look Width Threshold',
+      field: 'lookWidthThreshold',
+      range: [0.02, 0.2],
+      step: 0.01
+    }),
 ])
     .on(x => {
     const options = x;
-    //console.log("Slider value" + options.accuracy);
-    videoElement.classList.toggle('selfie', options.selfieMode);
+    LOOK_DELAY = options.lookDelay;
+    console.log("look delay: " + LOOK_DELAY);
+    widthThreshold = options.lookWidthThreshold;
     faceMesh.setOptions(options);
 });
 
