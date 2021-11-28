@@ -82,7 +82,6 @@ const LEFT_IRIS = [474,475,476,477];
 const LEFT_EYE = [362, 382, 381, 380, 374, 373, 390, 249, 263, 466, 388, 387, 386, 385, 384, 398];
 
 const RIGHT_IRIS = [469,470,471,472];
-<<<<<<< HEAD
 const RIGHT_EYE= [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 246];
 
 function euclideanDistance(x1,y1,x2,y2){
@@ -104,9 +103,6 @@ function blinkRatio(landmarks){
     var ratio = (reRatio+leRatio)/2
     return ratio;
 }
-=======
-const RIGHT_EYE= [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161 , 246] ;
->>>>>>> 0b32ebc0eb268883773b323677b19f93834709e1
 
 function getEyeMarkers(eyepts, eyeindicies, irisindicies){
   var maxEyeX = eyepts[0][eyeindicies[0]].x;
