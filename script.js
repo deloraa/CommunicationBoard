@@ -82,45 +82,27 @@ const LEFT_IRIS = [474,475,476,477];
 const LEFT_EYE = [362, 382, 381, 380, 374, 373, 390, 249, 263, 466, 388, 387, 386, 385, 384, 398];
 
 const RIGHT_IRIS = [469,470,471,472];
-const RIGHT_EYE= [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161 , 246] ;
-
-var lefteyepts = new Array(LEFT_EYE.length);
-var leftirispts = new Array(LEFT_IRIS.length);
-var righteyepts = new Array(RIGHT_EYE.length);
-var rightirispts = new Array(RIGHT_IRIS.length);
+const RIGHT_EYE= [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 246];
 
 function euclideanDistance(x1,y1,x2,y2){
     return Math.sqrt( (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) );
 }
 
-function blinkRatio(landmarks):
-    //Horizontal line right eyes
-    var rh_right = landmarks[right_indices[0]]
-    var rh_left = landmarks[right_indices[8]]
-    //vertical line 
-    var rv_top = landmarks[right_indices[12]]
-    var rv_bottom = landmarks[right_indices[4]]
+function blinkRatio(landmarks){
 
-    //LEFT_EYE 
-    //horizontal line 
-    var lh_right = landmarks[left_indices[0]]
-    var lh_left = landmarks[left_indices[8]]
+    var rhDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, landmarks[0][RIGHT_EYE[8]].x, landmarks[0][RIGHT_EYE[8]].y);
+    var rvDistance = euclideanDistance(landmarks[0][RIGHT_EYE[12]].x, landmarks[0][RIGHT_EYE[12]].y, landmarks[0][RIGHT_EYE[4]].x, landmarks[0][RIGHT_EYE[4]].y);
 
-    //vertical line 
-    var lv_top = landmarks[left_indices[12]]
-    var lv_bottom = landmarks[left_indices[4]]
+    var lhDistance = euclideanDistance(landmarks[0][LEFT_EYE[0]].x, landmarks[0][LEFT_EYE[0]].y, landmarks[0][LEFT_EYE[8]].x, landmarks[0][LEFT_EYE[8]].y);
+    var lvDistance = euclideanDistance(landmarks[0][LEFT_EYE[12]].x, landmarks[0][LEFT_EYE[12]].y, landmarks[0][LEFT_EYE[4]].x, landmarks[0][LEFT_EYE[4]].y);
 
-    var rhDistance = euclaideanDistance(rh_right, rh_left)
-    var rvDistance = euclaideanDistance(rv_top, rv_bottom)
-
-    var lvDistance = euclaideanDistance(lv_top, lv_bottom)
-    var lhDistance = euclaideanDistance(lh_right, lh_left)
 
     var reRatio = rhDistance/rvDistance
     var leRatio = lhDistance/lvDistance
 
     var ratio = (reRatio+leRatio)/2
-    return ratio 
+    return ratio;
+}
 
 function getEyeMarkers(eyepts, eyeindicies, irisindicies){
   var maxEyeX = eyepts[0][eyeindicies[0]].x;
@@ -144,9 +126,45 @@ function getEyeMarkers(eyepts, eyeindicies, irisindicies){
 
 //between 0.00-0.5
 var widthThreshold = 0.08;
+var LOOK_DELAY = 500; // 0.5 second
 
-var LOOK_DELAY = 400; // 0.3 second
+function leftRightUpDownRatio(landmarks){
+    var rhDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, landmarks[0][RIGHT_EYE[8]].x, landmarks[0][RIGHT_EYE[8]].y);
+    var rvDistance = euclideanDistance(landmarks[0][RIGHT_EYE[12]].x, landmarks[0][RIGHT_EYE[12]].y, landmarks[0][RIGHT_EYE[4]].x, landmarks[0][RIGHT_EYE[4]].y);
 
+    var lhDistance = euclideanDistance(landmarks[0][LEFT_EYE[0]].x, landmarks[0][LEFT_EYE[0]].y, landmarks[0][LEFT_EYE[8]].x, landmarks[0][LEFT_EYE[8]].y);
+    var lvDistance = euclideanDistance(landmarks[0][LEFT_EYE[12]].x, landmarks[0][LEFT_EYE[12]].y, landmarks[0][LEFT_EYE[4]].x, landmarks[0][LEFT_EYE[4]].y);
+    var avgIrisXLeft=0;
+    var avgIrisYLeft=0;
+    var avgIrisXRight=0;
+    var avgIrisYRight=0;
+    for (let i = 0; i < LEFT_IRIS.length; i++) {
+        avgIrisXLeft = avgIrisXLeft + landmarks[0][LEFT_IRIS[i]].x;
+        avgIrisYLeft = avgIrisYLeft + landmarks[0][LEFT_IRIS[i]].y;
+        avgIrisXRight = avgIrisXRight + landmarks[0][RIGHT_IRIS[i]].x;
+        avgIrisYRight = avgIrisYRight + landmarks[0][RIGHT_IRIS[i]].y;
+    }
+    avgIrisXLeft = avgIrisXLeft/LEFT_IRIS.length;
+    avgIrisYLeft = avgIrisYLeft/LEFT_IRIS.length;
+    avgIrisXRight = avgIrisXRight/RIGHT_IRIS.length;
+    avgIrisYRight = avgIrisYRight/RIGHT_IRIS.length;
+
+    var rhIrisDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, avgIrisXRight, avgIrisYRight);
+    var lhIrisDistance = euclideanDistance(landmarks[0][LEFT_EYE[0]].x, landmarks[0][LEFT_EYE[0]].y, avgIrisXLeft, avgIrisYLeft);
+    
+    var horizontalLookRatio = (rhIrisDistance/rhDistance + lhIrisDistance/lhDistance)/2;
+
+    var averageXHorizontalRight = (landmarks[0][RIGHT_EYE[0]].x + landmarks[0][RIGHT_EYE[8]].x)/2;
+    var averageYHorizontalRight = (landmarks[0][RIGHT_EYE[0]].y + landmarks[0][RIGHT_EYE[8]].y)/2;
+    var averageXHorizontalLeft = (landmarks[0][LEFT_EYE[0]].x + landmarks[0][LEFT_EYE[8]].x)/2;
+    var averageYHorizontalLeft = (landmarks[0][LEFT_EYE[0]].y + landmarks[0][LEFT_EYE[8]].y)/2;
+
+    var distanceRIristoMidpoint = euclideanDistance(averageXHorizontalRight, averageYHorizontalRight, avgIrisXRight, avgIrisYRight);
+    var distanceLIristoMidpoint = euclideanDistance(averageXHorizontalLeft, averageYHorizontalLeft, avgIrisXLeft, avgIrisYLeft);
+    var verticalLookRatio = (distanceRIristoMidpoint/rhDistance + distanceLIristoMidpoint/lhDistance)/2;
+
+    return [horizontalLookRatio, verticalLookRatio];
+}
 
 var modal = document.getElementById('myModal');
 var modalImg = document.getElementById("modalImgID");
@@ -184,13 +202,19 @@ function onResults(results) {
     var timestamp = + new Date();
 
     if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
+
     [minLeftEye,maxLeftEye,avgLIris] = getEyeMarkers(results.multiFaceLandmarks, LEFT_EYE, LEFT_IRIS);
     [minRightEye,maxRightEye,avgRIris] = getEyeMarkers(results.multiFaceLandmarks, RIGHT_EYE, RIGHT_IRIS);
 
     var ratio = (avgLIris-minLeftEye)/(maxLeftEye-minLeftEye);
+    var horizontalLookRatio = 0;
+    var verticalLookRatio = 0;
+    [horizontalLookRatio,verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
+    var blinkResult = blinkRatio(results.multiFaceLandmarks)
+//    console.log("Horizontal: " + horizontalLookRatio + " Vertical Ratio: " + verticalLookRatio + " Blink Result: " + blinkResult);
 
     if (
-        ratio > maxThreshold &&
+        horizontalLookRatio > maxThreshold &&
         lookDirection !== "LEFT" &&
         lookDirection !== "RESET"
         ) {
@@ -198,14 +222,14 @@ function onResults(results) {
         lookDirection = "LEFT";
         leftarrowelement.style.backgroundColor="#0b5ed7";
     } else if (
-      ratio < minThreshold &&
+        horizontalLookRatio < minThreshold &&
       lookDirection !== "RIGHT" &&
       lookDirection !== "RESET"
       ) {
       startLookTime = timestamp;
       lookDirection = "RIGHT";
       rightarrowelement.style.backgroundColor="#0b5ed7"
-    } else if (ratio <= maxThreshold && ratio >= minThreshold) {
+    } else if (horizontalLookRatio <= maxThreshold && horizontalLookRatio >= minThreshold) {
       startLookTime = Number.POSITIVE_INFINITY;
       lookDirection = null;
       leftarrowelement.style.backgroundColor="transparent";
