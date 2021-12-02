@@ -196,6 +196,7 @@ var depthOfSelection = 0;
 var blinkToRun = false;
 var blinkStartTime = Number.POSITIVE_INFINITY;
 var blinkReset = false;
+var blinkStop = false;
 
 function onResults(results) {
     //console.log("running");
@@ -217,6 +218,9 @@ function onResults(results) {
     var avgRIris = 0;
     var timestamp = +new Date();
 
+
+
+    if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP" || blinkStop) return
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
     console.log(`leyeBlinkRatio: ${leyeblinkratio} reyeBlinkRatio: ${reyeblinkratio}`);
     //    console.log("Horizontal: " + horizontalLookRatio + " Vertical Ratio: " + verticalLookRatio + " Blink Result: " + blinkResult);
@@ -241,9 +245,6 @@ function onResults(results) {
     } else {
         blinkReset = true;
     }
-
-    if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP" || !blinkToRun) return
-
     [minLeftEye, maxLeftEye, avgLIris] = getEyeMarkers(results.multiFaceLandmarks, LEFT_EYE, LEFT_IRIS);
     [minRightEye, maxRightEye, avgRIris] = getEyeMarkers(results.multiFaceLandmarks, RIGHT_EYE, RIGHT_IRIS);
 
