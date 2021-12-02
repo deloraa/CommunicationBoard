@@ -6,6 +6,7 @@ import DeviceDetector from "https://cdn.skypack.dev/device-detector-js@2.2.10";
 testSupport([
     { client: 'Chrome' },
 ]);
+
 function testSupport(supportedDevices) {
     const deviceDetector = new DeviceDetector();
     const detectedDevice = deviceDetector.parse(navigator.userAgent);
@@ -34,10 +35,12 @@ function testSupport(supportedDevices) {
 const controls = window;
 const drawingUtils = window;
 const mpFaceMesh = window;
-const config = { locateFile: (file) => {
+const config = {
+    locateFile: (file) => {
         return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@` +
             `${mpFaceMesh.VERSION}/${file}`;
-    } };
+    }
+};
 
 const videoElement = document.getElementsByClassName('input_video')[0];
 const controlsElement = document.getElementsByClassName('control-panel')[0];
@@ -60,35 +63,39 @@ const solutionOptions = {
 // call tick() each time the graph runs.
 const fpsControl = new controls.FPS();
 
-var imagelinks = ["images/amafraid.jpg", "images/amfeelingsick.jpg", "images/aminpain.jpg","images/amangry.jpg","images/amfrustrated.jpg","images/amsad.jpg","images/amchoking.jpg","images/amhotcold.jpg","images/amshortofbreath.jpg","images/amdizzy.jpg","images/amhungrythirsty.jpg","images/amtired.jpg","images/wanthobupdown.jpg","images/wanttvvideo.jpg","images/wanttobecomforted.jpg","images/wantliedown.jpg","images/wantquiet.jpg","images/wanttobesucctioned.jpg","images/wantlightsoffon.jpg","images/wantremote.jpg","images/wanttogohome.jpg","images/wantwater.jpg","images/wantsitup.jpg","images/wanttosleep.jpg"];
+var imagelinks = ["images/amafraid.jpg", "images/amfeelingsick.jpg", "images/aminpain.jpg", "images/amangry.jpg", "images/amfrustrated.jpg", "images/amsad.jpg", "images/amchoking.jpg", "images/amhotcold.jpg", "images/amshortofbreath.jpg", "images/amdizzy.jpg", "images/amhungrythirsty.jpg", "images/amtired.jpg", "images/wanthobupdown.jpg", "images/wanttvvideo.jpg", "images/wanttobecomforted.jpg", "images/wantliedown.jpg", "images/wantquiet.jpg", "images/wanttobesucctioned.jpg", "images/wantlightsoffon.jpg", "images/wantremote.jpg", "images/wanttogohome.jpg", "images/wantwater.jpg", "images/wantsitup.jpg", "images/wanttosleep.jpg"];
 
-var imagesswapL = [document.getElementById("img000"),document.getElementById("img001"),document.getElementById("img002"),document.getElementById("img010"),document.getElementById("img011"),document.getElementById("img012"),document.getElementById("img020"),document.getElementById("img021"),document.getElementById("img022"),document.getElementById("img030"),document.getElementById("img031"),document.getElementById("img032")];
-var imagesswapR = [document.getElementById("img100"),document.getElementById("img101"),document.getElementById("img102"),document.getElementById("img110"),document.getElementById("img111"),document.getElementById("img112"),document.getElementById("img120"),document.getElementById("img121"),document.getElementById("img122"),document.getElementById("img130"),document.getElementById("img131"),document.getElementById("img132")];
+var imagesswapL = [document.getElementById("img000"), document.getElementById("img001"), document.getElementById("img002"), document.getElementById("img010"), document.getElementById("img011"), document.getElementById("img012"), document.getElementById("img020"), document.getElementById("img021"), document.getElementById("img022"), document.getElementById("img030"), document.getElementById("img031"), document.getElementById("img032")];
+var imagesswapR = [document.getElementById("img100"), document.getElementById("img101"), document.getElementById("img102"), document.getElementById("img110"), document.getElementById("img111"), document.getElementById("img112"), document.getElementById("img120"), document.getElementById("img121"), document.getElementById("img122"), document.getElementById("img130"), document.getElementById("img131"), document.getElementById("img132")];
 
-function resetImages(){
-  leftImages = imagelinks.slice(0,Math.ceil(imagelinks.length/2));
-  rightImages = imagelinks.slice(Math.ceil(imagelinks.length/2),imagelinks.length);
-  for (let i = 0; i < leftImages.length; i++) {
-      imagesswapL[i].src = leftImages[i];
-      imagesswapL[i].style.visibility = "visible";
-  }
-  for (let i = 0; i < rightImages.length; i++) {
-      imagesswapR[i].src = rightImages[i];
-      imagesswapR[i].style.visibility = "visible";
-  }
+function resetImages() {
+    leftImages = imagelinks.slice(0, Math.ceil(imagelinks.length / 2));
+    rightImages = imagelinks.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
+    for (let i = 0; i < leftImages.length; i++) {
+        imagesswapL[i].src = leftImages[i];
+        imagesswapL[i].style.visibility = "visible";
+    }
+    for (let i = 0; i < rightImages.length; i++) {
+        imagesswapR[i].src = rightImages[i];
+        imagesswapR[i].style.visibility = "visible";
+    }
 }
 
-const LEFT_IRIS = [474,475,476,477];
+const LEFT_IRIS = [474, 475, 476, 477];
 const LEFT_EYE = [362, 382, 381, 380, 374, 373, 390, 249, 263, 466, 388, 387, 386, 385, 384, 398];
 
-const RIGHT_IRIS = [469,470,471,472];
-const RIGHT_EYE= [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 246];
+const RIGHT_IRIS = [469, 470, 471, 472];
+const RIGHT_EYE = [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 246];
 
-function euclideanDistance(x1,y1,x2,y2){
-    return Math.sqrt( (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) );
+function euclideanDistance(x1, y1, x2, y2) {
+    return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 }
 
-function blinkRatio(landmarks){
+var blinkTime = 1000;
+var upperBlinkCutoff = 5;
+var lowerBlinkCutoff = 4;
+
+function blinkRatio(landmarks) {
 
     var rhDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, landmarks[0][RIGHT_EYE[8]].x, landmarks[0][RIGHT_EYE[8]].y);
     var rvDistance = euclideanDistance(landmarks[0][RIGHT_EYE[12]].x, landmarks[0][RIGHT_EYE[12]].y, landmarks[0][RIGHT_EYE[4]].x, landmarks[0][RIGHT_EYE[4]].y);
@@ -97,71 +104,71 @@ function blinkRatio(landmarks){
     var lvDistance = euclideanDistance(landmarks[0][LEFT_EYE[12]].x, landmarks[0][LEFT_EYE[12]].y, landmarks[0][LEFT_EYE[4]].x, landmarks[0][LEFT_EYE[4]].y);
 
 
-    var reRatio = rhDistance/rvDistance
-    var leRatio = lhDistance/lvDistance
+    var reRatio = rhDistance / rvDistance
+    var leRatio = lhDistance / lvDistance
 
-    var ratio = (reRatio+leRatio)/2
-    return ratio;
+    //var ratio = (reRatio + leRatio) / 2
+    return [leRatio, reRatio];
 }
 
-function getEyeMarkers(eyepts, eyeindicies, irisindicies){
-  var maxEyeX = eyepts[0][eyeindicies[0]].x;
-  var minEyeX = eyepts[0][eyeindicies[0]].x;
+function getEyeMarkers(eyepts, eyeindicies, irisindicies) {
+    var maxEyeX = eyepts[0][eyeindicies[0]].x;
+    var minEyeX = eyepts[0][eyeindicies[0]].x;
 
     for (let i = 0; i < eyeindicies.length; i++) {
-        if (eyepts[0][eyeindicies[i]].x > maxEyeX){
-           maxEyeX = eyepts[0][eyeindicies[i]].x;
+        if (eyepts[0][eyeindicies[i]].x > maxEyeX) {
+            maxEyeX = eyepts[0][eyeindicies[i]].x;
         }
-        if (eyepts[0][eyeindicies[i]].x < minEyeX){
-           minEyeX = eyepts[0][eyeindicies[i]].x;
+        if (eyepts[0][eyeindicies[i]].x < minEyeX) {
+            minEyeX = eyepts[0][eyeindicies[i]].x;
         }
     }
-    var avgIrisX=0;
+    var avgIrisX = 0;
     for (let i = 0; i < irisindicies.length; i++) {
         avgIrisX = avgIrisX + eyepts[0][irisindicies[i]].x;
     }
-    avgIrisX = avgIrisX/irisindicies.length;
-    return [minEyeX,maxEyeX,avgIrisX];
+    avgIrisX = avgIrisX / irisindicies.length;
+    return [minEyeX, maxEyeX, avgIrisX];
 }
 
 //between 0.00-0.5
 var widthThreshold = 0.08;
 var LOOK_DELAY = 500; // 0.5 second
 
-function leftRightUpDownRatio(landmarks){
+function leftRightUpDownRatio(landmarks) {
     var rhDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, landmarks[0][RIGHT_EYE[8]].x, landmarks[0][RIGHT_EYE[8]].y);
     var rvDistance = euclideanDistance(landmarks[0][RIGHT_EYE[12]].x, landmarks[0][RIGHT_EYE[12]].y, landmarks[0][RIGHT_EYE[4]].x, landmarks[0][RIGHT_EYE[4]].y);
 
     var lhDistance = euclideanDistance(landmarks[0][LEFT_EYE[0]].x, landmarks[0][LEFT_EYE[0]].y, landmarks[0][LEFT_EYE[8]].x, landmarks[0][LEFT_EYE[8]].y);
     var lvDistance = euclideanDistance(landmarks[0][LEFT_EYE[12]].x, landmarks[0][LEFT_EYE[12]].y, landmarks[0][LEFT_EYE[4]].x, landmarks[0][LEFT_EYE[4]].y);
-    var avgIrisXLeft=0;
-    var avgIrisYLeft=0;
-    var avgIrisXRight=0;
-    var avgIrisYRight=0;
+    var avgIrisXLeft = 0;
+    var avgIrisYLeft = 0;
+    var avgIrisXRight = 0;
+    var avgIrisYRight = 0;
     for (let i = 0; i < LEFT_IRIS.length; i++) {
         avgIrisXLeft = avgIrisXLeft + landmarks[0][LEFT_IRIS[i]].x;
         avgIrisYLeft = avgIrisYLeft + landmarks[0][LEFT_IRIS[i]].y;
         avgIrisXRight = avgIrisXRight + landmarks[0][RIGHT_IRIS[i]].x;
         avgIrisYRight = avgIrisYRight + landmarks[0][RIGHT_IRIS[i]].y;
     }
-    avgIrisXLeft = avgIrisXLeft/LEFT_IRIS.length;
-    avgIrisYLeft = avgIrisYLeft/LEFT_IRIS.length;
-    avgIrisXRight = avgIrisXRight/RIGHT_IRIS.length;
-    avgIrisYRight = avgIrisYRight/RIGHT_IRIS.length;
+    avgIrisXLeft = avgIrisXLeft / LEFT_IRIS.length;
+    avgIrisYLeft = avgIrisYLeft / LEFT_IRIS.length;
+    avgIrisXRight = avgIrisXRight / RIGHT_IRIS.length;
+    avgIrisYRight = avgIrisYRight / RIGHT_IRIS.length;
 
     var rhIrisDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, avgIrisXRight, avgIrisYRight);
     var lhIrisDistance = euclideanDistance(landmarks[0][LEFT_EYE[0]].x, landmarks[0][LEFT_EYE[0]].y, avgIrisXLeft, avgIrisYLeft);
-    
-    var horizontalLookRatio = (rhIrisDistance/rhDistance + lhIrisDistance/lhDistance)/2;
 
-    var averageXHorizontalRight = (landmarks[0][RIGHT_EYE[0]].x + landmarks[0][RIGHT_EYE[8]].x)/2;
-    var averageYHorizontalRight = (landmarks[0][RIGHT_EYE[0]].y + landmarks[0][RIGHT_EYE[8]].y)/2;
-    var averageXHorizontalLeft = (landmarks[0][LEFT_EYE[0]].x + landmarks[0][LEFT_EYE[8]].x)/2;
-    var averageYHorizontalLeft = (landmarks[0][LEFT_EYE[0]].y + landmarks[0][LEFT_EYE[8]].y)/2;
+    var horizontalLookRatio = (rhIrisDistance / rhDistance + lhIrisDistance / lhDistance) / 2;
+
+    var averageXHorizontalRight = (landmarks[0][RIGHT_EYE[0]].x + landmarks[0][RIGHT_EYE[8]].x) / 2;
+    var averageYHorizontalRight = (landmarks[0][RIGHT_EYE[0]].y + landmarks[0][RIGHT_EYE[8]].y) / 2;
+    var averageXHorizontalLeft = (landmarks[0][LEFT_EYE[0]].x + landmarks[0][LEFT_EYE[8]].x) / 2;
+    var averageYHorizontalLeft = (landmarks[0][LEFT_EYE[0]].y + landmarks[0][LEFT_EYE[8]].y) / 2;
 
     var distanceRIristoMidpoint = euclideanDistance(averageXHorizontalRight, averageYHorizontalRight, avgIrisXRight, avgIrisYRight);
     var distanceLIristoMidpoint = euclideanDistance(averageXHorizontalLeft, averageYHorizontalLeft, avgIrisXLeft, avgIrisYLeft);
-    var verticalLookRatio = (distanceRIristoMidpoint/rhDistance + distanceLIristoMidpoint/lhDistance)/2;
+    var verticalLookRatio = (distanceRIristoMidpoint / rhDistance + distanceLIristoMidpoint / lhDistance) / 2;
 
     return [horizontalLookRatio, verticalLookRatio];
 }
@@ -175,8 +182,8 @@ var rightarrowelement = document.getElementById("rightarrow");
 let startLookTime = Number.POSITIVE_INFINITY;
 let lookDirection = null;
 
-var leftImages = imagelinks.slice(0,imagelinks.length/2);
-var rightImages = imagelinks.slice(imagelinks.length/2,imagelinks.length);
+var leftImages = imagelinks.slice(0, imagelinks.length / 2);
+var rightImages = imagelinks.slice(imagelinks.length / 2, imagelinks.length);
 
 var loaderelement = document.getElementById("loader");
 var loadingtext = document.getElementById("loadingtext");
@@ -184,14 +191,23 @@ var loadingtext = document.getElementById("loadingtext");
 var iamelement = document.getElementById("iamtag");
 var iwantelement = document.getElementById("iwanttag");
 
-var depthOfSelection=0;
+var depthOfSelection = 0;
+
+var blinkToRun = false;
+var blinkStartTime = Number.POSITIVE_INFINITY;
+var blinkReset = false;
 
 function onResults(results) {
-    var minThreshold = 0.5-widthThreshold;
-    var maxThreshold = 0.5+widthThreshold;
+    //console.log("running");
+    var minThreshold = 0.5 - widthThreshold;
+    var maxThreshold = 0.5 + widthThreshold;
     fpsControl.tick();
     loaderelement.style.display = 'none';
-    loadingtext.style.display = 'none';
+    if (blinkToRun) {
+        loadingtext.innerText = 'Currently Running. Blink Left Eye to Stop';
+    } else {
+        loadingtext.innerText = 'Currently Paused. Blink Left Eye to Start';
+    }
 
     var minLeftEye = 0;
     var maxLeftEye = 0;
@@ -199,128 +215,151 @@ function onResults(results) {
     var minRightEye = 0;
     var maxRightEye = 0;
     var avgRIris = 0;
-    var timestamp = + new Date();
+    var timestamp = +new Date();
 
-    if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
+    var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
+    console.log(`leyeBlinkRatio: ${leyeblinkratio} reyeBlinkRatio: ${reyeblinkratio}`);
+    //    console.log("Horizontal: " + horizontalLookRatio + " Vertical Ratio: " + verticalLookRatio + " Blink Result: " + blinkResult);
 
-    [minLeftEye,maxLeftEye,avgLIris] = getEyeMarkers(results.multiFaceLandmarks, LEFT_EYE, LEFT_IRIS);
-    [minRightEye,maxRightEye,avgRIris] = getEyeMarkers(results.multiFaceLandmarks, RIGHT_EYE, RIGHT_IRIS);
+    if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && !blinkReset) {
+        blinkReset = true;
+    } else if (leyeblinkratio <= upperBlinkCutoff && reyeblinkratio >= lowerBlinkCutoff) {
+        blinkReset = false;
+        blinkTime = Number.POSITIVE_INFINITY;
+    }
 
-    var ratio = (avgLIris-minLeftEye)/(maxLeftEye-minLeftEye);
-    var horizontalLookRatio = 0;
-    var verticalLookRatio = 0;
-    [horizontalLookRatio,verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
-    var blinkResult = blinkRatio(results.multiFaceLandmarks)
-//    console.log("Horizontal: " + horizontalLookRatio + " Vertical Ratio: " + verticalLookRatio + " Blink Result: " + blinkResult);
+    if (blinkStartTime + LOOK_DELAY < timestamp) {
+        if (blinkToRun) {
+            blinkStartTime = timestamp;
+            blinkToRun = false;
+            blinkReset = false;
+        } else {
+            blinkToRun = true;
+            blinkStartTime = timestamp;
+            blinkReset = false;
+        }
+    } else {
+        blinkReset = true;
+    }
+
+    if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP" || !blinkToRun) return
+
+    [minLeftEye, maxLeftEye, avgLIris] = getEyeMarkers(results.multiFaceLandmarks, LEFT_EYE, LEFT_IRIS);
+    [minRightEye, maxRightEye, avgRIris] = getEyeMarkers(results.multiFaceLandmarks, RIGHT_EYE, RIGHT_IRIS);
+
+    //    var ratio = (avgLIris - minLeftEye) / (maxLeftEye - minLeftEye);
+
+    var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
+
 
     if (
         horizontalLookRatio > maxThreshold &&
         lookDirection !== "LEFT" &&
         lookDirection !== "RESET"
-        ) {
+    ) {
         startLookTime = timestamp;
         lookDirection = "LEFT";
-        leftarrowelement.style.backgroundColor="#0b5ed7";
+        leftarrowelement.style.backgroundColor = "#0b5ed7";
     } else if (
         horizontalLookRatio < minThreshold &&
-      lookDirection !== "RIGHT" &&
-      lookDirection !== "RESET"
-      ) {
-      startLookTime = timestamp;
-      lookDirection = "RIGHT";
-      rightarrowelement.style.backgroundColor="#0b5ed7"
+        lookDirection !== "RIGHT" &&
+        lookDirection !== "RESET"
+    ) {
+        startLookTime = timestamp;
+        lookDirection = "RIGHT";
+        rightarrowelement.style.backgroundColor = "#0b5ed7"
     } else if (horizontalLookRatio <= maxThreshold && horizontalLookRatio >= minThreshold) {
-      startLookTime = Number.POSITIVE_INFINITY;
-      lookDirection = null;
-      leftarrowelement.style.backgroundColor="transparent";
-      rightarrowelement.style.backgroundColor="transparent";
+        startLookTime = Number.POSITIVE_INFINITY;
+        lookDirection = null;
+        leftarrowelement.style.backgroundColor = "transparent";
+        rightarrowelement.style.backgroundColor = "transparent";
     }
 
     if (startLookTime + LOOK_DELAY < timestamp) {
-      if (lookDirection === "LEFT") {
-        if(leftImages.length == 1){
-          // Get the modal
-          modal.style.display = "block";
-          modalImg.src = leftImages[0];
-          //pause for 5000 ms on selection
-          setTimeout(() => {
-            startLookTime = Number.POSITIVE_INFINITY;
-            lookDirection = null;
-            resetImages();
-            modal.style.display = "none";
-            iwantelement.innerText = "I want...";
-            iamelement.innerText = "I am..."
-            depthOfSelection = 0;
-          }, 5000);
+        if (lookDirection === "LEFT") {
+            if (leftImages.length == 1) {
+                // Get the modal
+                modal.style.display = "block";
+                modalImg.src = leftImages[0];
+                //pause for 5000 ms on selection
+                setTimeout(() => {
+                    startLookTime = Number.POSITIVE_INFINITY;
+                    lookDirection = null;
+                    resetImages();
+                    modal.style.display = "none";
+                    iwantelement.innerText = "I want...";
+                    iamelement.innerText = "I am..."
+                    depthOfSelection = 0;
+                }, 5000);
 
-          //do something with last image
-        }else {
-          if(depthOfSelection === 0){
-              iwantelement.innerText = "I am..."
-          }
-          depthOfSelection = depthOfSelection + 1;
+                //do something with last image
+            } else {
+                if (depthOfSelection === 0) {
+                    iwantelement.innerText = "I am..."
+                }
+                depthOfSelection = depthOfSelection + 1;
 
-          rightImages = leftImages.slice(Math.ceil(leftImages.length/2),leftImages.length);
-          leftImages = leftImages.slice(0,Math.ceil(leftImages.length/2));
-            //set images here
-            for (let i = 0; i < leftImages.length; i++) {
-                imagesswapL[i].src = leftImages[i];
+                rightImages = leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length);
+                leftImages = leftImages.slice(0, Math.ceil(leftImages.length / 2));
+                //set images here
+                for (let i = 0; i < leftImages.length; i++) {
+                    imagesswapL[i].src = leftImages[i];
+                }
+                for (let i = leftImages.length; i < imagesswapL.length; i++) {
+                    imagesswapL[i].style.visibility = "hidden";
+                }
+                for (let i = 0; i < rightImages.length; i++) {
+                    imagesswapR[i].src = rightImages[i];
+                }
+                for (let i = rightImages.length; i < imagesswapR.length; i++) {
+                    imagesswapR[i].style.visibility = "hidden";
+                }
+                lookDirection = "STOP"
+                startLookTime = Number.POSITIVE_INFINITY;
             }
-            for (let i = leftImages.length; i < imagesswapL.length; i++) {
-                imagesswapL[i].style.visibility = "hidden";
-            }
-            for (let i = 0; i < rightImages.length; i++) {
-                imagesswapR[i].src = rightImages[i];
-            }
-            for (let i = rightImages.length; i < imagesswapR.length; i++) {
-                imagesswapR[i].style.visibility = "hidden";
+
+        } else if (lookDirection === "RIGHT") {
+            if (rightImages.length == 1) {
+
+                modal.style.display = "block";
+                modalImg.src = rightImages[0];
+                setTimeout(() => {
+                    startLookTime = Number.POSITIVE_INFINITY;
+                    lookDirection = null;
+                    resetImages();
+                    modal.style.display = "none";
+                    modal.style.display = "none";
+                    iwantelement.innerText = "I want...";
+                    iamelement.innerText = "I am..."
+                    depthOfSelection = 0;
+                }, 5000);
+                //do something with last image
+            } else {
+                if (depthOfSelection === 0) {
+                    iamelement.innerText = "I want..."
+                }
+                depthOfSelection = depthOfSelection + 1;
+                leftImages = rightImages.slice(0, Math.ceil(rightImages.length / 2));
+                rightImages = rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length);
+                //set images here - should make this a function.
+                for (let i = 0; i < leftImages.length; i++) {
+                    imagesswapL[i].src = leftImages[i];
+                }
+                for (let i = leftImages.length; i < imagesswapL.length; i++) {
+                    imagesswapL[i].style.visibility = "hidden";
+                }
+                for (let i = 0; i < rightImages.length; i++) {
+                    imagesswapR[i].src = rightImages[i];
+                }
+                for (let i = rightImages.length; i < imagesswapR.length; i++) {
+                    imagesswapR[i].style.visibility = "hidden";
+                }
             }
             lookDirection = "STOP"
             startLookTime = Number.POSITIVE_INFINITY;
         }
 
-      } else if(lookDirection === "RIGHT"){
-        if(rightImages.length == 1){
-
-          modal.style.display = "block";
-          modalImg.src = rightImages[0];
-          setTimeout(() => {
-            startLookTime = Number.POSITIVE_INFINITY;
-            lookDirection = null;
-            resetImages();
-            modal.style.display = "none";
-            modal.style.display = "none";
-            iwantelement.innerText = "I want...";
-            iamelement.innerText = "I am..."
-            depthOfSelection = 0;
-          }, 5000);
-          //do something with last image
-        }else{
-          if(depthOfSelection === 0){
-              iamelement.innerText = "I want..."
-          }
-          depthOfSelection = depthOfSelection + 1;
-          leftImages = rightImages.slice(0,Math.ceil(rightImages.length/2));
-          rightImages = rightImages.slice(Math.ceil(rightImages.length/2),rightImages.length);
-          //set images here - should make this a function.
-          for (let i = 0; i < leftImages.length; i++) {
-              imagesswapL[i].src = leftImages[i];
-          }
-          for (let i = leftImages.length; i < imagesswapL.length; i++) {
-              imagesswapL[i].style.visibility = "hidden";
-          }
-          for (let i = 0; i < rightImages.length; i++) {
-              imagesswapR[i].src = rightImages[i];
-          }
-          for (let i = rightImages.length; i < imagesswapR.length; i++) {
-              imagesswapR[i].style.visibility = "hidden";
-          }
-        }
-        lookDirection = "STOP"
-        startLookTime = Number.POSITIVE_INFINITY;
-      }
-
-      lookDirection = "RESET";
+        lookDirection = "RESET";
     }
 
 
@@ -334,44 +373,41 @@ faceMesh.onResults(onResults);
 new controls
     .ControlPanel(controlsElement, solutionOptions)
     .add([
-    new controls.StaticText({ title: 'Settings' }),
-    fpsControl,
-    new controls.SourcePicker({
-        onFrame: async (input, size) => {
-            await faceMesh.send({ image: input });
-        },
-    }),
-    new controls.Slider({
-        title: 'Min Detection Confidence',
-        field: 'minDetectionConfidence',
-        range: [0, 1],
-        step: 0.01
-    }),
-    new controls.Slider({
-        title: 'Min Tracking Confidence',
-        field: 'minTrackingConfidence',
-        range: [0, 1],
-        step: 0.01
-    }),
-    new controls.Slider({
-      title: 'Look Delay Threshold in milliseconds',
-      field: 'lookDelay',
-      range: [200, 3000],
-      step: 100
-    }),
-    new controls.Slider({
-      title: 'Look Width Threshold',
-      field: 'lookWidthThreshold',
-      range: [0.02, 0.3],
-      step: 0.01
-    }),
-])
+        new controls.StaticText({ title: 'Settings' }),
+        fpsControl,
+        new controls.SourcePicker({
+            onFrame: async(input, size) => {
+                await faceMesh.send({ image: input });
+            },
+        }),
+        new controls.Slider({
+            title: 'Min Detection Confidence',
+            field: 'minDetectionConfidence',
+            range: [0, 1],
+            step: 0.01
+        }),
+        new controls.Slider({
+            title: 'Min Tracking Confidence',
+            field: 'minTrackingConfidence',
+            range: [0, 1],
+            step: 0.01
+        }),
+        new controls.Slider({
+            title: 'Look Delay Threshold in milliseconds',
+            field: 'lookDelay',
+            range: [200, 3000],
+            step: 100
+        }),
+        new controls.Slider({
+            title: 'Look Width Threshold',
+            field: 'lookWidthThreshold',
+            range: [0.02, 0.3],
+            step: 0.01
+        }),
+    ])
     .on(x => {
-    const options = x;
-    LOOK_DELAY = options.lookDelay;
-    widthThreshold = options.lookWidthThreshold;
-    faceMesh.setOptions(options);
-});
-
-
-
+        const options = x;
+        LOOK_DELAY = options.lookDelay;
+        widthThreshold = options.lookWidthThreshold;
+        faceMesh.setOptions(options);
+    });
