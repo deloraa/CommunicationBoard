@@ -91,9 +91,7 @@ function euclideanDistance(x1, y1, x2, y2) {
     return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 }
 
-var blinkTime = 1000;
-var upperBlinkCutoff = 5;
-var lowerBlinkCutoff = 4;
+
 
 function blinkRatio(landmarks) {
 
@@ -193,18 +191,22 @@ var iwantelement = document.getElementById("iwanttag");
 
 var depthOfSelection = 0;
 
-var blinkToRun = false;
-var blinkStartTime = Number.POSITIVE_INFINITY;
-var blinkReset = false;
-var blinkStop = false;
 
+var blinkStartTime = Number.POSITIVE_INFINITY;
+var blinkVal = null;
+var blinkRun = false;
+
+
+
+var upperBlinkCutoff = 5;
+var lowerBlinkCutoff = 4;
 function onResults(results) {
     //console.log("running");
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
     fpsControl.tick();
     loaderelement.style.display = 'none';
-    if (blinkToRun) {
+    if (blinkRun) {
         loadingtext.innerText = 'Currently Running. Blink Left Eye to Stop';
     } else {
         loadingtext.innerText = 'Currently Paused. Blink Left Eye to Start';
@@ -220,36 +222,36 @@ function onResults(results) {
 
 
 
-    if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP" || blinkStop) return
+    if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP" || blinkVal === "STOP") return
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
-    console.log(`leyeBlinkRatio: ${leyeblinkratio} reyeBlinkRatio: ${reyeblinkratio}`);
+ //   console.log(`leyeBlinkRatio: ${leyeblinkratio} reyeBlinkRatio: ${reyeblinkratio}`);
     //    console.log("Horizontal: " + horizontalLookRatio + " Vertical Ratio: " + verticalLookRatio + " Blink Result: " + blinkResult);
 
-    if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && !blinkReset) {
-        blinkReset = true;
-    } else if (leyeblinkratio <= upperBlinkCutoff && reyeblinkratio >= lowerBlinkCutoff) {
-        blinkReset = false;
-        blinkTime = Number.POSITIVE_INFINITY;
+    if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && blinkVal !== "RESET" && blinkVal!=="BLINK") {
+        blinkVal = "BLINK";
+        blinkStartTime = timestamp;
+    } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
+        blinkVal = null;
+        blinkStartTime = Number.POSITIVE_INFINITY;
     }
 
     if (blinkStartTime + LOOK_DELAY < timestamp) {
-        if (blinkToRun) {
-            blinkStartTime = timestamp;
-            blinkToRun = false;
-            blinkReset = false;
-        } else {
-            blinkToRun = true;
-            blinkStartTime = timestamp;
-            blinkReset = false;
+        if (blinkVal === "BLINK") {
+            if(blinkRun){
+                blinkRun = false;
+            }else{
+                blinkRun = true;
+            }
+            blinkStartTime = Number.POSITIVE_INFINITY;
+            blinkVal = "STOP";
         }
-    } else {
-        blinkReset = true;
-    }
-    [minLeftEye, maxLeftEye, avgLIris] = getEyeMarkers(results.multiFaceLandmarks, LEFT_EYE, LEFT_IRIS);
-    [minRightEye, maxRightEye, avgRIris] = getEyeMarkers(results.multiFaceLandmarks, RIGHT_EYE, RIGHT_IRIS);
+        blinkVal = "RESET";
+    } 
+//    [minLeftEye, maxLeftEye, avgLIris] = getEyeMarkers(results.multiFaceLandmarks, LEFT_EYE, LEFT_IRIS);
+//    [minRightEye, maxRightEye, avgRIris] = getEyeMarkers(results.multiFaceLandmarks, RIGHT_EYE, RIGHT_IRIS);
 
     //    var ratio = (avgLIris - minLeftEye) / (maxLeftEye - minLeftEye);
-
+    if(!blinkRun) return;
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
 
 
