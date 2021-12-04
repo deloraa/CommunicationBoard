@@ -50,17 +50,17 @@ var volume = document.getElementById('volume');
 var volumebutton = document.getElementById('volumebutton');
 var soundOnOff = false;
 volumebutton.onclick = () => {
-    if (soundOnOff) {
-        soundOnOff = false;
-        volume.src = "images/volume-mute.svg";
-    } else {
-        soundOnOff = true;
-        volume.src = "images/volume-up-fill.svg";
+        if (soundOnOff) {
+            soundOnOff = false;
+            volume.src = "images/volume-mute.svg";
+        } else {
+            soundOnOff = true;
+            volume.src = "images/volume-up-fill.svg";
+        }
     }
-}
-/**
- * Solution options.
- */
+    /**
+     * Solution options.
+     */
 const solutionOptions = {
     selfieMode: false,
     enableFaceGeometry: false,
@@ -241,12 +241,14 @@ var blinkRun = false;
 var upperBlinkCutoff = 5;
 var lowerBlinkCutoff = 4;
 //TODO: implement cleaner look with flickering using minimum look time
-var minimumTimeLook=50;
+var minimumTimeLook = 50;
 //TODO: add 4 icons How to, Settings, About, Contacts with off canvas
 //TODO: Look up to pause
 //TODO: Add Audio
 //TODO: Bluetooth light
-
+function backgroundColorChange(opacity) {
+    return "rgb(11, 94, 215," + opacity + ")";
+}
 
 function onResults(results) {
 
@@ -267,10 +269,10 @@ function onResults(results) {
 
     if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP" || blinkVal === "STOP") return
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
- //   console.log(`leyeBlinkRatio: ${leyeblinkratio} reyeBlinkRatio: ${reyeblinkratio}`);
+    //   console.log(`leyeBlinkRatio: ${leyeblinkratio} reyeBlinkRatio: ${reyeblinkratio}`);
     //    console.log("Horizontal: " + horizontalLookRatio + " Vertical Ratio: " + verticalLookRatio + " Blink Result: " + blinkResult);
 
-    if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && blinkVal !== "RESET" && blinkVal!=="BLINK") {
+    if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && blinkVal !== "RESET" && blinkVal !== "BLINK") {
         blinkVal = "BLINK";
         blinkStartTime = timestamp;
     } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
@@ -280,21 +282,21 @@ function onResults(results) {
 
     if (blinkStartTime + LOOK_DELAY < timestamp) {
         if (blinkVal === "BLINK") {
-            if(blinkRun){
+            if (blinkRun) {
                 blinkRun = false;
-            }else{
+            } else {
                 blinkRun = true;
             }
             blinkStartTime = Number.POSITIVE_INFINITY;
             blinkVal = "STOP";
         }
         blinkVal = "RESET";
-    } 
-//    [minLeftEye, maxLeftEye, avgLIris] = getEyeMarkers(results.multiFaceLandmarks, LEFT_EYE, LEFT_IRIS);
-//    [minRightEye, maxRightEye, avgRIris] = getEyeMarkers(results.multiFaceLandmarks, RIGHT_EYE, RIGHT_IRIS);
+    }
+    //    [minLeftEye, maxLeftEye, avgLIris] = getEyeMarkers(results.multiFaceLandmarks, LEFT_EYE, LEFT_IRIS);
+    //    [minRightEye, maxRightEye, avgRIris] = getEyeMarkers(results.multiFaceLandmarks, RIGHT_EYE, RIGHT_IRIS);
 
     //    var ratio = (avgLIris - minLeftEye) / (maxLeftEye - minLeftEye);
-    if(!blinkRun) return;
+    if (!blinkRun) return;
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
 
 
@@ -305,7 +307,7 @@ function onResults(results) {
     ) {
         startLookTime = timestamp;
         lookDirection = "LEFT";
-        leftarrowelement.style.backgroundColor = "#0b5ed7";
+        leftarrowelement.style.backgroundColor = backgroundColorChange(1);
     } else if (
         horizontalLookRatio < minThreshold &&
         lookDirection !== "RIGHT" &&
@@ -313,7 +315,7 @@ function onResults(results) {
     ) {
         startLookTime = timestamp;
         lookDirection = "RIGHT";
-        rightarrowelement.style.backgroundColor = "#0b5ed7"
+        rightarrowelement.style.backgroundColor = backgroundColorChange(1);
     } else if (horizontalLookRatio <= maxThreshold && horizontalLookRatio >= minThreshold) {
         startLookTime = Number.POSITIVE_INFINITY;
         lookDirection = null;
@@ -327,6 +329,10 @@ function onResults(results) {
                 // Get the modal
                 modal.style.display = "block";
                 modalImg.src = leftImages[0];
+                if (soundOnOff) {
+                    var audio = new Audio(imageSoundMap.get(leftImages[0]));
+                    audio.play();
+                }
                 //pause for 5000 ms on selection
                 setTimeout(() => {
                     startLookTime = Number.POSITIVE_INFINITY;
@@ -366,9 +372,12 @@ function onResults(results) {
 
         } else if (lookDirection === "RIGHT") {
             if (rightImages.length == 1) {
-
                 modal.style.display = "block";
                 modalImg.src = rightImages[0];
+                if (soundOnOff) {
+                    var audio = new Audio(imageSoundMap.get(rightImages[0]));
+                    audio.play();
+                }
                 setTimeout(() => {
                     startLookTime = Number.POSITIVE_INFINITY;
                     lookDirection = null;
