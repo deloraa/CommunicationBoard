@@ -245,7 +245,7 @@ var minimumTimeLook=50;
 //TODO: add 4 icons How to, Settings, About, Contacts with off canvas
 //TODO: Look up to pause
 //TODO: Add Audio
-//TODO: Add audio icon off default
+//TODO: Bluetooth light
 
 
 function onResults(results) {
