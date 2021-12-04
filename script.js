@@ -46,6 +46,18 @@ const videoElement = document.getElementsByClassName('input_video')[0];
 const controlsElement = document.getElementsByClassName('control-panel')[0];
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
 
+var volume = document.getElementById('volume');
+var volumebutton = document.getElementById('volumebutton');
+var soundOnOff = false;
+volumebutton.onclick = () => {
+    if (soundOnOff) {
+        soundOnOff = false;
+        volume.src = "images/volume-mute.svg";
+    } else {
+        soundOnOff = true;
+        volume.src = "images/volume-up-fill.svg";
+    }
+}
 /**
  * Solution options.
  */
@@ -235,8 +247,11 @@ var minimumTimeLook=50;
 //TODO: Add Audio
 //TODO: Add audio icon off default
 
-var soundOnOff = false;
+
 function onResults(results) {
+
+    //var audio = new Audio("sounds/IwanttoSleep.mp3");
+    //audio.play();
     //console.log("running");
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;

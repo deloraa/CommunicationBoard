@@ -21,12 +21,16 @@
         <video style="visibility: hidden" class="input_video"></video>
         <canvas class="output_canvas" width="1280px" height="720px">
   </div>
-
+  <div class="float-end" style="margin-right: 5%;">
+  <button id="volumebutton" type="button" class="btn btn-default btn-lg">
+    <img id="volume" src="images/volume-mute.svg" alt="volume mute" style="width:175%;height:175%">
+  </button>
+  </div>
   <h6 id="loadingtext" style="Text-align: center">Loading...</h6>
   <div id="loader" class="loader"></div>
-  <div class="container-fluid" style="max-width:175vh">
+  <div class="container-fluid" style="max-width:180vh; margin-left:auto, 0%">
     <div class="row">
-      <div class="col-xs-1" style="max-width:7%">
+      <div class="col-xs-1" style="max-width:7%; margin-left:auto">
         <div id="leftarrow" class="row" style="height:100%">
           <img src="images/arrow-left.svg" alt="left arrow" style="width:100%;height:100%">
         </div>
@@ -79,7 +83,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-1" style="max-width:7%">
+      <div class="col-xs-1" style="max-width:7%;margin-right:auto">
         <div id="rightarrow" class="row" style="height:100%">
           <img src="images/arrow-right.svg" alt="right arrow" style="width:100%;height:100%">
         </div>
@@ -186,7 +190,7 @@
 
   </script>
 
-  <div class="control-panel" style="position: relative; top: 90%; left: 40%; margin-right: -50%;">
+  <div class="control-panel" style="position: relative; top: 90%; left: 40%; margin-right: -50%; display:none">
   </div>
   <script type="module" src="script.js" defer></script>
 </body>
