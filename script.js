@@ -68,6 +68,34 @@ var imagelinks = ["images/amafraid.jpg", "images/amfeelingsick.jpg", "images/ami
 var imagesswapL = [document.getElementById("img000"), document.getElementById("img001"), document.getElementById("img002"), document.getElementById("img010"), document.getElementById("img011"), document.getElementById("img012"), document.getElementById("img020"), document.getElementById("img021"), document.getElementById("img022"), document.getElementById("img030"), document.getElementById("img031"), document.getElementById("img032")];
 var imagesswapR = [document.getElementById("img100"), document.getElementById("img101"), document.getElementById("img102"), document.getElementById("img110"), document.getElementById("img111"), document.getElementById("img112"), document.getElementById("img120"), document.getElementById("img121"), document.getElementById("img122"), document.getElementById("img130"), document.getElementById("img131"), document.getElementById("img132")];
 
+const imageSoundMap = new Map();
+imageSoundMap.set("images/amafraid.jpg", "sounds/IamAfraid.mp3");
+imageSoundMap.set("images/amfeelingsick.jpg", "sounds/IamFeelingSick.mp3");
+imageSoundMap.set("images/aminpain.jpg", "sounds/IaminPain.mp3");
+imageSoundMap.set("images/amangry.jpg", "sounds/IamAngry.mp3");
+imageSoundMap.set("images/amfrustrated.jpg", "sounds/IamFrustrated.mp3");
+imageSoundMap.set("images/amsad.jpg", "sounds/IamSad.mp3");
+imageSoundMap.set("images/amchoking.jpg", "sounds/IamChoking.mp3");
+imageSoundMap.set("images/amhotcold.jpg", "sounds/IamColdorHot.mp3");
+imageSoundMap.set("images/amshortofbreath.jpg", "sounds/IamShortofBreath.mp3");
+imageSoundMap.set("images/amdizzy.jpg", "sounds/IamDizzy.mp3");
+imageSoundMap.set("images/amhungrythirsty.jpg", "sounds/IamHungryorThirsty.mp3");
+imageSoundMap.set("images/amtired.jpg", "sounds/Iamtired.mp3");
+imageSoundMap.set("images/wanthobupdown.jpg", "sounds/IWantHeadofbeduporDown.mp3");
+imageSoundMap.set("images/wanttvvideo.jpg", "sounds/IwanttheTVorVideo.mp3");
+imageSoundMap.set("images/wanttobecomforted.jpg", "sounds/Iwanttobecomforted.mp3");
+imageSoundMap.set("images/wantliedown.jpg", "sounds/IwanttoLieDown.mp3");
+imageSoundMap.set("images/wantquiet.jpg", "sounds/IwantitQuieter.mp3");
+imageSoundMap.set("images/wanttobesucctioned.jpg", "sounds/IwanttobeSuctioned.mp3");
+imageSoundMap.set("images/wantlightsoffon.jpg", "sounds/IwantTheLightsOnorOffPlease.mp3");
+imageSoundMap.set("images/wantremote.jpg", "sounds/IwanttheCalllightOrtheRemote.mp3");
+imageSoundMap.set("images/wanttogohome.jpg", "sounds/IwanttoGoHome.mp3");
+imageSoundMap.set("images/wantwater.jpg", "sounds/IwantWater.mp3");
+imageSoundMap.set("images/wantsitup.jpg", "sounds/IwanttoSitUp.mp3");
+imageSoundMap.set("images/wanttosleep.jpg", "sounds/IwanttoSleep.mp3");
+
+
+
 function resetImages() {
     leftImages = imagelinks.slice(0, Math.ceil(imagelinks.length / 2));
     rightImages = imagelinks.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
@@ -200,6 +228,14 @@ var blinkRun = false;
 
 var upperBlinkCutoff = 5;
 var lowerBlinkCutoff = 4;
+//TODO: implement cleaner look with flickering using minimum look time
+var minimumTimeLook=50;
+//TODO: add 4 icons How to, Settings, About, Contacts with off canvas
+//TODO: Look up to pause
+//TODO: Add Audio
+//TODO: Add audio icon off default
+
+var soundOnOff = false;
 function onResults(results) {
     //console.log("running");
     var minThreshold = 0.5 - widthThreshold;
@@ -212,15 +248,7 @@ function onResults(results) {
         loadingtext.innerText = 'Currently Paused. Blink Left Eye to Start';
     }
 
-    var minLeftEye = 0;
-    var maxLeftEye = 0;
-    var avgLIris = 0;
-    var minRightEye = 0;
-    var maxRightEye = 0;
-    var avgRIris = 0;
     var timestamp = +new Date();
-
-
 
     if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP" || blinkVal === "STOP") return
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
