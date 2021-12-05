@@ -255,24 +255,18 @@ var depthOfSelection = 0;
 
 
 
-//var upperBlinkCutoff = 5;
-//var lowerBlinkCutoff = 4;
+
 //TODO: implement cleaner look with flickering using minimum look time
 var minimumTimeLook = 50;
-//TODO: add 4 icons How to, Settings, About, Contacts with off canvas
 //TODO: Left blink to pause
-//TODO: Add Audio
 //TODO: Bluetooth light
 
 function backgroundColorChange(opacity) {
-    return "rgb(11, 94, 215," + opacity + ")";
+    return "rgba(11, 94, 215," + opacity + ")";
 }
 
 function onResults(results) {
 
-    //var audio = new Audio("sounds/IwanttoSleep.mp3");
-    //audio.play();
-    //console.log("running");
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
 
@@ -324,7 +318,8 @@ function onResults(results) {
     ) {
         startLookTime = timestamp;
         lookDirection = "LEFT";
-        leftarrowelement.style.backgroundColor = backgroundColorChange(1);
+        rightarrowelement.style.backgroundColor = backgroundColorChange(0);
+        
     } else if (
         horizontalLookRatio < minThreshold &&
         lookDirection !== "RIGHT" &&
@@ -332,12 +327,14 @@ function onResults(results) {
     ) {
         startLookTime = timestamp;
         lookDirection = "RIGHT";
-        rightarrowelement.style.backgroundColor = backgroundColorChange(1);
+        leftarrowelement.style.backgroundColor = backgroundColorChange(0);
     } else if (horizontalLookRatio <= maxThreshold && horizontalLookRatio >= minThreshold) {
         startLookTime = Number.POSITIVE_INFINITY;
         lookDirection = null;
         leftarrowelement.style.backgroundColor = "transparent";
         rightarrowelement.style.backgroundColor = "transparent";
+        rightarrowelement.style.backgroundColor = backgroundColorChange(0);
+        leftarrowelement.style.backgroundColor = backgroundColorChange(0);
     }
 
     if (startLookTime + LOOK_DELAY < timestamp) {
@@ -430,8 +427,17 @@ function onResults(results) {
             lookDirection = "STOP"
             startLookTime = Number.POSITIVE_INFINITY;
         }
-
         lookDirection = "RESET";
+    }else{
+        
+        if (lookDirection === "LEFT" && LOOK_DELAY/2 > timestamp - startLookTime) {
+            var timestampdiff = (timestamp - startLookTime)/(LOOK_DELAY/2);
+            console.log(`Here is the timestamp diff ${timestampdiff}`)
+            leftarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
+        }else if(lookDirection === "RIGHT" && LOOK_DELAY/2 > timestamp - startLookTime){
+            var timestampdiff = (timestamp - startLookTime)/(LOOK_DELAY/2);
+            rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
+        }
     }
 
 
