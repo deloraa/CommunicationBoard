@@ -243,9 +243,10 @@ var lowerBlinkCutoff = 4;
 //TODO: implement cleaner look with flickering using minimum look time
 var minimumTimeLook = 50;
 //TODO: add 4 icons How to, Settings, About, Contacts with off canvas
-//TODO: Look up to pause
+//TODO: Left blink to pause
 //TODO: Add Audio
 //TODO: Bluetooth light
+
 function backgroundColorChange(opacity) {
     return "rgb(11, 94, 215," + opacity + ")";
 }

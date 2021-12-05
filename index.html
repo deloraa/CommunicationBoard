@@ -188,9 +188,54 @@
   <!-- Option 1: Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-  </script>
+  <div class="btn-group" role="group" aria-label="Basic outlined" style="float:right;padding-top:2%;padding-right:2%;padding-bottom:2%">
+    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasHowTo" class="btn btn-outline-primary">How To</button>
+    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings" class="btn btn-outline-primary">Settings</button>
+    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAbout" class="btn btn-outline-primary">About</button>
+    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasContactUs" class="btn btn-outline-primary">Contact Us</button>
+  </div>
 
-  <div class="control-panel" style="position: relative; top: 90%; left: 40%; margin-right: -50%; display:none">
+  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasHowTo" aria-labelledby="offcanvasBottomLabel" style="height:50vh">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasBottomLabel">How To</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      This is the How to Section We will describe how to here
+    </div>
+  </div>
+
+
+  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasBottomLabel" style="height:50vh">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasBottomLabel">Settings</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      These are the settings. I will add some things here
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasAbout" aria-labelledby="offcanvasBottomLabel" style="height:50vh">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasBottomLabel">About</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      This is the about tab. We will put things about us here.
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasContactUs" aria-labelledby="offcanvasBottomLabel" style="height:50vh">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasBottomLabel">Contact Us</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      This is the contact us tab.
+    </div>
+  </div>
+  <div class="control-panel" style="position: relative; top: 90%; left: 40%; margin-right: -50%; display:none"> 
   </div>
   <script type="module" src="script.js" defer></script>
 </body>
