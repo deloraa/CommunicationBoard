@@ -232,9 +232,9 @@ var iwantelement = document.getElementById("iwanttag");
 var depthOfSelection = 0;
 
 
-var blinkStartTime = Number.POSITIVE_INFINITY;
-var blinkVal = null;
-var blinkRun = false;
+//var blinkStartTime = Number.POSITIVE_INFINITY;
+//var blinkVal = null;
+//var blinkRun = false;
 
 
 
@@ -257,18 +257,18 @@ function onResults(results) {
     var maxThreshold = 0.5 + widthThreshold;
     fpsControl.tick();
     loaderelement.style.display = 'none';
-    if (blinkRun) {
+    loadingtext.style.display = 'none';
+ /*   if (blinkRun) {
         loadingtext.innerText = 'Currently Running. Blink Left Eye to Stop';
     } else {
         loadingtext.innerText = 'Currently Paused. Blink Left Eye to Start';
-    }
+    }*/
 
     var timestamp = +new Date();
 
-    if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP" || blinkVal === "STOP") return
-    var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
- //   console.log(`leyeBlinkRatio: ${leyeblinkratio} reyeBlinkRatio: ${reyeblinkratio}`);
-    //    console.log("Horizontal: " + horizontalLookRatio + " Vertical Ratio: " + verticalLookRatio + " Blink Result: " + blinkResult);
+    if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
+/*    var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
+ 
 
     if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && blinkVal !== "RESET" && blinkVal!=="BLINK") {
         blinkVal = "BLINK";
@@ -290,11 +290,10 @@ function onResults(results) {
         }
         blinkVal = "RESET";
     } 
-//    [minLeftEye, maxLeftEye, avgLIris] = getEyeMarkers(results.multiFaceLandmarks, LEFT_EYE, LEFT_IRIS);
-//    [minRightEye, maxRightEye, avgRIris] = getEyeMarkers(results.multiFaceLandmarks, RIGHT_EYE, RIGHT_IRIS);
 
-    //    var ratio = (avgLIris - minLeftEye) / (maxLeftEye - minLeftEye);
     if(!blinkRun) return;
+    blinkVal === "STOP"
+    */
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
 
 
