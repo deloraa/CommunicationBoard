@@ -179,6 +179,21 @@
   100% { transform: rotate(360deg); }
 }
 
+.control-panel-entry {
+    width: 250px;
+    background-color: #fff;
+    border: none; 
+    border-radius: none;
+    box-shadow: none;
+    cursor: pointer;
+    font-family: "Titillium Web",sans-serif;
+    font-size: 15px;
+    line-height: 25px;
+    opacity: .8;
+    padding: 0px 0px;
+    position: relative;
+    z-index: 100;
+}
   </style>
   <div id="myModal" class="modal">
      <img class="modal-content" id="modalImgID">
@@ -206,13 +221,24 @@
   </div>
 
 
-  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasBottomLabel" style="height:50vh">
+  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasBottomLabel" style="height:70vh">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasBottomLabel">Settings</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      These are the settings. I will add some things here
+      <h6>Camera Selector</h6>
+      <div class="control-panel"></div>
+      <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+        <li class="nav-item">
+            <h6>Look left/right sensitivity</h6>
+            <input id="lookleftrightsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.08"> <span id="lookleftrightsens">0.08</span>
+        </li>
+        <li class="nav-item">
+            <h6>Time needed to activate selection</h6>
+            <input id="timetoactivateslider" type="range" step="10" min="100" max="3000" value="300"> <span id="timetoactivate">300</span>
+        </li>
+    </ul>
     </div>
   </div>
 
@@ -234,8 +260,6 @@
     <div class="offcanvas-body">
       This is the contact us tab.
     </div>
-  </div>
-  <div class="control-panel" style="position: relative; top: 90%; left: 40%; margin-right: -50%; display:none"> 
   </div>
   <script type="module" src="script.js" defer></script>
 </body>

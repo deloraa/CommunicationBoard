@@ -1,3 +1,24 @@
+//between 0.00-0.5
+var widthThreshold = 0.08;
+var LOOK_DELAY = 300; // 0.5 second
+
+var lookleftrightsensslider = document.getElementById("lookleftrightsensslider");
+var lookleftrightsens = document.getElementById("lookleftrightsens");
+lookleftrightsens.innerHTML = lookleftrightsensslider.value; // Display the default slider value
+lookleftrightsensslider.oninput = function() {
+    lookleftrightsens.innerHTML = this.value;
+    widthThreshold = parseFloat(this.value);
+}
+
+var timetoactivateslider = document.getElementById("timetoactivateslider");
+var timetoactivate = document.getElementById("timetoactivate");
+timetoactivate.innerHTML = timetoactivateslider.value; // Display the default slider value
+timetoactivateslider.oninput = function() {
+    timetoactivate.innerHTML = this.value;
+    LOOK_DELAY = parseInt(this.value);
+}
+
+
 import DeviceDetector from "https://cdn.skypack.dev/device-detector-js@2.2.10";
 // Usage: testSupport({client?: string, os?: string}[])
 // Client and os are regular expressions.
@@ -73,7 +94,6 @@ const solutionOptions = {
 };
 // We'll add this to our control panel later, but we'll save it here so we can
 // call tick() each time the graph runs.
-const fpsControl = new controls.FPS();
 
 var imagelinks = ["images/amafraid.jpg", "images/amfeelingsick.jpg", "images/aminpain.jpg", "images/amangry.jpg", "images/amfrustrated.jpg", "images/amsad.jpg", "images/amchoking.jpg", "images/amhotcold.jpg", "images/amshortofbreath.jpg", "images/amdizzy.jpg", "images/amhungrythirsty.jpg", "images/amtired.jpg", "images/wanthobupdown.jpg", "images/wanttvvideo.jpg", "images/wanttobecomforted.jpg", "images/wantliedown.jpg", "images/wantquiet.jpg", "images/wanttobesucctioned.jpg", "images/wantlightsoffon.jpg", "images/wantremote.jpg", "images/wanttogohome.jpg", "images/wantwater.jpg", "images/wantsitup.jpg", "images/wanttosleep.jpg"];
 
@@ -169,9 +189,6 @@ function getEyeMarkers(eyepts, eyeindicies, irisindicies) {
     return [minEyeX, maxEyeX, avgIrisX];
 }
 
-//between 0.00-0.5
-var widthThreshold = 0.08;
-var LOOK_DELAY = 500; // 0.5 second
 
 function leftRightUpDownRatio(landmarks) {
     var rhDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, landmarks[0][RIGHT_EYE[8]].x, landmarks[0][RIGHT_EYE[8]].y);
@@ -238,8 +255,8 @@ var depthOfSelection = 0;
 
 
 
-var upperBlinkCutoff = 5;
-var lowerBlinkCutoff = 4;
+//var upperBlinkCutoff = 5;
+//var lowerBlinkCutoff = 4;
 //TODO: implement cleaner look with flickering using minimum look time
 var minimumTimeLook = 50;
 //TODO: add 4 icons How to, Settings, About, Contacts with off canvas
@@ -258,7 +275,7 @@ function onResults(results) {
     //console.log("running");
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
-    fpsControl.tick();
+
     loaderelement.style.display = 'none';
     loadingtext.style.display = 'none';
  /*   if (blinkRun) {
@@ -428,36 +445,10 @@ faceMesh.onResults(onResults);
 new controls
     .ControlPanel(controlsElement, solutionOptions)
     .add([
-        new controls.StaticText({ title: 'Settings' }),
-        fpsControl,
         new controls.SourcePicker({
             onFrame: async(input, size) => {
                 await faceMesh.send({ image: input });
             },
-        }),
-        new controls.Slider({
-            title: 'Min Detection Confidence',
-            field: 'minDetectionConfidence',
-            range: [0, 1],
-            step: 0.01
-        }),
-        new controls.Slider({
-            title: 'Min Tracking Confidence',
-            field: 'minTrackingConfidence',
-            range: [0, 1],
-            step: 0.01
-        }),
-        new controls.Slider({
-            title: 'Look Delay Threshold in milliseconds',
-            field: 'lookDelay',
-            range: [200, 3000],
-            step: 100
-        }),
-        new controls.Slider({
-            title: 'Look Width Threshold',
-            field: 'lookWidthThreshold',
-            range: [0.02, 0.3],
-            step: 0.01
         }),
     ])
     .on(x => {
