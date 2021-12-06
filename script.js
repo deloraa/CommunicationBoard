@@ -315,8 +315,11 @@ function onResults(results) {
     }else{
         verticalLookMovingAverage = (verticalLookRatio + movingAverageN*verticalLookMovingAverage)/(movingAverageN+1);
     }
-    //console.log(`vertical look ratio: ${verticalLookRatio} vertical look moving average ${verticalLookMovingAverage}`);
-
+    var verticalLookRatioPercent = (verticalLookRatio-verticalLookMovingAverage)/verticalLookMovingAverage;
+    //console.log(`verticallookratio: ${verticalLookRatio} vertical look MA: ${verticalLookMovingAverage} verticalratiopercent: ${verticalLookRatioPercent}`);
+    if(verticalLookRatioPercent > 0.1){
+        //console.log(`looking up`);
+    }
     if (
         horizontalLookRatio > maxThreshold &&
         lookDirection !== "LEFT" &&
