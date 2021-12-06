@@ -216,14 +216,16 @@ function leftRightUpDownRatio(landmarks) {
 
     var horizontalLookRatio = (rhIrisDistance / rhDistance + lhIrisDistance / lhDistance) / 2;
 
-    var averageXHorizontalRight = (landmarks[0][RIGHT_EYE[0]].x + landmarks[0][RIGHT_EYE[8]].x) / 2;
-    var averageYHorizontalRight = (landmarks[0][RIGHT_EYE[0]].y + landmarks[0][RIGHT_EYE[8]].y) / 2;
-    var averageXHorizontalLeft = (landmarks[0][LEFT_EYE[0]].x + landmarks[0][LEFT_EYE[8]].x) / 2;
-    var averageYHorizontalLeft = (landmarks[0][LEFT_EYE[0]].y + landmarks[0][LEFT_EYE[8]].y) / 2;
+//    var averageXHorizontalRight = (landmarks[0][RIGHT_EYE[0]].x + landmarks[0][RIGHT_EYE[8]].x) / 2;
+//    var averageYHorizontalRight = (landmarks[0][RIGHT_EYE[0]].y + landmarks[0][RIGHT_EYE[8]].y) / 2;
+//    var averageXHorizontalLeft = (landmarks[0][LEFT_EYE[0]].x + landmarks[0][LEFT_EYE[8]].x) / 2;
+//    var averageYHorizontalLeft = (landmarks[0][LEFT_EYE[0]].y + landmarks[0][LEFT_EYE[8]].y) / 2;
 
-    var distanceRIristoMidpoint = euclideanDistance(averageXHorizontalRight, averageYHorizontalRight, avgIrisXRight, avgIrisYRight);
-    var distanceLIristoMidpoint = euclideanDistance(averageXHorizontalLeft, averageYHorizontalLeft, avgIrisXLeft, avgIrisYLeft);
-    var verticalLookRatio = (distanceRIristoMidpoint / rhDistance + distanceLIristoMidpoint / lhDistance) / 2;
+//    var distanceRIristoMidpoint = euclideanDistance(averageXHorizontalRight, averageYHorizontalRight, avgIrisXRight, avgIrisYRight);
+//    var distanceLIristoMidpoint = euclideanDistance(averageXHorizontalLeft, averageYHorizontalLeft, avgIrisXLeft, avgIrisYLeft);
+    var leftIrisToEyebrow = euclideanDistance(landmarks[0][296].x, landmarks[0][296].y, avgIrisXLeft, avgIrisYLeft);
+    var rightIrisToEyebrow = euclideanDistance(landmarks[0][65].x, landmarks[0][65].y, avgIrisXRight, avgIrisYRight);
+    var verticalLookRatio = (rightIrisToEyebrow / rhDistance + leftIrisToEyebrow / lhDistance) / 2;
 
     return [horizontalLookRatio, verticalLookRatio];
 }
@@ -254,10 +256,6 @@ var depthOfSelection = 0;
 //var blinkRun = false;
 
 
-
-
-//TODO: implement cleaner look with flickering using minimum look time
-var minimumTimeLook = 50;
 //TODO: Left blink to pause
 //TODO: Bluetooth light
 
@@ -265,6 +263,8 @@ function backgroundColorChange(opacity) {
     return "rgba(11, 94, 215," + opacity + ")";
 }
 
+var verticalLookMovingAverage = 0.8;
+var movingAverageN = 0;
 function onResults(results) {
 
     var minThreshold = 0.5 - widthThreshold;
@@ -309,7 +309,13 @@ function onResults(results) {
     blinkVal === "STOP"
     */
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
-
+    if(movingAverageN<120){
+        movingAverageN = movingAverageN + 1;
+        verticalLookMovingAverage = (verticalLookRatio + movingAverageN*verticalLookMovingAverage)/(movingAverageN+1);
+    }else{
+        verticalLookMovingAverage = (verticalLookRatio + movingAverageN*verticalLookMovingAverage)/(movingAverageN+1);
+    }
+    //console.log(`vertical look ratio: ${verticalLookRatio} vertical look moving average ${verticalLookMovingAverage}`);
 
     if (
         horizontalLookRatio > maxThreshold &&
