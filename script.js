@@ -296,9 +296,9 @@ function onResults(results) {
     loaderelement.style.display = 'none';
     //loadingtext.style.display = 'none';
     if (lookUpRun) {
-        loadingtext.innerText = 'Currently Running. Look up to pause';
+        loadingtext.innerText = 'Currently Running. Look at the center of the screen and then look up to pause';
     } else {
-        loadingtext.innerText = 'Currently Paused. Look up to continue';
+        loadingtext.innerText = 'Currently Paused. Look at the center of the screen and then look up to pause';
     }
 
     var timestamp = +new Date();
