@@ -3,6 +3,8 @@ var widthThreshold = 0.08;
 var LOOK_DELAY = 300; // 0.5 second
 var verticalThreshold = -0.11;
 var LOOK_UP_DELAY = 200;
+var upperBlinkCutoff = 5.5;
+var lowerBlinkCutoff = 4;
 
 var lookleftrightsensslider = document.getElementById("lookleftrightsensslider");
 var lookleftrightsens = document.getElementById("lookleftrightsens");
@@ -269,9 +271,9 @@ var iwantelement = document.getElementById("iwanttag");
 var depthOfSelection = 0;
 
 
-//var blinkStartTime = Number.POSITIVE_INFINITY;
-//var blinkVal = null;
-//var blinkRun = false;
+var blinkStartTime = Number.POSITIVE_INFINITY;
+var blinkVal = null;
+var blinkRun = true;
 
 
 //TODO: Left blink to pause
@@ -286,7 +288,8 @@ var movingAverageN = 0;
 
 var lookUpStartTime = Number.POSITIVE_INFINITY;
 var lookUpVal = null;
-var lookUpRun = true;
+var lookUpRun = false;
+var verticalLookRatioPercent = 0;
 
 function onResults(results) {
 
@@ -295,10 +298,10 @@ function onResults(results) {
 
     loaderelement.style.display = 'none';
     //loadingtext.style.display = 'none';
-    if (lookUpRun) {
-        loadingtext.innerText = 'Currently Running. Look at the center of the screen and then look up to pause';
+    if (blinkRun) {
+        loadingtext.innerText = 'Currently Running. Blink left eye to pause';
     } else {
-        loadingtext.innerText = 'Currently Paused. Look at the center of the screen and then look up to pause';
+        loadingtext.innerText = 'Currently Paused. Blink left eye to resume';
     }
 
     var timestamp = +new Date();
@@ -306,66 +309,36 @@ function onResults(results) {
     if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
 
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
-    if (lookUpVal !== "UP") {
-        if (movingAverageN < 200) {
-            movingAverageN = movingAverageN + 1;
-            verticalLookMovingAverage = (verticalLookRatio + movingAverageN * verticalLookMovingAverage) / (movingAverageN + 1);
-        } else {
-            verticalLookMovingAverage = (verticalLookRatio + movingAverageN * verticalLookMovingAverage) / (movingAverageN + 1);
-        }
-    }
-    var verticalLookRatioPercent = (verticalLookRatio - verticalLookMovingAverage) / verticalLookMovingAverage;
-    console.log(`vertlookratio: ${verticalLookRatioPercent}`);
+    (verticalLookRatio + movingAverageN * verticalLookMovingAverage) / (movingAverageN + 1);
 
-    if (verticalLookRatioPercent < verticalThreshold && lookUpVal !== "RESET" && lookUpVal !== "UP") {
-        lookUpVal = "UP";
-        lookUpStartTime = timestamp;
-    } else if (verticalLookRatioPercent <= verticalThreshold) {
-        lookUpVal = null;
-        lookUpStartTime = Number.POSITIVE_INFINITY;
+    var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
+    console.log(`leyeblinkratio: ${leyeblinkratio} reyeblinkratio: ${reyeblinkratio}`);
+
+
+    if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && blinkVal !== "RESET" && blinkVal !== "BLINK") {
+        blinkVal = "BLINK";
+        blinkStartTime = timestamp;
+    } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
+        blinkVal = null;
+        blinkStartTime = Number.POSITIVE_INFINITY;
     }
 
-    if (lookUpStartTime + LOOK_UP_DELAY < timestamp) {
-        if (lookUpVal === "UP") {
-            if (lookUpRun) {
-                lookUpRun = false;
+    if (blinkStartTime + LOOK_DELAY < timestamp) {
+        if (blinkVal === "BLINK") {
+            if (blinkRun) {
+                blinkRun = false;
             } else {
-                lookUpRun = true;
+                blinkRun = true;
             }
-            lookUpStartTime = Number.POSITIVE_INFINITY;
-            lookUpVal = "STOP";
+            blinkStartTime = Number.POSITIVE_INFINITY;
+            blinkVal = "STOP";
         }
-        lookUpVal = "RESET";
+        blinkVal = "RESET";
     }
 
-    if (!lookUpRun) return;
-    /*   // var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
-     
+    if (!blinkRun) return;
 
-        if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && blinkVal !== "RESET" && blinkVal !== "BLINK") {
-            blinkVal = "BLINK";
-            blinkStartTime = timestamp;
-        } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
-            blinkVal = null;
-            blinkStartTime = Number.POSITIVE_INFINITY;
-        }
 
-        if (blinkStartTime + LOOK_DELAY < timestamp) {
-            if (blinkVal === "BLINK") {
-                if (blinkRun) {
-                    blinkRun = false;
-                } else {
-                    blinkRun = true;
-                }
-                blinkStartTime = Number.POSITIVE_INFINITY;
-                blinkVal = "STOP";
-            }
-            blinkVal = "RESET";
-        } 
-
-        if(!blinkRun) return;
-        blinkVal === "STOP"
-        */
 
     if (
         horizontalLookRatio > maxThreshold &&
