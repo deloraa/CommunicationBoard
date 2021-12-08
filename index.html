@@ -24,7 +24,7 @@
 
   <h6 id="loadingtext" style="Text-align: center">Loading...</h6>
   <div id="loader" class="loader"></div>
-  <div class="container-fluid" style="max-width:180vh; margin-left:auto, 0%">
+  <div class="container-fluid" style="max-width:170vh; margin-left:auto, 0%">
     <div class="row">
       <div class="col-xs-1" style="max-width:7%; margin-left:auto">
         <div id="leftarrow" class="row" style="height:100%">
@@ -245,9 +245,25 @@
             <input id="lookleftrightsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.08"> <span id="lookleftrightsens">0.08</span>
         </li>
         <li class="nav-item">
+          <h6>Look up sensitivity</h6>
+          <input id="lookupsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.11"> <span id="lookupsens">0.11</span>
+      </li>
+        <li class="nav-item">
             <h6>Time needed to activate selection</h6>
             <input id="timetoactivateslider" type="range" step="10" min="100" max="3000" value="300"> <span id="timetoactivate">300</span>
         </li>
+        <li class="nav-item">
+          <h6>Time needed to activate look up to pause</h6>
+          <input id="timetoactivatelookupslider" type="range" step="10" min="50" max="2500" value="200"> <span id="timetoactivatelookup">200</span>
+      </li>
+      <li class="nav-item">
+        <h6>Eye Blink Sensitivity</h6>
+        <input id="eyeblinksensslider" type="range" step="0.1" min="2" max="10" value="5.5"> <span id="eyeblinksens">5.5</span>
+    </li>
+    <li class="nav-item">
+      <h6>Eye Open Sensitivity</h6>
+      <input id="eyeopensensslider" type="range" step="0.1" min="2" max="10" value="4"> <span id="eyeopensens">4</span>
+  </li>     
     </ul>
     </div>
   </div>

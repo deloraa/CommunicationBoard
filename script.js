@@ -1,6 +1,10 @@
 //between 0.00-0.5
 var widthThreshold = 0.08;
 var LOOK_DELAY = 300; // 0.5 second
+var verticalThreshold = -0.11;
+var LOOK_UP_DELAY = 200;
+var upperBlinkCutoff = 5.5;
+var lowerBlinkCutoff = 4;
 
 var lookleftrightsensslider = document.getElementById("lookleftrightsensslider");
 var lookleftrightsens = document.getElementById("lookleftrightsens");
@@ -10,12 +14,28 @@ lookleftrightsensslider.oninput = function() {
     widthThreshold = parseFloat(this.value);
 }
 
+var lookupsensslider = document.getElementById("lookupsensslider");
+var lookupsens = document.getElementById("lookupsens");
+lookupsens.innerHTML = lookupsensslider.value; // Display the default slider value
+lookupsensslider.oninput = function() {
+    lookupsens.innerHTML = this.value;
+    verticalThreshold = -1 * parseFloat(this.value);
+}
+
 var timetoactivateslider = document.getElementById("timetoactivateslider");
 var timetoactivate = document.getElementById("timetoactivate");
 timetoactivate.innerHTML = timetoactivateslider.value; // Display the default slider value
 timetoactivateslider.oninput = function() {
     timetoactivate.innerHTML = this.value;
     LOOK_DELAY = parseInt(this.value);
+}
+
+var timetoactivatelookupslider = document.getElementById("timetoactivatelookupslider");
+var timetoactivatelookup = document.getElementById("timetoactivatelookup");
+timetoactivatelookup.innerHTML = timetoactivatelookupslider.value; // Display the default slider value
+timetoactivatelookupslider.oninput = function() {
+    timetoactivatelookup.innerHTML = this.value;
+    LOOK_UP_DELAY = parseInt(this.value);
 }
 
 
@@ -265,13 +285,13 @@ function leftRightUpDownRatio(landmarks) {
 
     var horizontalLookRatio = (rhIrisDistance / rhDistance + lhIrisDistance / lhDistance) / 2;
 
-//    var averageXHorizontalRight = (landmarks[0][RIGHT_EYE[0]].x + landmarks[0][RIGHT_EYE[8]].x) / 2;
-//    var averageYHorizontalRight = (landmarks[0][RIGHT_EYE[0]].y + landmarks[0][RIGHT_EYE[8]].y) / 2;
-//    var averageXHorizontalLeft = (landmarks[0][LEFT_EYE[0]].x + landmarks[0][LEFT_EYE[8]].x) / 2;
-//    var averageYHorizontalLeft = (landmarks[0][LEFT_EYE[0]].y + landmarks[0][LEFT_EYE[8]].y) / 2;
+    //    var averageXHorizontalRight = (landmarks[0][RIGHT_EYE[0]].x + landmarks[0][RIGHT_EYE[8]].x) / 2;
+    //    var averageYHorizontalRight = (landmarks[0][RIGHT_EYE[0]].y + landmarks[0][RIGHT_EYE[8]].y) / 2;
+    //    var averageXHorizontalLeft = (landmarks[0][LEFT_EYE[0]].x + landmarks[0][LEFT_EYE[8]].x) / 2;
+    //    var averageYHorizontalLeft = (landmarks[0][LEFT_EYE[0]].y + landmarks[0][LEFT_EYE[8]].y) / 2;
 
-//    var distanceRIristoMidpoint = euclideanDistance(averageXHorizontalRight, averageYHorizontalRight, avgIrisXRight, avgIrisYRight);
-//    var distanceLIristoMidpoint = euclideanDistance(averageXHorizontalLeft, averageYHorizontalLeft, avgIrisXLeft, avgIrisYLeft);
+    //    var distanceRIristoMidpoint = euclideanDistance(averageXHorizontalRight, averageYHorizontalRight, avgIrisXRight, avgIrisYRight);
+    //    var distanceLIristoMidpoint = euclideanDistance(averageXHorizontalLeft, averageYHorizontalLeft, avgIrisXLeft, avgIrisYLeft);
     var leftIrisToEyebrow = euclideanDistance(landmarks[0][296].x, landmarks[0][296].y, avgIrisXLeft, avgIrisYLeft);
     var rightIrisToEyebrow = euclideanDistance(landmarks[0][65].x, landmarks[0][65].y, avgIrisXRight, avgIrisYRight);
     var verticalLookRatio = (rightIrisToEyebrow / rhDistance + leftIrisToEyebrow / lhDistance) / 2;
@@ -300,9 +320,9 @@ var iwantelement = document.getElementById("iwanttag");
 var depthOfSelection = 0;
 
 
-//var blinkStartTime = Number.POSITIVE_INFINITY;
-//var blinkVal = null;
-//var blinkRun = false;
+var blinkStartTime = Number.POSITIVE_INFINITY;
+var blinkVal = null;
+var blinkRun = true;
 
 
 //TODO: Left blink to pause
@@ -314,24 +334,35 @@ function backgroundColorChange(opacity) {
 
 var verticalLookMovingAverage = 0.8;
 var movingAverageN = 0;
+
+var lookUpStartTime = Number.POSITIVE_INFINITY;
+var lookUpVal = null;
+var lookUpRun = false;
+var verticalLookRatioPercent = 0;
+
 function onResults(results) {
 
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
 
     loaderelement.style.display = 'none';
-    loadingtext.style.display = 'none';
- /*   if (blinkRun) {
-        loadingtext.innerText = 'Currently Running. Blink Left Eye to Stop';
+    //loadingtext.style.display = 'none';
+    if (blinkRun) {
+        loadingtext.innerText = 'Currently Running. Blink left eye to pause';
     } else {
-        loadingtext.innerText = 'Currently Paused. Blink Left Eye to Start';
-    }*/
+        loadingtext.innerText = 'Currently Paused. Blink left eye to resume';
+    }
 
     var timestamp = +new Date();
 
     if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
-/*    var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
- 
+
+    var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
+    (verticalLookRatio + movingAverageN * verticalLookMovingAverage) / (movingAverageN + 1);
+
+    var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
+    console.log(`leyeblinkratio: ${leyeblinkratio} reyeblinkratio: ${reyeblinkratio}`);
+
 
     if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && blinkVal !== "RESET" && blinkVal !== "BLINK") {
         blinkVal = "BLINK";
@@ -352,23 +383,12 @@ function onResults(results) {
             blinkVal = "STOP";
         }
         blinkVal = "RESET";
-    } 
+    }
 
-    if(!blinkRun) return;
-    blinkVal === "STOP"
-    */
-    var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
-    if(movingAverageN<120){
-        movingAverageN = movingAverageN + 1;
-        verticalLookMovingAverage = (verticalLookRatio + movingAverageN*verticalLookMovingAverage)/(movingAverageN+1);
-    }else{
-        verticalLookMovingAverage = (verticalLookRatio + movingAverageN*verticalLookMovingAverage)/(movingAverageN+1);
-    }
-    var verticalLookRatioPercent = (verticalLookRatio-verticalLookMovingAverage)/verticalLookMovingAverage;
-    //console.log(`verticallookratio: ${verticalLookRatio} vertical look MA: ${verticalLookMovingAverage} verticalratiopercent: ${verticalLookRatioPercent}`);
-    if(verticalLookRatioPercent > 0.1){
-        //console.log(`looking up`);
-    }
+    if (!blinkRun) return;
+
+
+
     if (
         horizontalLookRatio > maxThreshold &&
         lookDirection !== "LEFT" &&
@@ -377,7 +397,7 @@ function onResults(results) {
         startLookTime = timestamp;
         lookDirection = "LEFT";
         rightarrowelement.style.backgroundColor = backgroundColorChange(0);
-        
+
     } else if (
         horizontalLookRatio < minThreshold &&
         lookDirection !== "RIGHT" &&
@@ -486,14 +506,13 @@ function onResults(results) {
             startLookTime = Number.POSITIVE_INFINITY;
         }
         lookDirection = "RESET";
-    }else{
-        
-        if (lookDirection === "LEFT" && LOOK_DELAY/2 > timestamp - startLookTime) {
-            var timestampdiff = (timestamp - startLookTime)/(LOOK_DELAY/2);
-            console.log(`Here is the timestamp diff ${timestampdiff}`)
+    } else {
+
+        if (lookDirection === "LEFT" && LOOK_DELAY / 2 > timestamp - startLookTime) {
+            var timestampdiff = (timestamp - startLookTime) / (LOOK_DELAY / 2);
             leftarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
-        }else if(lookDirection === "RIGHT" && LOOK_DELAY/2 > timestamp - startLookTime){
-            var timestampdiff = (timestamp - startLookTime)/(LOOK_DELAY/2);
+        } else if (lookDirection === "RIGHT" && LOOK_DELAY / 2 > timestamp - startLookTime) {
+            var timestampdiff = (timestamp - startLookTime) / (LOOK_DELAY / 2);
             rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
         }
     }
