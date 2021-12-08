@@ -21,11 +21,7 @@
         <video style="visibility: hidden" class="input_video"></video>
         <canvas class="output_canvas" width="1280px" height="720px">
   </div>
-  <div class="float-end" style="margin-right: 5%;">
-  <button id="volumebutton" type="button" class="btn btn-default btn-lg">
-    <img id="volume" src="images/volume-mute.svg" alt="volume mute" style="width:175%;height:175%">
-  </button>
-  </div>
+
   <h6 id="loadingtext" style="Text-align: center">Loading...</h6>
   <div id="loader" class="loader"></div>
   <div class="container-fluid" style="max-width:180vh; margin-left:auto, 0%">
@@ -227,6 +223,20 @@
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
+      <p>
+        <button type="button" class="btn btn-outline-danger">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bluetooth" viewBox="0 0 16 16">
+<path fill-rule="evenodd" d="m8.543 3.948 1.316 1.316L8.543 6.58V3.948Zm0 8.104 1.316-1.316L8.543 9.42v2.632Zm-1.41-4.043L4.275 5.133l.827-.827L7.377 6.58V1.128l4.137 4.136L8.787 8.01l2.745 2.745-4.136 4.137V9.42l-2.294 2.274-.827-.827L7.133 8.01ZM7.903 16c3.498 0 5.904-1.655 5.904-8.01 0-6.335-2.406-7.99-5.903-7.99C4.407 0 2 1.655 2 8.01 2 14.344 4.407 16 7.904 16Z"/>
+</svg>
+          Bluetooth Disconnected
+        </button>
+        <button type="button" class="btn btn-outline-danger">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-mute" viewBox="0 0 16 16">
+<path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04 4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04zm7.854.606a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0z"/>
+</svg>
+          Sound Off
+        </button>
+    </p>
       <h6>Camera Selector</h6>
       <div class="control-panel"></div>
       <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">

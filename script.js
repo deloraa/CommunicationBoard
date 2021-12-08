@@ -79,6 +79,55 @@ volumebutton.onclick = () => {
             volume.src = "images/volume-up-fill.svg";
         }
     }
+
+var bluetooth = document.getElementById('bluetooth');
+var bluetoothbutton = document.getElementById('bluetoothbutton');
+let toggleLightCharacteristic;
+let bluetoothDevice;
+const DEVICE_NAME = 'DSD TECH';
+const SEND_SERVICE = 0xFFE0;
+const SEND_SERVICE_CHARACTERISTIC = 0xFFE1;
+var bluetoothConnected = false;
+bluetoothbutton.onclick = () => {
+    if (!navigator.bluetooth) {
+        alert('Sorry, your browser doesn\'t support Bluetooth API');
+        return;
+    }
+    navigator.bluetooth.requestDevice({
+        filters:
+          [
+            { name: DEVICE_NAME },
+            { services: [SEND_SERVICE] },
+          ]
+      })
+        .then(device => {
+          bluetoothDevice = device;
+    
+          return device.gatt.connect();
+        })
+        .then(server => server.getPrimaryService(SEND_SERVICE))
+        .then(service => service.getCharacteristic(SEND_SERVICE_CHARACTERISTIC))
+        .then(characteristic => {
+          toggleLightCharacteristic = characteristic;
+          bluetoothConnected = true;
+          toggleLightCharacteristic.writeValue(Uint8Array.of(1));
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+
+}
+
+function getSupportedProperties(characteristic) {
+    let supportedProperties = [];
+    for (const p in characteristic.properties) {
+      if (characteristic.properties[p] === true) {
+        supportedProperties.push(p.toUpperCase());
+      }
+    }
+    return '[' + supportedProperties.join(', ') + ']';
+  }
     /**
      * Solution options.
      */
