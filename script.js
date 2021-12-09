@@ -87,21 +87,23 @@ const videoElement = document.getElementsByClassName('input_video')[0];
 const controlsElement = document.getElementsByClassName('control-panel')[0];
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
 
-var volume = document.getElementById('volume');
-var volumebutton = document.getElementById('volumebutton');
+var soundButton = document.getElementById('soundButton');
 var soundOnOff = false;
-volumebutton.onclick = () => {
+soundButton.onclick = () => {
         if (soundOnOff) {
             soundOnOff = false;
-            volume.src = "images/volume-mute.svg";
+            soundButton.className = "btn btn-outline-secondary"
+            soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
         } else {
             soundOnOff = true;
-            volume.src = "images/volume-up-fill.svg";
-        }
-    }
+            soundButton.className = "btn btn-outline-primary"
+            soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
+
+       }
+}
 
 var bluetooth = document.getElementById('bluetooth');
-var bluetoothbutton = document.getElementById('bluetoothbutton');
+var bluetoothbutton = document.getElementById('bluetoothButton');
 let toggleLightCharacteristic;
 let bluetoothDevice;
 const DEVICE_NAME = 'DSD TECH';
@@ -109,6 +111,7 @@ const SEND_SERVICE = 0xFFE0;
 const SEND_SERVICE_CHARACTERISTIC = 0xFFE1;
 var bluetoothConnected = false;
 bluetoothbutton.onclick = () => {
+    if(bluetoothConnected === false){
     if (!navigator.bluetooth) {
         alert('Sorry, your browser doesn\'t support Bluetooth API');
         return;
@@ -130,12 +133,17 @@ bluetoothbutton.onclick = () => {
         .then(characteristic => {
           toggleLightCharacteristic = characteristic;
           bluetoothConnected = true;
-          toggleLightCharacteristic.writeValue(Uint8Array.of(1));
+          bluetoothbutton.className = "btn btn-outline-primary"
+          bluetoothbutton.innerHTML = '<img src="images/bluetoothOn.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Connected';
+          //toggleLightCharacteristic.writeValue(Uint8Array.of(1));
         })
         .catch(error => {
           console.error(error);
+          bluetoothConnected = false;
+          bluetoothbutton.className = "btn btn-outline-secondary"
+          bluetoothbutton.innerHTML = '<img src="images/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Connected';
         });
-
+    }
 
 }
 
@@ -361,7 +369,6 @@ function onResults(results) {
     (verticalLookRatio + movingAverageN * verticalLookMovingAverage) / (movingAverageN + 1);
 
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
-    console.log(`leyeblinkratio: ${leyeblinkratio} reyeblinkratio: ${reyeblinkratio}`);
 
 
     if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && blinkVal !== "RESET" && blinkVal !== "BLINK") {
@@ -425,6 +432,9 @@ function onResults(results) {
                     var audio = new Audio(imageSoundMap.get(leftImages[0]));
                     audio.play();
                 }
+                if(leftImages[0]==="images/wantlightsoffon.jpg" && bluetoothConnected){
+                    toggleLightCharacteristic.writeValue(Uint8Array.of(3));
+                }
                 //pause for 5000 ms on selection
                 setTimeout(() => {
                     startLookTime = Number.POSITIVE_INFINITY;
@@ -469,6 +479,9 @@ function onResults(results) {
                 if (soundOnOff) {
                     var audio = new Audio(imageSoundMap.get(rightImages[0]));
                     audio.play();
+                }
+                if(leftImages[0]==="images/wantlightsoffon.jpg" && bluetoothConnected){
+                    toggleLightCharacteristic.writeValue(Uint8Array.of(3));
                 }
                 setTimeout(() => {
                     startLookTime = Number.POSITIVE_INFINITY;
