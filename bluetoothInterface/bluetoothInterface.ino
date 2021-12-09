@@ -5,8 +5,8 @@ void setup()
   mySerial.begin(9600);   
   Serial.begin(9600);   
   delay(100);
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, LOW);
+  pinMode(13, OUTPUT);
+  digitalWrite(13, LOW);
 }
 
 bool toggle = false;
@@ -28,10 +28,10 @@ if (mySerial.available()>0){
     }
     if(toggle == false){
       toggle = true;
-      digitalWrite(LED_BUILTIN, HIGH);
+      digitalWrite(13, HIGH);
     }else{
       toggle = false;
-      digitalWrite(LED_BUILTIN, LOW);
+      digitalWrite(13, LOW);
     }
     }
   }

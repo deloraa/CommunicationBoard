@@ -117,11 +117,8 @@ bluetoothbutton.onclick = () => {
         return;
     }
     navigator.bluetooth.requestDevice({
-        filters:
-          [
-            { name: DEVICE_NAME },
-            { services: [SEND_SERVICE] },
-          ]
+        acceptAllDevices: true,
+        optionalServices: [SEND_SERVICE]
       })
         .then(device => {
           bluetoothDevice = device;
