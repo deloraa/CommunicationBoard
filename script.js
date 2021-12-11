@@ -166,6 +166,9 @@ var imagelinks = ["images/amafraid.jpg", "images/amfeelingsick.jpg", "images/ami
 var imagesswapL = [document.getElementById("img000"), document.getElementById("img001"), document.getElementById("img002"), document.getElementById("img010"), document.getElementById("img011"), document.getElementById("img012"), document.getElementById("img020"), document.getElementById("img021"), document.getElementById("img022"), document.getElementById("img030"), document.getElementById("img031"), document.getElementById("img032")];
 var imagesswapR = [document.getElementById("img100"), document.getElementById("img101"), document.getElementById("img102"), document.getElementById("img110"), document.getElementById("img111"), document.getElementById("img112"), document.getElementById("img120"), document.getElementById("img121"), document.getElementById("img122"), document.getElementById("img130"), document.getElementById("img131"), document.getElementById("img132")];
 
+var imagesswapLId = ["img000", "img001", "img002", "img010", "img011", "img012", "img020", "img021", "img022", "img030", "img031", "img032"];
+var imagesswapRId = ["img100", "img101", "img102", "img110", "img111", "img112", "img120", "img121", "img122", "img130", "img131", "img132"];
+
 const imageSoundMap = new Map();
 imageSoundMap.set("images/amafraid.jpg", "sounds/IamAfraid.mp3");
 imageSoundMap.set("images/amfeelingsick.jpg", "sounds/IamFeelingSick.mp3");
@@ -338,6 +341,26 @@ var lookUpRun = false;
 var verticalLookRatioPercent = 0;
 
 function onResults(results) {
+/*    
+    var offset = $("#img102").offset();
+    var width = $("#img102").width();
+    var height = $("#img102").height();
+    $('#img000').css('width', width);
+    $('#img000').css('height', height);
+    $('#img000').css('position', 'absolute');
+    $('#img000').animate({
+        top: offset.top,
+        left: offset.left
+     },{duration:5000,complete: function () {
+        $("#img102").attr("src", "images/amafraid.jpg");
+        $('#img000').css('visibility', 'hidden');
+        $('#img000').css('width', 'auto');
+        $('#img000').css('height', 'auto');
+        $('#img000').css('top', 'auto');
+        $('#img000').css('left', 'auto');
+     }
+     });
+*/
 
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
@@ -360,7 +383,7 @@ function onResults(results) {
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
 
 
-    if ((horizontalLookRatio + movingAverageN * horizontalLookMovingAverage(leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff) || (leyeblinkratio < upperBlinkCutoff && reyeblinkratio > lowerBlinkCutoff)) && blinkVal !== "RESET" && blinkVal !== "BLINK") {
+    if (((leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff) || (leyeblinkratio < upperBlinkCutoff && reyeblinkratio > lowerBlinkCutoff)) && blinkVal !== "RESET" && blinkVal !== "BLINK") {
         blinkVal = "BLINK";
         blinkStartTime = timestamp;
     } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
