@@ -311,8 +311,8 @@ var rightImages = imagelinks.slice(imagelinks.length / 2, imagelinks.length);
 var loaderelement = document.getElementById("loader");
 var loadingtext = document.getElementById("loadingtext");
 
-var iamelement = document.getElementById("iamtag");
-var iwantelement = document.getElementById("iwanttag");
+//var iamelement = document.getElementById("iamtag");
+//var iwantelement = document.getElementById("iwanttag");
 
 var depthOfSelection = 0;
 
@@ -345,9 +345,9 @@ function onResults(results) {
     loaderelement.style.display = 'none';
     //loadingtext.style.display = 'none';
     if (blinkRun) {
-        loadingtext.innerText = 'Currently Running. Blink left eye to pause';
+        loadingtext.innerText = 'Currently Running. Blink left or right eye to pause';
     } else {
-        loadingtext.innerText = 'Currently Paused. Blink left eye to resume';
+        loadingtext.innerText = 'Currently Paused. Blink left or right eye to resume';
     }
 
     var timestamp = +new Date();
@@ -360,7 +360,7 @@ function onResults(results) {
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
 
 
-    if (leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff && blinkVal !== "RESET" && blinkVal !== "BLINK") {
+    if ((horizontalLookRatio + movingAverageN * horizontalLookMovingAverage(leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff) || (leyeblinkratio < upperBlinkCutoff && reyeblinkratio > lowerBlinkCutoff)) && blinkVal !== "RESET" && blinkVal !== "BLINK") {
         blinkVal = "BLINK";
         blinkStartTime = timestamp;
     } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
@@ -430,16 +430,16 @@ function onResults(results) {
                     lookDirection = null;
                     resetImages();
                     modal.style.display = "none";
-                    iwantelement.innerText = "I want...";
-                    iamelement.innerText = "I am..."
+/*                    iwantelement.innerText = "I want...";
+                    iamelement.innerText = "I am..."*/
                     depthOfSelection = 0;
                 }, 5000);
 
                 //do something with last image
             } else {
-                if (depthOfSelection === 0) {
+/*                if (depthOfSelection === 0) {
                     iwantelement.innerText = "I am..."
-                }
+                }*/
                 depthOfSelection = depthOfSelection + 1;
 
                 rightImages = leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length);
@@ -478,15 +478,15 @@ function onResults(results) {
                     resetImages();
                     modal.style.display = "none";
                     modal.style.display = "none";
-                    iwantelement.innerText = "I want...";
-                    iamelement.innerText = "I am..."
+/*                    iwantelement.innerText = "I want...";
+                    iamelement.innerText = "I am..."*/
                     depthOfSelection = 0;
                 }, 5000);
                 //do something with last image
             } else {
-                if (depthOfSelection === 0) {
+/*                if (depthOfSelection === 0) {
                     iamelement.innerText = "I want..."
-                }
+                }*/
                 depthOfSelection = depthOfSelection + 1;
                 leftImages = rightImages.slice(0, Math.ceil(rightImages.length / 2));
                 rightImages = rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length);
