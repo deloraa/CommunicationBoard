@@ -16,7 +16,7 @@
     <title>Communication Board</title>
 </head>
 
-<body>
+<body style="background-color: #d2f0f8;">
     <div class="container" style="display: none">
         <video style="visibility: hidden" class="input_video"></video>
         <canvas class="output_canvas" width="1280px" height="720px">
@@ -190,6 +190,7 @@
     position: relative;
     z-index: 100;
 }
+
   </style>
   <div id="myModal" class="modal">
      <img class="modal-content" id="modalImgID">
@@ -198,12 +199,12 @@
 
   <!-- Option 1: Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-  <div class="btn-group" role="group" aria-label="Basic outlined" style="float:right;padding-top:2%;padding-right:2%;padding-bottom:2%">
-    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasHowTo" class="btn btn-outline-primary">How To</button>
-    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings" class="btn btn-outline-primary">Settings</button>
-    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAbout" class="btn btn-outline-primary">About</button>
-    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasContactUs" class="btn btn-outline-primary">Contact Us</button>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <div class="btn-group" role="group" aria-label="Basic outlined" style="padding-top: 2%;left: 50%;transform: translateX(-50%)">
+    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasHowTo" class="btn btn-outline-dark" style="border-color: transparent">How To</button>
+    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings" class="btn btn-outline-dark" style="border-color: transparent">Settings</button>
+    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAbout" class="btn btn-outline-dark" style="border-color: transparent">About</button>
+    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasContactUs" class="btn btn-outline-dark" style="border-color: transparent">Contact Us</button>
   </div>
 
   <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasHowTo" aria-labelledby="offcanvasBottomLabel" style="height:50vh">

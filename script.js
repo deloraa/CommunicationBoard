@@ -144,15 +144,7 @@ bluetoothbutton.onclick = () => {
 
 }
 
-function getSupportedProperties(characteristic) {
-    let supportedProperties = [];
-    for (const p in characteristic.properties) {
-      if (characteristic.properties[p] === true) {
-        supportedProperties.push(p.toUpperCase());
-      }
-    }
-    return '[' + supportedProperties.join(', ') + ']';
-  }
+
     /**
      * Solution options.
      */
