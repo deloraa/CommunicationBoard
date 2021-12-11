@@ -368,9 +368,9 @@ function onResults(results) {
     loaderelement.style.display = 'none';
     //loadingtext.style.display = 'none';
     if (blinkRun) {
-        loadingtext.innerText = 'Currently Running. Blink left or right eye to pause';
+        loadingtext.innerText = 'Running. Blink left or right eye to pause';
     } else {
-        loadingtext.innerText = 'Currently Paused. Blink left or right eye to resume';
+        loadingtext.innerText = 'Paused. Blink left or right eye to start';
     }
 
     var timestamp = +new Date();
