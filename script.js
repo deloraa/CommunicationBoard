@@ -447,20 +447,23 @@ async function onResults(results) {
                 if ($(leftImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
                     $(leftImages[0]).attr('src', "Icons/32-SoundsOn.jpeg");
                     imagelinks[31] = "Icons/32-SoundsOn.jpeg"
-                    soundButton.className = "btn btn-outline-primary"
-                    soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
                     soundOnOff = true
-                } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
+                } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundsOn.jpeg") {
                     $(leftImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
                     imagelinks[31] = "Icons/32-SoundOff.jpeg"
-                    soundButton.className = "btn btn-outline-secondary"
-                    soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
                     soundOnOff = false
                 }
                 modalImg.src = $(leftImages[0]).attr('src');
                 if (soundOnOff) {
                     var audio = new Audio(imageSoundMap.get($(leftImages[0]).attr('src')));
                     audio.play();
+                }
+                if (soundOnOff) {
+                    soundButton.className = "btn btn-outline-primary"
+                    soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
+                } else {
+                    soundButton.className = "btn btn-outline-secondary"
+                    soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
                 }
                 if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
                     toggleLightCharacteristic.writeValue(Uint8Array.of(3));
@@ -553,7 +556,7 @@ async function onResults(results) {
                     $(rightImages[0]).attr('src', "Icons/32-SoundsOn.jpeg");
                     imagelinks[31] = "Icons/32-SoundsOn.jpeg"
                     soundOnOff = true
-                } else if ($(rightImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
+                } else if ($(rightImages[0]).attr('src') === "Icons/32-SoundsOn.jpeg") {
                     $(rightImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
                     imagelinks[31] = "Icons/32-SoundOff.jpeg"
                     soundOnOff = false
@@ -562,6 +565,13 @@ async function onResults(results) {
                 if (soundOnOff) {
                     var audio = new Audio(imageSoundMap.get($(rightImages[0]).attr('src')));
                     audio.play();
+                }
+                if (soundOnOff) {
+                    soundButton.className = "btn btn-outline-primary"
+                    soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
+                } else {
+                    soundButton.className = "btn btn-outline-secondary"
+                    soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
                 }
                 if ($(rightImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
                     toggleLightCharacteristic.writeValue(Uint8Array.of(3));
