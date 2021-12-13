@@ -158,18 +158,19 @@ const solutionOptions = {
     lookDelay: 500,
     lookWidthThreshold: 0.08
 };
-// We'll add this to our control panel later, but we'll save it here so we can
-// call tick() each time the graph runs.
+
 
 var imagelinks = ["images/amafraid.jpg", "images/amfeelingsick.jpg", "images/aminpain.jpg", "images/amangry.jpg", "images/amfrustrated.jpg", "images/amsad.jpg", "images/amchoking.jpg", "images/amhotcold.jpg", "images/amshortofbreath.jpg", "images/amdizzy.jpg", "images/amhungrythirsty.jpg", "images/amtired.jpg", "images/wanthobupdown.jpg", "images/wanttvvideo.jpg", "images/wanttobecomforted.jpg", "images/wantliedown.jpg", "images/wantquiet.jpg", "images/wanttobesucctioned.jpg", "images/wantlightsoffon.jpg", "images/wantremote.jpg", "images/wanttogohome.jpg", "images/wantwater.jpg", "images/wantsitup.jpg", "images/wanttosleep.jpg"];
 
-var imagesswapL = [document.getElementById("img000"), document.getElementById("img001"), document.getElementById("img002"), document.getElementById("img010"), document.getElementById("img011"), document.getElementById("img012"), document.getElementById("img020"), document.getElementById("img021"), document.getElementById("img022"), document.getElementById("img030"), document.getElementById("img031"), document.getElementById("img032")];
-var imagesswapR = [document.getElementById("img100"), document.getElementById("img101"), document.getElementById("img102"), document.getElementById("img110"), document.getElementById("img111"), document.getElementById("img112"), document.getElementById("img120"), document.getElementById("img121"), document.getElementById("img122"), document.getElementById("img130"), document.getElementById("img131"), document.getElementById("img132")];
+//var imagesswapL = [document.getElementById("img000"), document.getElementById("img001"), document.getElementById("img002"), document.getElementById("img010"), document.getElementById("img011"), document.getElementById("img012"), document.getElementById("img020"), document.getElementById("img021"), document.getElementById("img022"), document.getElementById("img030"), document.getElementById("img031"), document.getElementById("img032")];
+//var imagesswapR = [document.getElementById("img100"), document.getElementById("img101"), document.getElementById("img102"), document.getElementById("img110"), document.getElementById("img111"), document.getElementById("img112"), document.getElementById("img120"), document.getElementById("img121"), document.getElementById("img122"), document.getElementById("img130"), document.getElementById("img131"), document.getElementById("img132")];
 
-var imagesswapIdReset = ["img000", "img001", "img002", "img010", "img011", "img012", "img020", "img021", "img022", "img030", "img031", "img032","img100", "img101", "img102", "img110", "img111", "img112", "img120", "img121", "img122", "img130", "img131", "img132"];
-var imagesswapIdSplit = ["img000", "img001", "img002", "img010", "img011", "img012", "img020", "img021", "img022", "img030", "img031", "img032","img100", "img101", "img102", "img110", "img111", "img112", "img120", "img121", "img122", "img130", "img131", "img132"];
+var imagesswapIdReset = ["#img000", "#img001", "#img002", "#img010", "#img011", "#img012", "#img020", "#img021", "#img022", "#img030", "#img031", "#img032","#img100", "#img101", "#img102", "#img110", "#img111", "#img112", "#img120", "#img121", "#img122", "#img130", "#img131", "#img132"];
 
-
+const leftImagesGlobal = ["#img000", "#img001", "#img002", "#img010", "#img011", "#img012", "#img020", "#img021", "#img022", "#img030", "#img031", "#img032"];
+const rightImagesGlobal = ["#img100", "#img101", "#img102", "#img110", "#img111", "#img112", "#img120", "#img121", "#img122", "#img130", "#img131", "#img132"];
+var leftImages = leftImagesGlobal;
+var rightImages = rightImagesGlobal;
 const imageSoundMap = new Map();
 imageSoundMap.set("images/amafraid.jpg", "sounds/IamAfraid.mp3");
 imageSoundMap.set("images/amfeelingsick.jpg", "sounds/IamFeelingSick.mp3");
@@ -199,16 +200,19 @@ imageSoundMap.set("images/wanttosleep.jpg", "sounds/IwanttoSleep.mp3");
 
 
 function resetImages() {
-    leftImages = imagelinks.slice(0, Math.ceil(imagelinks.length / 2));
-    rightImages = imagelinks.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
-    for (let i = 0; i < leftImages.length; i++) {
-        imagesswapL[i].src = leftImages[i];
-        imagesswapL[i].style.visibility = "visible";
-    }
-    for (let i = 0; i < rightImages.length; i++) {
-        imagesswapR[i].src = rightImages[i];
-        imagesswapR[i].style.visibility = "visible";
-    }
+    leftImages = imagesswapIdReset.slice(0, Math.ceil(imagelinks.length / 2));
+    rightImages = imagesswapIdReset.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
+    var leftImageLinks = imagelinks.slice(0, Math.ceil(imagelinks.length / 2));
+    var rightImageLinks = imagelinks.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
+    $(rightImages).each(function(i){
+        $(this).css({'position':'','width':'','height':'','top':'','left':'','visibility':'visible'});
+        $(this).attr("src", rightImageLinks[i]);
+    });
+    $(leftImages).each(function(i){
+        $(this).css({'position':'','width':'','height':'','top':'','left':'','visibility':'visible'});
+        $(this).attr("src", leftImageLinks[i]);
+    });
+    console.log("complete reset")
 }
 
 const LEFT_IRIS = [474, 475, 476, 477];
@@ -309,8 +313,9 @@ var rightarrowelement = document.getElementById("rightarrow");
 let startLookTime = Number.POSITIVE_INFINITY;
 let lookDirection = null;
 
-var leftImages = imagelinks.slice(0, imagelinks.length / 2);
-var rightImages = imagelinks.slice(imagelinks.length / 2, imagelinks.length);
+//var leftImages = imagelinks.slice(0, imagelinks.length / 2);
+//var rightImages = imagelinks.slice(imagelinks.length / 2, imagelinks.length);
+
 
 var loaderelement = document.getElementById("loader");
 var loadingtext = document.getElementById("loadingtext");
@@ -341,7 +346,15 @@ var lookUpVal = null;
 var lookUpRun = false;
 var verticalLookRatioPercent = 0;
 
-function onResults(results) {
+function buildMap(keys, values){
+    const map = new Map();
+    for(let i = 0; i < keys.length; i++){
+       map.set(keys[i], values[i]);
+    };
+    return map;
+ };
+
+async function onResults(results) {
 /*    
     var offset = $("#img102").offset();
     var width = $("#img102").width();
@@ -362,7 +375,7 @@ function onResults(results) {
      }
      });
 */
-
+    
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
 
@@ -440,7 +453,7 @@ function onResults(results) {
             if (leftImages.length == 1) {
                 // Get the modal
                 modal.style.display = "block";
-                modalImg.src = leftImages[0];
+                modalImg.src=$(leftImages[0]).attr('src');
                 if (soundOnOff) {
                     var audio = new Audio(imageSoundMap.get(leftImages[0]));
                     audio.play();
@@ -454,60 +467,79 @@ function onResults(results) {
                     lookDirection = null;
                     resetImages();
                     modal.style.display = "none";
-/*                    iwantelement.innerText = "I want...";
-                    iamelement.innerText = "I am..."*/
-                    depthOfSelection = 0;
+
                 }, 5000);
 
                 //do something with last image
             } else {
-/*                if (depthOfSelection === 0) {
-                    iwantelement.innerText = "I am..."
-                }*/
-                depthOfSelection = depthOfSelection + 1;
-/*    
-    var offset = $("#img102").offset();
-    var width = $("#img102").width();
-    var height = $("#img102").height();
-    $('#img000').css('width', width);
-    $('#img000').css('height', height);
-    $('#img000').css('position', 'absolute');
-    $('#img000').animate({
-        top: offset.top,
-        left: offset.left
-     },{duration:5000,complete: function () {
-        $("#img102").attr("src", "images/amafraid.jpg");
-        $('#img000').css('visibility', 'hidden');
-        $('#img000').css('width', 'auto');
-        $('#img000').css('height', 'auto');
-        $('#img000').css('top', 'auto');
-        $('#img000').css('left', 'auto');
-     }
-     });
-*/
-                rightImages = leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length);
-                leftImages = leftImages.slice(0, Math.ceil(leftImages.length / 2));
-                //set images here
-                for (let i = 0; i < leftImages.length; i++) {
-                    imagesswapL[i].src = leftImages[i];
-                }
-                for (let i = leftImages.length; i < imagesswapL.length; i++) {
-                    imagesswapL[i].style.visibility = "hidden";
-                }
-                for (let i = 0; i < rightImages.length; i++) {
-                    imagesswapR[i].src = rightImages[i];
-                }
-                for (let i = rightImages.length; i < imagesswapR.length; i++) {
-                    imagesswapR[i].style.visibility = "hidden";
-                }
-                lookDirection = "STOP"
-                startLookTime = Number.POSITIVE_INFINITY;
+
+
+            var mapRightToLeft = buildMap(rightImages.slice(0,Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
+            var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length),rightImages.slice(0,Math.floor(leftImages.length / 2)))
+            var top = new Array(Math.ceil(leftImages.length / 2))
+            var left = new Array(Math.ceil(leftImages.length / 2))
+            var promises = new Array(Math.ceil(leftImages.length / 2))
+            var slidepromises = new Array(Math.ceil(leftImages.length / 2))
+
+            $(rightImages).each(function(i){
+                //$(this).css({'position':'absolute'});
+                top[i] = $(this)[0].getBoundingClientRect().top
+                left[i] = $(this)[0].getBoundingClientRect().left
+                $(this).css({'width':$(this).width(),'height':$(this).height()});
+            })
+            $(rightImages).each(function(i){
+                $(this).css({'position':'absolute'});
+            })
+
+            $(rightImages).each(function(i){
+               
+                $(this).css({'width':$(this).width(),'height':$(this).height(),'top':top[i],'left':left[i]});
+                //console.log(`i value: ${i}`)
+                promises[i]=$(this).animate({
+                    width: 0,
+                    height: 0
+                 },{duration:400,queue: true,complete: function () {
+                    $(this).css({'position':'','width':'','height':'','top':'','left':''});
+                    $(this).css('visibility', 'hidden');
+ 
+                    if(i<Math.ceil(leftImages.length / 2)){
+                        console.log(i);
+                        var atrID = '#' + $(this).attr('id')
+                        $(mapRightToLeft.get(atrID)).css({'width': $(this).width(),'height': $(this).height(),'position': 'absolute'});
+                        slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
+                            top: top[i],
+                            left: left[i]
+                         },{duration:700,complete: function () {
+                            atrID = '#' + $(this).attr('id')
+                            var leftImgSrc = $(this).attr('src')
+                            $(mapLeftToRight.get(atrID)).attr("src", leftImgSrc);
+                            $(mapLeftToRight.get(atrID)).css({'visibility': 'visible'});
+                            $(this).css({'position':'','width':'','height':'','top':'','left':''});
+                            $(this).css('visibility', 'hidden');
+        
+                         }
+                         }).promise();
+                    }
+                 }}).promise();
+                
+            })
+            var results = await Promise.allSettled(promises);
+            var slideresults = await Promise.allSettled(slidepromises);
+            console.log("completed")
+
+            var initsize = leftImages.length
+            rightImages = rightImagesGlobal.slice(0, Math.floor(initsize/ 2));
+            leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
+
+            lookDirection = "STOP"
+            startLookTime = Number.POSITIVE_INFINITY;
             }
 
+
         } else if (lookDirection === "RIGHT") {
-            if (rightImages.length == 1) {
+            if (rightImages.length === 1) {
                 modal.style.display = "block";
-                modalImg.src = rightImages[0];
+                modalImg.src=$(rightImages[0]).attr('src');
                 if (soundOnOff) {
                     var audio = new Audio(imageSoundMap.get(rightImages[0]));
                     audio.play();
@@ -520,35 +552,73 @@ function onResults(results) {
                     lookDirection = null;
                     resetImages();
                     modal.style.display = "none";
-                    modal.style.display = "none";
-/*                    iwantelement.innerText = "I want...";
-                    iamelement.innerText = "I am..."*/
-                    depthOfSelection = 0;
                 }, 5000);
                 //do something with last image
             } else {
-/*                if (depthOfSelection === 0) {
-                    iamelement.innerText = "I want..."
-                }*/
-                depthOfSelection = depthOfSelection + 1;
-                leftImages = rightImages.slice(0, Math.ceil(rightImages.length / 2));
-                rightImages = rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length);
-                //set images here - should make this a function.
-                for (let i = 0; i < leftImages.length; i++) {
-                    imagesswapL[i].src = leftImages[i];
-                }
-                for (let i = leftImages.length; i < imagesswapL.length; i++) {
-                    imagesswapL[i].style.visibility = "hidden";
-                }
-                for (let i = 0; i < rightImages.length; i++) {
-                    imagesswapR[i].src = rightImages[i];
-                }
-                for (let i = rightImages.length; i < imagesswapR.length; i++) {
-                    imagesswapR[i].style.visibility = "hidden";
-                }
+
+                var mapLeftToRight = buildMap(leftImages.slice(0,Math.floor(rightImages.length / 2)), rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length))
+                var mapRightToLeft = buildMap(rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length),leftImages.slice(0,Math.floor(rightImages.length / 2)))
+                
+                var top = new Array(Math.ceil(rightImages.length / 2))
+                var left = new Array(Math.ceil(rightImages.length / 2))
+                var promises = new Array(Math.ceil(rightImages.length / 2))
+                var slidepromises = new Array(Math.ceil(rightImages.length / 2))
+                
+                $(leftImages).each(function(i){
+                    //$(this).css({'position':'absolute'});
+                    top[i] = $(this)[0].getBoundingClientRect().top
+                    left[i] = $(this)[0].getBoundingClientRect().left
+                    $(this).css({'width':$(this).width(),'height':$(this).height()});
+                })
+                $(leftImages).each(function(i){
+                    $(this).css({'position':'absolute'});
+                })
+                
+                $(leftImages).each(function(i){
+                   
+                    $(this).css({'width':$(this).width(),'height':$(this).height(),'top':top[i],'left':left[i]});
+                    //console.log(`i value: ${i}`)
+                    promises[i]=$(this).animate({
+                        width: 0,
+                        height: 0
+                     },{duration:400,queue: true,complete: function () {
+                        $(this).css({'position':'','width':'','height':'','top':'','left':''});
+                        $(this).css('visibility', 'hidden');
+                
+                        if(i<Math.ceil(rightImages.length / 2)){
+                            console.log(i);
+                            var atrID = '#' + $(this).attr('id')
+                            $(mapLeftToRight.get(atrID)).css({'width': $(this).width(),'height': $(this).height(),'position': 'absolute'});
+                            slidepromises[i] = $(mapLeftToRight.get(atrID)).animate({
+                                top: top[i],
+                                left: left[i]
+                             },{duration:700,complete: function () {
+                                atrID = '#' + $(this).attr('id')
+                                var leftImgSrc = $(this).attr('src')
+                                $(mapRightToLeft.get(atrID)).attr("src", leftImgSrc);
+                                $(mapRightToLeft.get(atrID)).css({'visibility': 'visible'});
+                                $(this).css({'position':'','width':'','height':'','top':'','left':''});
+                                $(this).css('visibility', 'hidden');
+                
+                             }
+                             }).promise();
+                        }
+                     }}).promise();
+                    
+                })
+                var results = await Promise.allSettled(promises);
+                var slideresults = await Promise.allSettled(slidepromises);
+                console.log("completed")
+                
+                var initsize = rightImages.length
+
+                rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
+                leftImages = leftImagesGlobal.slice(0, Math.floor(initsize / 2));
+
+                lookDirection = "STOP"
+                startLookTime = Number.POSITIVE_INFINITY;
             }
-            lookDirection = "STOP"
-            startLookTime = Number.POSITIVE_INFINITY;
+
         }
         lookDirection = "RESET";
     } else {
