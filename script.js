@@ -90,16 +90,38 @@ const canvasElement = document.getElementsByClassName('output_canvas')[0];
 var soundButton = document.getElementById('soundButton');
 var soundOnOff = false;
 soundButton.onclick = () => {
-        if (soundOnOff) {
-            soundOnOff = false;
-            soundButton.className = "btn btn-outline-secondary"
-            soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
-        } else {
-            soundOnOff = true;
-            soundButton.className = "btn btn-outline-primary"
-            soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
+    if (soundOnOff) {
+        soundOnOff = false;
+        imagelinks[31] = "Icons/32-SoundOff.jpeg"
+        soundButton.className = "btn btn-outline-secondary"
+        soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
+        $(rightImages).each(function(i) {
+            if ($(this).attr("src") === "Icons/32-SoundsOn.jpeg") {
+                $(this).attr("src", "Icons/32-SoundOff.jpeg")
+            }
+        });
+        $(leftImages).each(function(i) {
+            if ($(this).attr("src") === "Icons/32-SoundsOn.jpeg") {
+                $(this).attr("src", "Icons/32-SoundOff.jpeg")
+            }
+        });
 
-       }
+    } else {
+        soundOnOff = true;
+        imagelinks[31] = "Icons/32-SoundsOn.jpeg"
+        soundButton.className = "btn btn-outline-primary"
+        soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
+        $(rightImages).each(function(i) {
+            if ($(this).attr("src") === "Icons/32-SoundOff.jpeg") {
+                $(this).attr("src", "Icons/32-SoundsOn.jpeg")
+            }
+        });
+        $(leftImages).each(function(i) {
+            if ($(this).attr("src") === "Icons/32-SoundOff.jpeg") {
+                $(this).attr("src", "Icons/32-SoundsOn.jpeg")
+            }
+        });
+    }
 }
 
 var bluetooth = document.getElementById('bluetooth');
@@ -111,43 +133,43 @@ const SEND_SERVICE = 0xFFE0;
 const SEND_SERVICE_CHARACTERISTIC = 0xFFE1;
 var bluetoothConnected = false;
 bluetoothbutton.onclick = () => {
-    if(bluetoothConnected === false){
-    if (!navigator.bluetooth) {
-        alert('Sorry, your browser doesn\'t support Bluetooth API');
-        return;
-    }
-    navigator.bluetooth.requestDevice({
-        acceptAllDevices: true,
-        optionalServices: [SEND_SERVICE]
-      })
-        .then(device => {
-          bluetoothDevice = device;
-    
-          return device.gatt.connect();
-        })
-        .then(server => server.getPrimaryService(SEND_SERVICE))
-        .then(service => service.getCharacteristic(SEND_SERVICE_CHARACTERISTIC))
-        .then(characteristic => {
-          toggleLightCharacteristic = characteristic;
-          bluetoothConnected = true;
-          bluetoothbutton.className = "btn btn-outline-primary"
-          bluetoothbutton.innerHTML = '<img src="images/bluetoothOn.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Connected';
-          //toggleLightCharacteristic.writeValue(Uint8Array.of(1));
-        })
-        .catch(error => {
-          console.error(error);
-          bluetoothConnected = false;
-          bluetoothbutton.className = "btn btn-outline-secondary"
-          bluetoothbutton.innerHTML = '<img src="images/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Connected';
-        });
+    if (bluetoothConnected === false) {
+        if (!navigator.bluetooth) {
+            alert('Sorry, your browser doesn\'t support Bluetooth API');
+            return;
+        }
+        navigator.bluetooth.requestDevice({
+                acceptAllDevices: true,
+                optionalServices: [SEND_SERVICE]
+            })
+            .then(device => {
+                bluetoothDevice = device;
+
+                return device.gatt.connect();
+            })
+            .then(server => server.getPrimaryService(SEND_SERVICE))
+            .then(service => service.getCharacteristic(SEND_SERVICE_CHARACTERISTIC))
+            .then(characteristic => {
+                toggleLightCharacteristic = characteristic;
+                bluetoothConnected = true;
+                bluetoothbutton.className = "btn btn-outline-primary"
+                bluetoothbutton.innerHTML = '<img src="images/bluetoothOn.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Connected';
+                //toggleLightCharacteristic.writeValue(Uint8Array.of(1));
+            })
+            .catch(error => {
+                console.error(error);
+                bluetoothConnected = false;
+                bluetoothbutton.className = "btn btn-outline-secondary"
+                bluetoothbutton.innerHTML = '<img src="images/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Connected';
+            });
     }
 
 }
 
 
-    /**
-     * Solution options.
-     */
+/**
+ * Solution options.
+ */
 const solutionOptions = {
     selfieMode: false,
     enableFaceGeometry: false,
@@ -160,59 +182,62 @@ const solutionOptions = {
 };
 
 
-var imagelinks = ["images/amafraid.jpg", "images/amfeelingsick.jpg", "images/aminpain.jpg", "images/amangry.jpg", "images/amfrustrated.jpg", "images/amsad.jpg", "images/amchoking.jpg", "images/amhotcold.jpg", "images/amshortofbreath.jpg", "images/amdizzy.jpg", "images/amhungrythirsty.jpg", "images/amtired.jpg", "images/wanthobupdown.jpg", "images/wanttvvideo.jpg", "images/wanttobecomforted.jpg", "images/wantliedown.jpg", "images/wantquiet.jpg", "images/wanttobesucctioned.jpg", "images/wantlightsoffon.jpg", "images/wantremote.jpg", "images/wanttogohome.jpg", "images/wantwater.jpg", "images/wantsitup.jpg", "images/wanttosleep.jpg"];
+var imagelinks = ["Icons/1-Afraid.jpeg", "Icons/2-Pain.jpeg", "Icons/3-Yes.jpeg", "Icons/4-No.jpeg", "Icons/5-Sad.jpeg", "Icons/6-Frustrated.jpeg", "Icons/7-Nurse.jpeg", "Icons/8-Doctor.jpeg", "Icons/9-Tired.jpeg", "Icons/10-FeelSick.jpeg", "Icons/11-Cold_hot.jpeg", "Icons/12-ShortofBreath.jpeg", "Icons/13-Angry.jpeg", "Icons/14-Dizzy.jpeg", "Icons/15-Choking.jpeg", "Icons/16-Hungry.jpeg", "Icons/17-HowamI.jpeg", "Icons/18-WhatTime.jpeg", "Icons/19-WhatsHappening.jpeg", "Icons/20-ComeBack.jpeg", "Icons/21-Situp.jpeg", "Icons/22-LieDown.jpeg", "Icons/23-Home.jpeg", "Icons/24-TV_Video.jpeg", "Icons/25-Light.jpeg", "Icons/26-CallLight.jpeg", "Icons/27-Water.jpeg", "Icons/28-Glasses.jpeg", "Icons/29-Suction.jpeg", "Icons/30-LipsMoistened.jpeg", "Icons/31-Sleep.jpeg", "Icons/32-SoundOff.jpeg"];
 
-//var imagesswapL = [document.getElementById("img000"), document.getElementById("img001"), document.getElementById("img002"), document.getElementById("img010"), document.getElementById("img011"), document.getElementById("img012"), document.getElementById("img020"), document.getElementById("img021"), document.getElementById("img022"), document.getElementById("img030"), document.getElementById("img031"), document.getElementById("img032")];
-//var imagesswapR = [document.getElementById("img100"), document.getElementById("img101"), document.getElementById("img102"), document.getElementById("img110"), document.getElementById("img111"), document.getElementById("img112"), document.getElementById("img120"), document.getElementById("img121"), document.getElementById("img122"), document.getElementById("img130"), document.getElementById("img131"), document.getElementById("img132")];
+var imagesswapIdReset = ["#img000", "#img001", "#img002", "#img003", "#img010", "#img011", "#img012", "#img013", "#img020", "#img021", "#img022", "#img023", "#img030", "#img031", "#img032", "#img033", "#img100", "#img101", "#img102", "#img103", "#img110", "#img111", "#img112", "#img113", "#img120", "#img121", "#img122", "#img123", "#img130", "#img131", "#img132", "#img133"];
 
-var imagesswapIdReset = ["#img000", "#img001", "#img002", "#img010", "#img011", "#img012", "#img020", "#img021", "#img022", "#img030", "#img031", "#img032","#img100", "#img101", "#img102", "#img110", "#img111", "#img112", "#img120", "#img121", "#img122", "#img130", "#img131", "#img132"];
-
-const leftImagesGlobal = ["#img000", "#img001", "#img002", "#img010", "#img011", "#img012", "#img020", "#img021", "#img022", "#img030", "#img031", "#img032"];
-const rightImagesGlobal = ["#img100", "#img101", "#img102", "#img110", "#img111", "#img112", "#img120", "#img121", "#img122", "#img130", "#img131", "#img132"];
+const leftImagesGlobal = ["#img000", "#img001", "#img002", "#img003", "#img010", "#img011", "#img012", "#img013", "#img020", "#img021", "#img022", "#img023", "#img030", "#img031", "#img032", "#img033"]
+const rightImagesGlobal = ["#img100", "#img101", "#img102", "#img103", "#img110", "#img111", "#img112", "#img113", "#img120", "#img121", "#img122", "#img123", "#img130", "#img131", "#img132", "#img133"];
 var leftImages = leftImagesGlobal;
 var rightImages = rightImagesGlobal;
 const imageSoundMap = new Map();
-imageSoundMap.set("images/amafraid.jpg", "sounds/IamAfraid.mp3");
-imageSoundMap.set("images/amfeelingsick.jpg", "sounds/IamFeelingSick.mp3");
-imageSoundMap.set("images/aminpain.jpg", "sounds/IaminPain.mp3");
-imageSoundMap.set("images/amangry.jpg", "sounds/IamAngry.mp3");
-imageSoundMap.set("images/amfrustrated.jpg", "sounds/IamFrustrated.mp3");
-imageSoundMap.set("images/amsad.jpg", "sounds/IamSad.mp3");
-imageSoundMap.set("images/amchoking.jpg", "sounds/IamChoking.mp3");
-imageSoundMap.set("images/amhotcold.jpg", "sounds/IamColdorHot.mp3");
-imageSoundMap.set("images/amshortofbreath.jpg", "sounds/IamShortofBreath.mp3");
-imageSoundMap.set("images/amdizzy.jpg", "sounds/IamDizzy.mp3");
-imageSoundMap.set("images/amhungrythirsty.jpg", "sounds/IamHungryorThirsty.mp3");
-imageSoundMap.set("images/amtired.jpg", "sounds/Iamtired.mp3");
-imageSoundMap.set("images/wanthobupdown.jpg", "sounds/IWantHeadofbeduporDown.mp3");
-imageSoundMap.set("images/wanttvvideo.jpg", "sounds/IwanttheTVorVideo.mp3");
-imageSoundMap.set("images/wanttobecomforted.jpg", "sounds/Iwanttobecomforted.mp3");
-imageSoundMap.set("images/wantliedown.jpg", "sounds/IwanttoLieDown.mp3");
-imageSoundMap.set("images/wantquiet.jpg", "sounds/IwantitQuieter.mp3");
-imageSoundMap.set("images/wanttobesucctioned.jpg", "sounds/IwanttobeSuctioned.mp3");
-imageSoundMap.set("images/wantlightsoffon.jpg", "sounds/IwantTheLightsOnorOffPlease.mp3");
-imageSoundMap.set("images/wantremote.jpg", "sounds/IwanttheCalllightOrtheRemote.mp3");
-imageSoundMap.set("images/wanttogohome.jpg", "sounds/IwanttoGoHome.mp3");
-imageSoundMap.set("images/wantwater.jpg", "sounds/IwantWater.mp3");
-imageSoundMap.set("images/wantsitup.jpg", "sounds/IwanttoSitUp.mp3");
-imageSoundMap.set("images/wanttosleep.jpg", "sounds/IwanttoSleep.mp3");
-
-
+imageSoundMap.set("Icons/1-Afraid.jpeg", "Audio/1-IamAfraid.mp3");
+imageSoundMap.set("Icons/2-Pain.jpeg", "Audio/2-IaminPain.mp3");
+imageSoundMap.set("Icons/3-Yes.jpeg", "Audio/3-Yes.mp3");
+imageSoundMap.set("Icons/4-No.jpeg", "Audio/4-No.mp3");
+imageSoundMap.set("Icons/5-Sad.jpeg", "Audio/5-IamSad.mp3");
+imageSoundMap.set("Icons/6-Frustrated.jpeg", "Audio/6-IamFrustrated.mp3");
+imageSoundMap.set("Icons/7-Nurse.jpeg", "Audio/7-Nurse.mp3");
+imageSoundMap.set("Icons/8-Doctor.jpeg", "Audio/8-Doctor.mp3");
+imageSoundMap.set("Icons/9-Tired.jpeg", "Audio/9-Iamtired.mp3");
+imageSoundMap.set("Icons/10-FeelSick.jpeg", "Audio/10-IamFeelingSick.mp3");
+imageSoundMap.set("Icons/11-Cold_hot.jpeg", "Audio/11-IamColdHot.mp3");
+imageSoundMap.set("Icons/12-ShortofBreath.jpeg", "Audio/12-IamShortofBreath.mp3");
+imageSoundMap.set("Icons/13-Angry.jpeg", "Audio/13-IamAngry.mp3");
+imageSoundMap.set("Icons/14-Dizzy.jpeg", "Audio/14-IamDizzy.mp3");
+imageSoundMap.set("Icons/15-Choking.jpeg", "Audio/15-IamChoking.mp3");
+imageSoundMap.set("Icons/16-Hungry.jpeg", "Audio/16-IamHungryorThirsty.mp3");
+imageSoundMap.set("Icons/17-HowamI.jpeg", "Audio/17-HowamIDoing.mp3");
+imageSoundMap.set("Icons/18-WhatTime.jpeg", "Audio/18-WhatTime.mp3");
+imageSoundMap.set("Icons/19-WhatsHappening.jpeg", "Audio/19-WhatisHappening.mp3");
+imageSoundMap.set("Icons/20-Comeback.jpeg", "Audio/20-ComeBack.mp3");
+imageSoundMap.set("Icons/21-Situp.jpeg", "Audio/21-IWantHeadofbeduporDown.mp3");
+imageSoundMap.set("Icons/22-LieDown.jpeg", "Audio/22-IwanttoLieDown.mp3");
+imageSoundMap.set("Icons/23-Home.jpeg", "Audio/23-IwanttoGoHome.mp3");
+imageSoundMap.set("Icons/24-TV_Video.jpeg", "Audio/24-IwanttheTVorVideo.mp3");
+imageSoundMap.set("Icons/25-Light.jpeg", "Audio/25-IwantTheLightsOnorOffPlease.mp3");
+imageSoundMap.set("Icons/26-CallLight.jpeg", "Audio/26-IwanttheCalllightOrtheRemote.mp3");
+imageSoundMap.set("Icons/27-Water.jpeg", "Audio/27-IwantWater.mp3");
+imageSoundMap.set("Icons/28-Glasses.jpeg", "Audio/28-Glasses.mp3");
+imageSoundMap.set("Icons/29-Suction.jpeg", "Audio/29-IwanttobeSuctioned.mp3");
+imageSoundMap.set("Icons/30-LipsMoistened.jpeg", "Audio/30-LipsMoistened.mp3");
+imageSoundMap.set("Icons/31-Sleep.jpeg", "Audio/31-Sleep.mp3");
+imageSoundMap.set("Icons/32-SoundOff.jpeg", "Audio/32-SoundsOff.mp3");
+imageSoundMap.set("Icons/32-SoundsOn.jpeg", "Audio/32-MusicOn.mp3");
 
 function resetImages() {
     leftImages = imagesswapIdReset.slice(0, Math.ceil(imagelinks.length / 2));
     rightImages = imagesswapIdReset.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
     var leftImageLinks = imagelinks.slice(0, Math.ceil(imagelinks.length / 2));
     var rightImageLinks = imagelinks.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
-    $(rightImages).each(function(i){
-        $(this).css({'position':'','width':'','height':'','top':'','left':'','visibility':'visible'});
+    $(rightImages).each(function(i) {
+        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '', 'visibility': 'visible' });
         $(this).attr("src", rightImageLinks[i]);
     });
-    $(leftImages).each(function(i){
-        $(this).css({'position':'','width':'','height':'','top':'','left':'','visibility':'visible'});
+    $(leftImages).each(function(i) {
+        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '', 'visibility': 'visible' });
         $(this).attr("src", leftImageLinks[i]);
     });
-    console.log("complete reset")
 }
 
 const LEFT_IRIS = [474, 475, 476, 477];
@@ -313,26 +338,15 @@ var rightarrowelement = document.getElementById("rightarrow");
 let startLookTime = Number.POSITIVE_INFINITY;
 let lookDirection = null;
 
-//var leftImages = imagelinks.slice(0, imagelinks.length / 2);
-//var rightImages = imagelinks.slice(imagelinks.length / 2, imagelinks.length);
-
 
 var loaderelement = document.getElementById("loader");
 var loadingtext = document.getElementById("loadingtext");
-
-//var iamelement = document.getElementById("iamtag");
-//var iwantelement = document.getElementById("iwanttag");
-
-var depthOfSelection = 0;
 
 
 var blinkStartTime = Number.POSITIVE_INFINITY;
 var blinkVal = null;
 var blinkRun = true;
 
-
-//TODO: Left blink to pause
-//TODO: Bluetooth light
 
 function backgroundColorChange(opacity) {
     return "rgba(11, 94, 215," + opacity + ")";
@@ -346,36 +360,15 @@ var lookUpVal = null;
 var lookUpRun = false;
 var verticalLookRatioPercent = 0;
 
-function buildMap(keys, values){
+function buildMap(keys, values) {
     const map = new Map();
-    for(let i = 0; i < keys.length; i++){
-       map.set(keys[i], values[i]);
+    for (let i = 0; i < keys.length; i++) {
+        map.set(keys[i], values[i]);
     };
     return map;
- };
+};
 
 async function onResults(results) {
-/*    
-    var offset = $("#img102").offset();
-    var width = $("#img102").width();
-    var height = $("#img102").height();
-    $('#img000').css('width', width);
-    $('#img000').css('height', height);
-    $('#img000').css('position', 'absolute');
-    $('#img000').animate({
-        top: offset.top,
-        left: offset.left
-     },{duration:5000,complete: function () {
-        $("#img102").attr("src", "images/amafraid.jpg");
-        $('#img000').css('visibility', 'hidden');
-        $('#img000').css('width', 'auto');
-        $('#img000').css('height', 'auto');
-        $('#img000').css('top', 'auto');
-        $('#img000').css('left', 'auto');
-     }
-     });
-*/
-    
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
 
@@ -420,8 +413,6 @@ async function onResults(results) {
 
     if (!blinkRun) return;
 
-
-
     if (
         horizontalLookRatio > maxThreshold &&
         lookDirection !== "LEFT" &&
@@ -453,12 +444,25 @@ async function onResults(results) {
             if (leftImages.length == 1) {
                 // Get the modal
                 modal.style.display = "block";
-                modalImg.src=$(leftImages[0]).attr('src');
+                if ($(leftImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
+                    $(leftImages[0]).attr('src', "Icons/32-SoundsOn.jpeg");
+                    imagelinks[31] = "Icons/32-SoundsOn.jpeg"
+                    soundButton.className = "btn btn-outline-primary"
+                    soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
+                    soundOnOff = true
+                } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
+                    $(leftImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
+                    imagelinks[31] = "Icons/32-SoundOff.jpeg"
+                    soundButton.className = "btn btn-outline-secondary"
+                    soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
+                    soundOnOff = false
+                }
+                modalImg.src = $(leftImages[0]).attr('src');
                 if (soundOnOff) {
-                    var audio = new Audio(imageSoundMap.get(leftImages[0]));
+                    var audio = new Audio(imageSoundMap.get($(leftImages[0]).attr('src')));
                     audio.play();
                 }
-                if(leftImages[0]==="images/wantlightsoffon.jpg" && bluetoothConnected){
+                if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
                     toggleLightCharacteristic.writeValue(Uint8Array.of(3));
                 }
                 //pause for 5000 ms on selection
@@ -474,77 +478,92 @@ async function onResults(results) {
             } else {
 
 
-            var mapRightToLeft = buildMap(rightImages.slice(0,Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
-            var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length),rightImages.slice(0,Math.floor(leftImages.length / 2)))
-            var top = new Array(Math.ceil(leftImages.length / 2))
-            var left = new Array(Math.ceil(leftImages.length / 2))
-            var promises = new Array(Math.ceil(leftImages.length / 2))
-            var slidepromises = new Array(Math.ceil(leftImages.length / 2))
+                var mapRightToLeft = buildMap(rightImages.slice(0, Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
+                var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length), rightImages.slice(0, Math.floor(leftImages.length / 2)))
+                var top = new Array(Math.ceil(leftImages.length / 2))
+                var left = new Array(Math.ceil(leftImages.length / 2))
+                var promises = new Array(Math.ceil(leftImages.length / 2))
+                var slidepromises = new Array(Math.ceil(leftImages.length / 2))
 
-            $(rightImages).each(function(i){
-                //$(this).css({'position':'absolute'});
-                top[i] = $(this)[0].getBoundingClientRect().top
-                left[i] = $(this)[0].getBoundingClientRect().left
-                $(this).css({'width':$(this).width(),'height':$(this).height()});
-            })
-            $(rightImages).each(function(i){
-                $(this).css({'position':'absolute'});
-            })
+                $(rightImages).each(function(i) {
+                    //$(this).css({'position':'absolute'});
+                    top[i] = $(this)[0].getBoundingClientRect().top
+                    left[i] = $(this)[0].getBoundingClientRect().left
+                    $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
+                })
+                $(rightImages).each(function(i) {
+                    $(this).css({ 'position': 'absolute' });
+                })
 
-            $(rightImages).each(function(i){
-               
-                $(this).css({'width':$(this).width(),'height':$(this).height(),'top':top[i],'left':left[i]});
-                //console.log(`i value: ${i}`)
-                promises[i]=$(this).animate({
-                    width: 0,
-                    height: 0
-                 },{duration:400,queue: true,complete: function () {
-                    $(this).css({'position':'','width':'','height':'','top':'','left':''});
-                    $(this).css('visibility', 'hidden');
- 
-                    if(i<Math.ceil(leftImages.length / 2)){
-                        console.log(i);
-                        var atrID = '#' + $(this).attr('id')
-                        $(mapRightToLeft.get(atrID)).css({'width': $(this).width(),'height': $(this).height(),'position': 'absolute'});
-                        slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
-                            top: top[i],
-                            left: left[i]
-                         },{duration:700,complete: function () {
-                            atrID = '#' + $(this).attr('id')
-                            var leftImgSrc = $(this).attr('src')
-                            $(mapLeftToRight.get(atrID)).attr("src", leftImgSrc);
-                            $(mapLeftToRight.get(atrID)).css({'visibility': 'visible'});
-                            $(this).css({'position':'','width':'','height':'','top':'','left':''});
+                $(rightImages).each(function(i) {
+
+                    $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': top[i], 'left': left[i] });
+                    //console.log(`i value: ${i}`)
+                    promises[i] = $(this).animate({
+                        width: 0,
+                        height: 0
+                    }, {
+                        duration: 400,
+                        queue: true,
+                        complete: function() {
+                            $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
                             $(this).css('visibility', 'hidden');
-        
-                         }
-                         }).promise();
-                    }
-                 }}).promise();
-                
-            })
-            var results = await Promise.allSettled(promises);
-            var slideresults = await Promise.allSettled(slidepromises);
-            console.log("completed")
 
-            var initsize = leftImages.length
-            rightImages = rightImagesGlobal.slice(0, Math.floor(initsize/ 2));
-            leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
+                            if (i < Math.ceil(leftImages.length / 2)) {
+                                console.log(i);
+                                var atrID = '#' + $(this).attr('id')
+                                $(mapRightToLeft.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
+                                slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
+                                    top: top[i],
+                                    left: left[i]
+                                }, {
+                                    duration: 700,
+                                    complete: function() {
+                                        atrID = '#' + $(this).attr('id')
+                                        var leftImgSrc = $(this).attr('src')
+                                        $(mapLeftToRight.get(atrID)).attr("src", leftImgSrc);
+                                        $(mapLeftToRight.get(atrID)).css({ 'visibility': 'visible' });
+                                        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                                        $(this).css('visibility', 'hidden');
 
-            lookDirection = "STOP"
-            startLookTime = Number.POSITIVE_INFINITY;
+                                    }
+                                }).promise();
+                            }
+                        }
+                    }).promise();
+
+                })
+                var results = await Promise.allSettled(promises);
+                var slideresults = await Promise.allSettled(slidepromises);
+                console.log("completed")
+
+                var initsize = leftImages.length
+                rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
+                leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
+
+                lookDirection = "STOP"
+                startLookTime = Number.POSITIVE_INFINITY;
             }
 
 
         } else if (lookDirection === "RIGHT") {
             if (rightImages.length === 1) {
                 modal.style.display = "block";
-                modalImg.src=$(rightImages[0]).attr('src');
+                if ($(rightImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
+                    $(rightImages[0]).attr('src', "Icons/32-SoundsOn.jpeg");
+                    imagelinks[31] = "Icons/32-SoundsOn.jpeg"
+                    soundOnOff = true
+                } else if ($(rightImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
+                    $(rightImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
+                    imagelinks[31] = "Icons/32-SoundOff.jpeg"
+                    soundOnOff = false
+                }
+                modalImg.src = $(rightImages[0]).attr('src');
                 if (soundOnOff) {
-                    var audio = new Audio(imageSoundMap.get(rightImages[0]));
+                    var audio = new Audio(imageSoundMap.get($(rightImages[0]).attr('src')));
                     audio.play();
                 }
-                if(leftImages[0]==="images/wantlightsoffon.jpg" && bluetoothConnected){
+                if ($(rightImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
                     toggleLightCharacteristic.writeValue(Uint8Array.of(3));
                 }
                 setTimeout(() => {
@@ -556,60 +575,66 @@ async function onResults(results) {
                 //do something with last image
             } else {
 
-                var mapLeftToRight = buildMap(leftImages.slice(0,Math.floor(rightImages.length / 2)), rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length))
-                var mapRightToLeft = buildMap(rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length),leftImages.slice(0,Math.floor(rightImages.length / 2)))
-                
+                var mapLeftToRight = buildMap(leftImages.slice(0, Math.floor(rightImages.length / 2)), rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length))
+                var mapRightToLeft = buildMap(rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length), leftImages.slice(0, Math.floor(rightImages.length / 2)))
+
                 var top = new Array(Math.ceil(rightImages.length / 2))
                 var left = new Array(Math.ceil(rightImages.length / 2))
                 var promises = new Array(Math.ceil(rightImages.length / 2))
                 var slidepromises = new Array(Math.ceil(rightImages.length / 2))
-                
-                $(leftImages).each(function(i){
+
+                $(leftImages).each(function(i) {
                     //$(this).css({'position':'absolute'});
                     top[i] = $(this)[0].getBoundingClientRect().top
                     left[i] = $(this)[0].getBoundingClientRect().left
-                    $(this).css({'width':$(this).width(),'height':$(this).height()});
+                    $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
                 })
-                $(leftImages).each(function(i){
-                    $(this).css({'position':'absolute'});
+                $(leftImages).each(function(i) {
+                    $(this).css({ 'position': 'absolute' });
                 })
-                
-                $(leftImages).each(function(i){
-                   
-                    $(this).css({'width':$(this).width(),'height':$(this).height(),'top':top[i],'left':left[i]});
+
+                $(leftImages).each(function(i) {
+
+                    $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': top[i], 'left': left[i] });
                     //console.log(`i value: ${i}`)
-                    promises[i]=$(this).animate({
+                    promises[i] = $(this).animate({
                         width: 0,
                         height: 0
-                     },{duration:400,queue: true,complete: function () {
-                        $(this).css({'position':'','width':'','height':'','top':'','left':''});
-                        $(this).css('visibility', 'hidden');
-                
-                        if(i<Math.ceil(rightImages.length / 2)){
-                            console.log(i);
-                            var atrID = '#' + $(this).attr('id')
-                            $(mapLeftToRight.get(atrID)).css({'width': $(this).width(),'height': $(this).height(),'position': 'absolute'});
-                            slidepromises[i] = $(mapLeftToRight.get(atrID)).animate({
-                                top: top[i],
-                                left: left[i]
-                             },{duration:700,complete: function () {
-                                atrID = '#' + $(this).attr('id')
-                                var leftImgSrc = $(this).attr('src')
-                                $(mapRightToLeft.get(atrID)).attr("src", leftImgSrc);
-                                $(mapRightToLeft.get(atrID)).css({'visibility': 'visible'});
-                                $(this).css({'position':'','width':'','height':'','top':'','left':''});
-                                $(this).css('visibility', 'hidden');
-                
-                             }
-                             }).promise();
+                    }, {
+                        duration: 400,
+                        queue: true,
+                        complete: function() {
+                            $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                            $(this).css('visibility', 'hidden');
+
+                            if (i < Math.ceil(rightImages.length / 2)) {
+                                console.log(i);
+                                var atrID = '#' + $(this).attr('id')
+                                $(mapLeftToRight.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
+                                slidepromises[i] = $(mapLeftToRight.get(atrID)).animate({
+                                    top: top[i],
+                                    left: left[i]
+                                }, {
+                                    duration: 700,
+                                    complete: function() {
+                                        atrID = '#' + $(this).attr('id')
+                                        var leftImgSrc = $(this).attr('src')
+                                        $(mapRightToLeft.get(atrID)).attr("src", leftImgSrc);
+                                        $(mapRightToLeft.get(atrID)).css({ 'visibility': 'visible' });
+                                        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                                        $(this).css('visibility', 'hidden');
+
+                                    }
+                                }).promise();
+                            }
                         }
-                     }}).promise();
-                    
+                    }).promise();
+
                 })
                 var results = await Promise.allSettled(promises);
                 var slideresults = await Promise.allSettled(slidepromises);
                 console.log("completed")
-                
+
                 var initsize = rightImages.length
 
                 rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
