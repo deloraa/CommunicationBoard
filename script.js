@@ -38,6 +38,13 @@ timetoactivatelookupslider.oninput = function() {
     LOOK_UP_DELAY = parseInt(this.value);
 }
 
+const eye = document.querySelector('.iris');
+/*
+window.addEventListener('mousemove', (event) => {
+    const x = -(window.innerWidth / 2 - event.pageX) / 35;
+    // const y = -(window.innerHeight / 2 - event.pageY) / 35;
+    eye.style.transform = `rotate(-45deg) translateY(0px) translateX(${x}px)`;
+});*/
 
 import DeviceDetector from "https://cdn.skypack.dev/device-detector-js@2.2.10";
 // Usage: testSupport({client?: string, os?: string}[])
@@ -369,6 +376,7 @@ function buildMap(keys, values) {
 };
 
 async function onResults(results) {
+
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
 
@@ -386,6 +394,11 @@ async function onResults(results) {
 
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
     (verticalLookRatio + movingAverageN * verticalLookMovingAverage) / (movingAverageN + 1);
+
+    //    const x = (window.innerWidth * (0.5 - horizontalLookRatio)) / 5;
+    // const y = -(window.innerHeight / 2 - event.pageY) / 35;
+    //    console.log(horizontalLookRatio - 0.5);
+    //    eye.style.transform = `rotate(-45deg) translateY(0px) translateX(${x}px)`;
 
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
 
