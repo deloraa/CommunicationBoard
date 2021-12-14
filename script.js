@@ -103,29 +103,29 @@ soundButton.onclick = () => {
         soundButton.className = "btn btn-outline-secondary"
         soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
         $(rightImages).each(function(i) {
-            if ($(this).attr("src") === "Icons/32-SoundsOn.jpeg") {
+            if ($(this).attr("src") === "Icons/32-SoundOn.jpeg") {
                 $(this).attr("src", "Icons/32-SoundOff.jpeg")
             }
         });
         $(leftImages).each(function(i) {
-            if ($(this).attr("src") === "Icons/32-SoundsOn.jpeg") {
+            if ($(this).attr("src") === "Icons/32-SoundOn.jpeg") {
                 $(this).attr("src", "Icons/32-SoundOff.jpeg")
             }
         });
 
     } else {
         soundOnOff = true;
-        imagelinks[31] = "Icons/32-SoundsOn.jpeg"
+        imagelinks[31] = "Icons/32-SoundOn.jpeg"
         soundButton.className = "btn btn-outline-primary"
         soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
         $(rightImages).each(function(i) {
             if ($(this).attr("src") === "Icons/32-SoundOff.jpeg") {
-                $(this).attr("src", "Icons/32-SoundsOn.jpeg")
+                $(this).attr("src", "Icons/32-SoundOn.jpeg")
             }
         });
         $(leftImages).each(function(i) {
             if ($(this).attr("src") === "Icons/32-SoundOff.jpeg") {
-                $(this).attr("src", "Icons/32-SoundsOn.jpeg")
+                $(this).attr("src", "Icons/32-SoundOn.jpeg")
             }
         });
     }
@@ -229,8 +229,8 @@ imageSoundMap.set("Icons/28-Glasses.jpeg", "Audio/28-Glasses.mp3");
 imageSoundMap.set("Icons/29-Suction.jpeg", "Audio/29-IwanttobeSuctioned.mp3");
 imageSoundMap.set("Icons/30-LipsMoistened.jpeg", "Audio/30-LipsMoistened.mp3");
 imageSoundMap.set("Icons/31-Sleep.jpeg", "Audio/31-Sleep.mp3");
-imageSoundMap.set("Icons/32-SoundOff.jpeg", "Audio/32-SoundsOff.mp3");
-imageSoundMap.set("Icons/32-SoundsOn.jpeg", "Audio/32-MusicOn.mp3");
+imageSoundMap.set("Icons/32-SoundOff.jpeg", "Audio/32-SoundOff.mp3");
+imageSoundMap.set("Icons/32-SoundOn.jpeg", "Audio/32-SoundOn.mp3");
 
 function resetImages() {
     leftImages = imagesswapIdReset.slice(0, Math.ceil(imagelinks.length / 2));
@@ -383,9 +383,9 @@ async function onResults(results) {
     loaderelement.style.display = 'none';
     //loadingtext.style.display = 'none';
     if (blinkRun) {
-        loadingtext.innerText = 'Running. Blink left or right eye to pause';
+        loadingtext.innerText = 'Running. Blink either eye to pause';
     } else {
-        loadingtext.innerText = 'Paused. Blink left or right eye to start';
+        loadingtext.innerText = 'Paused. Blink either eye to start';
     }
 
     var timestamp = +new Date();
@@ -458,10 +458,10 @@ async function onResults(results) {
                 // Get the modal
                 modal.style.display = "block";
                 if ($(leftImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
-                    $(leftImages[0]).attr('src', "Icons/32-SoundsOn.jpeg");
-                    imagelinks[31] = "Icons/32-SoundsOn.jpeg"
+                    $(leftImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
+                    imagelinks[31] = "Icons/32-SoundOn.jpeg"
                     soundOnOff = true
-                } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundsOn.jpeg") {
+                } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
                     $(leftImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
                     imagelinks[31] = "Icons/32-SoundOff.jpeg"
                     soundOnOff = false
@@ -566,10 +566,10 @@ async function onResults(results) {
             if (rightImages.length === 1) {
                 modal.style.display = "block";
                 if ($(rightImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
-                    $(rightImages[0]).attr('src', "Icons/32-SoundsOn.jpeg");
-                    imagelinks[31] = "Icons/32-SoundsOn.jpeg"
+                    $(rightImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
+                    imagelinks[31] = "Icons/32-SoundOn.jpeg"
                     soundOnOff = true
-                } else if ($(rightImages[0]).attr('src') === "Icons/32-SoundsOn.jpeg") {
+                } else if ($(rightImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
                     $(rightImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
                     imagelinks[31] = "Icons/32-SoundOff.jpeg"
                     soundOnOff = false
