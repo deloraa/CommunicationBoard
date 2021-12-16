@@ -376,6 +376,7 @@ function buildMap(keys, values) {
 };
 
 async function onResults(results) {
+
    // if (!results.multiFaceLandmarks) return
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
@@ -397,7 +398,6 @@ async function onResults(results) {
 
     //    const x = (window.innerWidth * (0.5 - horizontalLookRatio)) / 5;
     // const y = -(window.innerHeight / 2 - event.pageY) / 35;
-    //    console.log(horizontalLookRatio - 0.5);
     //    eye.style.transform = `rotate(-45deg) translateY(0px) translateX(${x}px)`;
 
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
@@ -514,7 +514,7 @@ async function onResults(results) {
                 $(rightImages).each(function(i) {
 
                     $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': top[i], 'left': left[i] });
-                    //console.log(`i value: ${i}`)
+            
                     promises[i] = $(this).animate({
                         width: 0,
                         height: 0
@@ -526,7 +526,7 @@ async function onResults(results) {
                             $(this).css('visibility', 'hidden');
 
                             if (i < Math.ceil(leftImages.length / 2)) {
-                                console.log(i);
+                                
                                 var atrID = '#' + $(this).attr('id')
                                 $(mapRightToLeft.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
                                 slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
@@ -551,7 +551,6 @@ async function onResults(results) {
                 })
                 var results = await Promise.allSettled(promises);
                 var slideresults = await Promise.allSettled(slidepromises);
-                console.log("completed")
 
                 var initsize = leftImages.length
                 rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
@@ -619,7 +618,6 @@ async function onResults(results) {
                 $(leftImages).each(function(i) {
 
                     $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': top[i], 'left': left[i] });
-                    //console.log(`i value: ${i}`)
                     promises[i] = $(this).animate({
                         width: 0,
                         height: 0
@@ -631,7 +629,7 @@ async function onResults(results) {
                             $(this).css('visibility', 'hidden');
 
                             if (i < Math.ceil(rightImages.length / 2)) {
-                                console.log(i);
+                                
                                 var atrID = '#' + $(this).attr('id')
                                 $(mapLeftToRight.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
                                 slidepromises[i] = $(mapLeftToRight.get(atrID)).animate({
@@ -656,7 +654,7 @@ async function onResults(results) {
                 })
                 var results = await Promise.allSettled(promises);
                 var slideresults = await Promise.allSettled(slidepromises);
-                console.log("completed")
+               
 
                 var initsize = rightImages.length
 
