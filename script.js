@@ -376,7 +376,7 @@ function buildMap(keys, values) {
 };
 
 async function onResults(results) {
-    if (!results.multiFaceLandmarks) return
+   // if (!results.multiFaceLandmarks) return
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
 
