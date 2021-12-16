@@ -135,9 +135,9 @@ var bluetooth = document.getElementById('bluetooth');
 var bluetoothbutton = document.getElementById('bluetoothButton');
 let toggleLightCharacteristic;
 let bluetoothDevice;
-const DEVICE_NAME = 'DSD TECH';
-const SEND_SERVICE = 0xFFE0;
-const SEND_SERVICE_CHARACTERISTIC = 0xFFE1;
+const DEVICE_NAME = 'ESP32_Bluetooth';
+const SEND_SERVICE = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+const SEND_SERVICE_CHARACTERISTIC = '6e400002-b5a3-f393-e0a9-e50e24dcca9e';
 var bluetoothConnected = false;
 bluetoothbutton.onclick = () => {
     if (bluetoothConnected === false) {
