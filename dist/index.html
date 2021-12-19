@@ -6,7 +6,6 @@
     <meta charset="utf-8">
   <link rel="icon" href="favicon.ico">
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.6/control_utils.css" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="demo.css" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.6/control_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js" crossorigin="anonymous"></script>
@@ -17,10 +16,17 @@
 </head>
 <body>
 <!-- partial:index.partial.html -->
+
 <div class="container">
     <video hidden class="input_video" style="visibility: hidden"></video>
     <div hidden style="visibility: hidden" class="canvas-container">
     <canvas hidden style="visibility: hidden" class="output_canvas" width="1280px" height="720px" hidden="true"></canvas>
+    </div>
+    <div class="loading">
+      <div class="spinner"></div>
+      <div class="message">
+        Loading
+      </div>
     </div>
     <h6 id="loadingtext" style="Text-align: center">Loading...</h6>
     <div class="container-fluid" style="max-width:210vh; margin-left:auto, 0%">
@@ -181,12 +187,7 @@
         <span style="text-align: center;display: block">Contact <a href = "mailto: jeffrey@ebcore.io">Jeffrey@ebcore.io</a> for more information</span>
       </div>
     </div>
-    <div class="loading">
-      <div class="spinner"></div>
-      <div class="message">
-        Loading
-      </div>
-    </div>
+
 
   </div>
   <div class="control-panel">
