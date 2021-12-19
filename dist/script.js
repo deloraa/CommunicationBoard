@@ -151,6 +151,183 @@ bluetoothbutton.onclick = () => {
 
 }
 
+var imagelinks = ["Icons/1-Afraid.jpeg", "Icons/2-Pain.jpeg", "Icons/3-Yes.jpeg", "Icons/4-No.jpeg", "Icons/5-Sad.jpeg", "Icons/6-Frustrated.jpeg", "Icons/7-Nurse.jpeg", "Icons/8-Doctor.jpeg", "Icons/9-Tired.jpeg", "Icons/10-FeelSick.jpeg", "Icons/11-Cold_hot.jpeg", "Icons/12-ShortofBreath.jpeg", "Icons/13-Angry.jpeg", "Icons/14-Dizzy.jpeg", "Icons/15-Choking.jpeg", "Icons/16-Hungry.jpeg", "Icons/17-HowamI.jpeg", "Icons/18-WhatTime.jpeg", "Icons/19-WhatsHappening.jpeg", "Icons/20-Comeback.jpeg", "Icons/21-Situp.jpeg", "Icons/22-LieDown.jpeg", "Icons/23-Home.jpeg", "Icons/24-TV_Video.jpeg", "Icons/25-Light.jpeg", "Icons/26-CallLight.jpeg", "Icons/27-Water.jpeg", "Icons/28-Glasses.jpeg", "Icons/29-Suction.jpeg", "Icons/30-LipsMoistened.jpeg", "Icons/31-Sleep.jpeg", "Icons/32-SoundOff.jpeg"];
+
+var imagesswapIdReset = ["#img000", "#img001", "#img002", "#img003", "#img010", "#img011", "#img012", "#img013", "#img020", "#img021", "#img022", "#img023", "#img030", "#img031", "#img032", "#img033", "#img100", "#img101", "#img102", "#img103", "#img110", "#img111", "#img112", "#img113", "#img120", "#img121", "#img122", "#img123", "#img130", "#img131", "#img132", "#img133"];
+
+const leftImagesGlobal = ["#img000", "#img001", "#img002", "#img003", "#img010", "#img011", "#img012", "#img013", "#img020", "#img021", "#img022", "#img023", "#img030", "#img031", "#img032", "#img033"]
+const rightImagesGlobal = ["#img100", "#img101", "#img102", "#img103", "#img110", "#img111", "#img112", "#img113", "#img120", "#img121", "#img122", "#img123", "#img130", "#img131", "#img132", "#img133"];
+var leftImages = leftImagesGlobal;
+var rightImages = rightImagesGlobal;
+const imageSoundMap = new Map();
+imageSoundMap.set("Icons/1-Afraid.jpeg", "Audio/1-IamAfraid.mp3");
+imageSoundMap.set("Icons/2-Pain.jpeg", "Audio/2-IaminPain.mp3");
+imageSoundMap.set("Icons/3-Yes.jpeg", "Audio/3-Yes.mp3");
+imageSoundMap.set("Icons/4-No.jpeg", "Audio/4-No.mp3");
+imageSoundMap.set("Icons/5-Sad.jpeg", "Audio/5-IamSad.mp3");
+imageSoundMap.set("Icons/6-Frustrated.jpeg", "Audio/6-IamFrustrated.mp3");
+imageSoundMap.set("Icons/7-Nurse.jpeg", "Audio/7-Nurse.mp3");
+imageSoundMap.set("Icons/8-Doctor.jpeg", "Audio/8-Doctor.mp3");
+imageSoundMap.set("Icons/9-Tired.jpeg", "Audio/9-Iamtired.mp3");
+imageSoundMap.set("Icons/10-FeelSick.jpeg", "Audio/10-IamFeelingSick.mp3");
+imageSoundMap.set("Icons/11-Cold_hot.jpeg", "Audio/11-IamColdHot.mp3");
+imageSoundMap.set("Icons/12-ShortofBreath.jpeg", "Audio/12-IamShortofBreath.mp3");
+imageSoundMap.set("Icons/13-Angry.jpeg", "Audio/13-IamAngry.mp3");
+imageSoundMap.set("Icons/14-Dizzy.jpeg", "Audio/14-IamDizzy.mp3");
+imageSoundMap.set("Icons/15-Choking.jpeg", "Audio/15-IamChoking.mp3");
+imageSoundMap.set("Icons/16-Hungry.jpeg", "Audio/16-IamHungryorThirsty.mp3");
+imageSoundMap.set("Icons/17-HowamI.jpeg", "Audio/17-HowamIDoing.mp3");
+imageSoundMap.set("Icons/18-WhatTime.jpeg", "Audio/18-WhatTime.mp3");
+imageSoundMap.set("Icons/19-WhatsHappening.jpeg", "Audio/19-WhatisHappening.mp3");
+imageSoundMap.set("Icons/20-Comeback.jpeg", "Audio/20-ComeBack.mp3");
+imageSoundMap.set("Icons/21-Situp.jpeg", "Audio/21-IWantHeadofbeduporDown.mp3");
+imageSoundMap.set("Icons/22-LieDown.jpeg", "Audio/22-IwanttoLieDown.mp3");
+imageSoundMap.set("Icons/23-Home.jpeg", "Audio/23-IwanttoGoHome.mp3");
+imageSoundMap.set("Icons/24-TV_Video.jpeg", "Audio/24-IwanttheTVorVideo.mp3");
+imageSoundMap.set("Icons/25-Light.jpeg", "Audio/25-IwantTheLightsOnorOffPlease.mp3");
+imageSoundMap.set("Icons/26-CallLight.jpeg", "Audio/26-IwanttheCalllightOrtheRemote.mp3");
+imageSoundMap.set("Icons/27-Water.jpeg", "Audio/27-IwantWater.mp3");
+imageSoundMap.set("Icons/28-Glasses.jpeg", "Audio/28-Glasses.mp3");
+imageSoundMap.set("Icons/29-Suction.jpeg", "Audio/29-IwanttobeSuctioned.mp3");
+imageSoundMap.set("Icons/30-LipsMoistened.jpeg", "Audio/30-LipsMoistened.mp3");
+imageSoundMap.set("Icons/31-Sleep.jpeg", "Audio/31-Sleep.mp3");
+imageSoundMap.set("Icons/32-SoundOff.jpeg", "Audio/32-SoundOff.mp3");
+imageSoundMap.set("Icons/32-SoundOn.jpeg", "Audio/32-SoundOn.mp3");
+
+function resetImages() {
+    leftImages = imagesswapIdReset.slice(0, Math.ceil(imagelinks.length / 2));
+    rightImages = imagesswapIdReset.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
+    var leftImageLinks = imagelinks.slice(0, Math.ceil(imagelinks.length / 2));
+    var rightImageLinks = imagelinks.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
+    $(rightImages).each(function(i) {
+        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '', 'visibility': 'visible' });
+        $(this).attr("src", rightImageLinks[i]);
+    });
+    $(leftImages).each(function(i) {
+        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '', 'visibility': 'visible' });
+        $(this).attr("src", leftImageLinks[i]);
+    });
+}
+
+const LEFT_IRIS = [474, 475, 476, 477];
+const LEFT_EYE = [362, 382, 381, 380, 374, 373, 390, 249, 263, 466, 388, 387, 386, 385, 384, 398];
+
+const RIGHT_IRIS = [469, 470, 471, 472];
+const RIGHT_EYE = [33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 246];
+
+function euclideanDistance(x1, y1, x2, y2) {
+    return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+}
+
+
+
+function blinkRatio(landmarks) {
+
+    var rhDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, landmarks[0][RIGHT_EYE[8]].x, landmarks[0][RIGHT_EYE[8]].y);
+    var rvDistance = euclideanDistance(landmarks[0][RIGHT_EYE[12]].x, landmarks[0][RIGHT_EYE[12]].y, landmarks[0][RIGHT_EYE[4]].x, landmarks[0][RIGHT_EYE[4]].y);
+
+    var lhDistance = euclideanDistance(landmarks[0][LEFT_EYE[0]].x, landmarks[0][LEFT_EYE[0]].y, landmarks[0][LEFT_EYE[8]].x, landmarks[0][LEFT_EYE[8]].y);
+    var lvDistance = euclideanDistance(landmarks[0][LEFT_EYE[12]].x, landmarks[0][LEFT_EYE[12]].y, landmarks[0][LEFT_EYE[4]].x, landmarks[0][LEFT_EYE[4]].y);
+
+
+    var reRatio = rhDistance / rvDistance
+    var leRatio = lhDistance / lvDistance
+
+    //var ratio = (reRatio + leRatio) / 2
+    return [leRatio, reRatio];
+}
+
+function getEyeMarkers(eyepts, eyeindicies, irisindicies) {
+    var maxEyeX = eyepts[0][eyeindicies[0]].x;
+    var minEyeX = eyepts[0][eyeindicies[0]].x;
+
+    for (let i = 0; i < eyeindicies.length; i++) {
+        if (eyepts[0][eyeindicies[i]].x > maxEyeX) {
+            maxEyeX = eyepts[0][eyeindicies[i]].x;
+        }
+        if (eyepts[0][eyeindicies[i]].x < minEyeX) {
+            minEyeX = eyepts[0][eyeindicies[i]].x;
+        }
+    }
+    var avgIrisX = 0;
+    for (let i = 0; i < irisindicies.length; i++) {
+        avgIrisX = avgIrisX + eyepts[0][irisindicies[i]].x;
+    }
+    avgIrisX = avgIrisX / irisindicies.length;
+    return [minEyeX, maxEyeX, avgIrisX];
+}
+
+
+function leftRightUpDownRatio(landmarks) {
+    var rhDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, landmarks[0][RIGHT_EYE[8]].x, landmarks[0][RIGHT_EYE[8]].y);
+
+    var lhDistance = euclideanDistance(landmarks[0][LEFT_EYE[0]].x, landmarks[0][LEFT_EYE[0]].y, landmarks[0][LEFT_EYE[8]].x, landmarks[0][LEFT_EYE[8]].y);
+    var avgIrisXLeft = 0;
+    var avgIrisYLeft = 0;
+    var avgIrisXRight = 0;
+    var avgIrisYRight = 0;
+    for (let i = 0; i < LEFT_IRIS.length; i++) {
+        avgIrisXLeft = avgIrisXLeft + landmarks[0][LEFT_IRIS[i]].x;
+        avgIrisYLeft = avgIrisYLeft + landmarks[0][LEFT_IRIS[i]].y;
+        avgIrisXRight = avgIrisXRight + landmarks[0][RIGHT_IRIS[i]].x;
+        avgIrisYRight = avgIrisYRight + landmarks[0][RIGHT_IRIS[i]].y;
+    }
+    avgIrisXLeft = avgIrisXLeft / LEFT_IRIS.length;
+    avgIrisYLeft = avgIrisYLeft / LEFT_IRIS.length;
+    avgIrisXRight = avgIrisXRight / RIGHT_IRIS.length;
+    avgIrisYRight = avgIrisYRight / RIGHT_IRIS.length;
+
+    var rhIrisDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, avgIrisXRight, avgIrisYRight);
+    var lhIrisDistance = euclideanDistance(landmarks[0][LEFT_EYE[0]].x, landmarks[0][LEFT_EYE[0]].y, avgIrisXLeft, avgIrisYLeft);
+
+    var horizontalLookRatio = (rhIrisDistance / rhDistance + lhIrisDistance / lhDistance) / 2;
+
+    var leftIrisToEyebrow = euclideanDistance(landmarks[0][296].x, landmarks[0][296].y, avgIrisXLeft, avgIrisYLeft);
+    var rightIrisToEyebrow = euclideanDistance(landmarks[0][65].x, landmarks[0][65].y, avgIrisXRight, avgIrisYRight);
+    var verticalLookRatio = (rightIrisToEyebrow / rhDistance + leftIrisToEyebrow / lhDistance) / 2;
+
+    return [horizontalLookRatio, verticalLookRatio];
+}
+
+var modal = document.getElementById('myModal');
+var modalImg = document.getElementById("modalImgID");
+
+var leftarrowelement = document.getElementById("leftarrow");
+var rightarrowelement = document.getElementById("rightarrow");
+
+let startLookTime = Number.POSITIVE_INFINITY;
+let lookDirection = null;
+
+
+var loaderelement = document.getElementById("loader");
+var loadingtext = document.getElementById("loadingtext");
+
+
+var blinkStartTime = Number.POSITIVE_INFINITY;
+var blinkVal = null;
+var blinkRun = true;
+
+
+function backgroundColorChange(opacity) {
+    return "rgba(11, 94, 215," + opacity + ")";
+}
+
+var verticalLookMovingAverage = 0.8;
+var movingAverageN = 0;
+
+var lookUpStartTime = Number.POSITIVE_INFINITY;
+var lookUpVal = null;
+var lookUpRun = false;
+var verticalLookRatioPercent = 0;
+
+function buildMap(keys, values) {
+    const map = new Map();
+    for (let i = 0; i < keys.length; i++) {
+        map.set(keys[i], values[i]);
+    };
+    return map;
+};
+
 const controls = window;
 const drawingUtils = window;
 const mpFaceMesh = window;
