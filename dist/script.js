@@ -406,7 +406,7 @@ async function onResults(results) {
         }
         blinkVal = "RESET";
     }
-
+/*
     if (!blinkRun) return;
     if (
         horizontalLookRatio > maxThreshold &&
@@ -659,7 +659,7 @@ async function onResults(results) {
             rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
         }
     }
-
+*/
 }
 const faceMesh = new mpFaceMesh.FaceMesh(config);
 faceMesh.setOptions(solutionOptions);
