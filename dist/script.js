@@ -347,7 +347,7 @@ const solutionOptions = {
     selfieMode: true,
     enableFaceGeometry: false,
     maxNumFaces: 1,
-    refineLandmarks: false,
+    refineLandmarks: true,
     minDetectionConfidence: 0.5,
     minTrackingConfidence: 0.5,
     accuracy: 0.5
@@ -360,7 +360,9 @@ const spinner = document.querySelector('.loading');
 spinner.ontransitionend = () => {
     spinner.style.display = 'none';
 };
-function onResults(results) {
+async function onResults(results) {
+      // if (!results.multiFaceLandmarks) return
+
     // Hide the spinner.
     document.body.classList.add('loaded');
     // Update the frame rate.
@@ -373,6 +375,20 @@ function onResults(results) {
         //console.log(results);
     }
     canvasCtx.restore();
+    var minThreshold = 0.5 - widthThreshold;
+    var maxThreshold = 0.5 + widthThreshold;
+    if (blinkRun) {
+        loadingtext.innerText = 'Running. Blink either eye to pause';
+    } else {
+        loadingtext.innerText = 'Paused. Blink either eye to start';
+    }
+
+    var currentTime = +new Date();
+
+    if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
+
+    var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
+    var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
 }
 const faceMesh = new mpFaceMesh.FaceMesh(config);
 faceMesh.setOptions(solutionOptions);
