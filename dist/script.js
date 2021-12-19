@@ -381,7 +381,7 @@ async function onResults(results) {
     }
 
     var currentTime = +new Date();
-
+    if (typeof results === "undefined") return
     if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
 
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
