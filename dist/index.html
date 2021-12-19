@@ -22,26 +22,172 @@
     <div hidden style="visibility: hidden" class="canvas-container">
     <canvas hidden style="visibility: hidden" class="output_canvas" width="1280px" height="720px" hidden="true"></canvas>
     </div>
+    <h6 id="loadingtext" style="Text-align: center">Loading...</h6>
+    <div class="container-fluid" style="max-width:210vh; margin-left:auto, 0%">
+      <div class="row">
+        <div class="col-xs-1" style="max-width:7%; margin-left:auto">
+          <div id="leftarrow" class="row" style="height:100%">
+            <img src="images/arrow-left.svg" alt="left arrow" style="width:100%;height:100%">
+          </div>
+        </div>
+        <div class="col-sm-5 border border-secondary" style='background:#fff'>
+          <div class="row">
+            <h4 id="lookleft" style="Text-align: center">Look Left</h1>
+            <div class="col">
+              <div><img src="Icons/1-Afraid.jpeg" alt="I am afraid" id="img000" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/5-Sad.jpeg" alt="I am sad" id="img010" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/9-Tired.jpeg" alt="I am tired" id="img020" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/13-Angry.jpeg" alt="I am angry" id="img030" style="max-height:100%; max-width:100%"></div>
+            </div>
+            <div class="col">
+              <div><img src="Icons/2-Pain.jpeg" alt="I am in pain" id="img001" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/6-Frustrated.jpeg" alt="I am frustrated" id="img011" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/10-FeelSick.jpeg" alt="I am feeling sick" id="img021" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/14-Dizzy.jpeg" alt="I am dizzy" id="img031" style="max-height:100%; max-width:100%"></div>
+            </div>
+            <div class="col">
+              <div><img src="Icons/3-Yes.jpeg" alt="Yes" id="img002" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/7-Nurse.jpeg" alt="Nurse" id="img012" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/11-Cold_hot.jpeg" alt="I am hot cold" id="img022" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/15-Choking.jpeg" alt="I am choking" id="img032" style="max-height:100%; max-width:100%"></div>
+            </div>
+            <div class="col">
+              <div><img src="Icons/4-No.jpeg" alt="No" id="img003" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/8-Doctor.jpeg" alt="Doctor" id="img013" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/12-ShortofBreath.jpeg" alt="I am short of breath" id="img023" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/16-Hungry.jpeg" alt="I am Hungry" id="img033" style="max-height:100%; max-width:100%"></div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-sm-5 border border-start-0 border-secondary" style='background:#fff'>
+          <div class="row">
+            <h4 id="lookright" style="Text-align: center">Look Right</h1>
+  
+            <div class="col">
+              <div><img src="Icons/17-HowamI.jpeg" alt="How am I doing" id="img100" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/21-Situp.jpeg" alt="Want to lie situp" id="img110" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/25-Light.jpeg" alt="Want lights off/on" id="img120" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/29-Suction.jpeg" alt="Want suction" id="img130" style="max-height:100%; max-width:100%"></div>
+            </div>
+            <div class="col">
+              <div><img src="Icons/18-WhatTime.jpeg" alt="What time" id="img101" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/22-LieDown.jpeg" alt="Want to lie down" id="img111" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/26-CallLight.jpeg" alt="Call light remote" id="img121" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/30-LipsMoistened.jpeg" alt="Want lips moistened" id="img131" style="max-height:100%; max-width:100%"></div>
+            </div>
+            <div class="col">
+              <div><img src="Icons/19-WhatsHappening.jpeg" alt="Whats happening" id="img102" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/23-Home.jpeg" alt="Want to go home" id="img112" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/27-Water.jpeg" alt="Want water" id="img122" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/31-Sleep.jpeg" alt="Want to sleep" id="img132" style="max-height:100%; max-width:100%"></div>
+            </div>
+            <div class="col">
+              <div><img src="Icons/20-Comeback.jpeg" alt="Want to come back" id="img103" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/24-TV_Video.jpeg" alt="Want tv video" id="img113" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/28-Glasses.jpeg" alt="Want glasses" id="img123" style="max-height:100%; max-width:100%"></div>
+              <div><img src="Icons/32-SoundOff.jpeg" alt="Want sound on off" id="img133" style="max-height:100%; max-width:100%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-1" style="max-width:7%;margin-right:auto">
+          <div id="rightarrow" class="row" style="height:100%">
+            <img src="images/arrow-right.svg" alt="right arrow" style="width:100%;height:100%">
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div id="myModal" class="modal">
+       <img class="modal-content" id="modalImgID">
+     </div>
+    <div class="btn-group" role="group" aria-label="Basic outlined" style="padding-top: 2%;left: 50%;transform: translateX(-50%)">
+      <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasHowTo" class="btn btn-outline-dark" style="border-color: transparent">How To</button>
+      <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings" class="btn btn-outline-dark" style="border-color: transparent">Settings</button>
+      <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAbout" class="btn btn-outline-dark" style="border-color: transparent">About</button>
+    </div>
+  
+    <!--<link rel="stylesheet" href="eye.css">-->
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasHowTo" aria-labelledby="offcanvasBottomLabel" style="height:75vh">
+      <div class="offcanvas-header">
+        <h5 style="margin-left: auto;margin-right: auto" class="offcanvas-title" id="offcanvasBottomLabel">How To</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      
+      <div class="offcanvas-body">
+        <span style="text-align: center;display: block">Look to the left and right to select elements on that side. Blink left or right eye to pause.</span>
+        <img src="images/lookleftrightcrop.gif" alt="look left right" style="display: block; margin-left: auto; margin-right: auto;width:30%;">
+        <span style="text-align: center;display: block">The sound on/off icon will turn the sound on and off.</span><br>
+        <span style="text-align: center;display: block">You can also connect the light icon to a switch or lightbulb with external bluetooth hardware.</span>
+      </div>
+    </div>
+  
+  
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasBottomLabel" style="height:50vh">
+      <div class="offcanvas-header">
+        <h5 style="margin-left: auto;margin-right: auto" class="offcanvas-title" id="offcanvasBottomLabel">Settings</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <p>
+          <button id="bluetoothButton" type="button" class="btn btn-outline-secondary">
+            <img src="images/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>
+            Bluetooth Disconnected
+          </button>
+  
+          <button id="soundButton" type="button" class="btn btn-outline-secondary">
+            <img src="images/volume-mute.svg" width="16" height="16" viewBox="0 0 16 16"></img>
+            Sound Off
+          </button>
+      </p>
+        <h6>Camera Selector</h6>
+        <!--<div class="control-panel"></div>-->
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+              <h6>Look left/right sensitivity</h6>
+              <input id="lookleftrightsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.08"> <span id="lookleftrightsens">0.08</span>
+          </li>
+          <li class="nav-item">
+            <h6>Look up sensitivity</h6>
+            <input id="lookupsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.11"> <span id="lookupsens">0.11</span>
+        </li>
+          <li class="nav-item">
+              <h6>Time needed to activate selection</h6>
+              <input id="timetoactivateslider" type="range" step="10" min="100" max="3000" value="300"> <span id="timetoactivate">300</span>
+          </li>
+          <li class="nav-item">
+            <h6>Time needed to activate look up to pause</h6>
+            <input id="timetoactivatelookupslider" type="range" step="10" min="50" max="2500" value="200"> <span id="timetoactivatelookup">200</span>
+        </li>
+        <li class="nav-item">
+          <h6>Eye Blink Sensitivity</h6>
+          <input id="eyeblinksensslider" type="range" step="0.1" min="2" max="10" value="5.5"> <span id="eyeblinksens">5.5</span>
+      </li>
+      <li class="nav-item">
+        <h6>Eye Open Sensitivity</h6>
+        <input id="eyeopensensslider" type="range" step="0.1" min="2" max="10" value="4"> <span id="eyeopensens">4</span>
+    </li>     
+      </ul>
+      </div>
+    </div>
+  
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasAbout" aria-labelledby="offcanvasBottomLabel" style="height:50vh">
+      <div class="offcanvas-header">
+        <h5 style="margin-left: auto;margin-right: auto" class="offcanvas-title" id="offcanvasBottomLabel">About</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <span style="text-align: center;display: block">The Communication Board was created by Dr. Adam Delora and Dr. Jeffrey Ebin</span><br><br>
+        <span style="text-align: center;display: block">Contact <a href = "mailto: jeffrey@ebcore.io">Jeffrey@ebcore.io</a> for more information</span>
+      </div>
+    </div>
     <div class="loading">
       <div class="spinner"></div>
       <div class="message">
         Loading
       </div>
     </div>
-    <a class="abs logo" href="http://www.mediapipe.dev" target="_blank">
-      <div style="display: flex;align-items: center;bottom: 0;right: 10px;">
-        <img class="logo" src="logo_white.png" alt="" style="
-          height: 50px;">
-        <span class="title">MediaPipe</span>
-      </div>
-    </a>
-    <div class="shoutout">
-      <div>
-        <a href="https://solutions.mediapipe.dev/face_mesh">
-          Click here for more info
-        </a>
-      </div>
-    </div>
+
   </div>
   <div class="control-panel">
   </div>
