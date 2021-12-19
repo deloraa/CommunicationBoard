@@ -371,9 +371,7 @@ async function onResults(results) {
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
     canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
-    if (results.multiFaceLandmarks) {
-        //console.log(results);
-    }
+
     canvasCtx.restore();
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
