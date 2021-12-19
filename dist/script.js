@@ -32,6 +32,19 @@ function testSupport(supportedDevices) {
     }
 }
 
+const controls = window;
+const drawingUtils = window;
+const mpFaceMesh = window;
+const config = { locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@` +
+            `${mpFaceMesh.VERSION}/${file}`;
+    } };
+// Our input frames will come from here.
+const videoElement = document.getElementsByClassName('input_video')[0];
+const canvasElement = document.getElementsByClassName('output_canvas')[0];
+const controlsElement = document.getElementsByClassName('control-panel')[0];
+const canvasCtx = canvasElement.getContext('2d');
+
 //between 0.00-0.5
 var widthThreshold = 0.08;
 var LOOK_DELAY = 300; // 0.5 second
@@ -328,15 +341,8 @@ function buildMap(keys, values) {
     return map;
 };
 
-const controls = window;
-const drawingUtils = window;
-const mpFaceMesh = window;
 
-// Our input frames will come from here.
-const videoElement = document.getElementsByClassName('input_video')[0];
-const canvasElement = document.getElementsByClassName('output_canvas')[0];
-const controlsElement = document.getElementsByClassName('control-panel')[0];
-const canvasCtx = canvasElement.getContext('2d');
+
 /**
  * Solution options.
  */
@@ -658,11 +664,9 @@ async function onResults(results) {
     }
 */
 }
-const faceMesh = new FaceMesh({locateFile: (file) => {
-    return `./${file}`;
-  }});
+const faceMesh = new mpFaceMesh.FaceMesh(config);
 faceMesh.setOptions(solutionOptions);
-
+faceMesh.onResults(onResults);
 // Present a control panel through which the user can manipulate the solution
 // options.
 new controls
@@ -720,4 +724,3 @@ new controls
     videoElement.classList.toggle('selfie', options.selfieMode);
     faceMesh.setOptions(options);
 });
-faceMesh.onResults(onResults);
