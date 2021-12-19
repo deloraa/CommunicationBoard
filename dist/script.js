@@ -362,7 +362,7 @@ spinner.ontransitionend = () => {
 };
 async function onResults(results) {
       // if (!results.multiFaceLandmarks) return
-      if(typeof results === "undefined") return
+    //  if(typeof results === "undefined") return
     // Hide the spinner.
     document.body.classList.add('loaded');
     // Update the frame rate.
