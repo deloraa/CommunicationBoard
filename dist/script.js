@@ -383,36 +383,6 @@ async function onResults(results) {
         loadingtext.innerText = 'Paused. Blink either eye to start';
     }
 
-    var currentTime = +new Date();
-
-    if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
-
-    var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
-    var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
-    if (((leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff) || (leyeblinkratio < upperBlinkCutoff && reyeblinkratio > lowerBlinkCutoff)) && blinkVal !== "RESET" && blinkVal !== "BLINK") {
-        blinkVal = "BLINK";
-        blinkStartTime = currentTime;
-    } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
-        blinkVal = null;
-        blinkStartTime = Number.POSITIVE_INFINITY;
-    }
-
-    if (blinkStartTime + LOOK_DELAY < currentTime) {
-        if (blinkVal === "BLINK") {
-            if (blinkRun) {
-                blinkRun = false;
-            } else {
-                blinkRun = true;
-            }
-            blinkStartTime = Number.POSITIVE_INFINITY;
-            blinkVal = "STOP";
-        }
-        blinkVal = "RESET";
-    }
-
-    if (!blinkRun) return;
-
-
 }
 const faceMesh = new mpFaceMesh.FaceMesh(config);
 faceMesh.setOptions(solutionOptions);
