@@ -370,7 +370,6 @@ async function onResults(results) {
     // Draw the overlays.
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-    canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
 
     canvasCtx.restore();
     var minThreshold = 0.5 - widthThreshold;
