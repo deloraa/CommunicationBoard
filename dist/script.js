@@ -663,7 +663,7 @@ async function onResults(results) {
 }
 const faceMesh = new mpFaceMesh.FaceMesh(config);
 faceMesh.setOptions(solutionOptions);
-faceMesh.onResults(onResults);
+
 // Present a control panel through which the user can manipulate the solution
 // options.
 new controls
@@ -721,3 +721,4 @@ new controls
     videoElement.classList.toggle('selfie', options.selfieMode);
     faceMesh.setOptions(options);
 });
+faceMesh.onResults(onResults);
