@@ -331,10 +331,7 @@ function buildMap(keys, values) {
 const controls = window;
 const drawingUtils = window;
 const mpFaceMesh = window;
-const config = { locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@` +
-            `${mpFaceMesh.VERSION}/${file}`;
-    } };
+
 // Our input frames will come from here.
 const videoElement = document.getElementsByClassName('input_video')[0];
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
@@ -661,7 +658,9 @@ async function onResults(results) {
     }
 */
 }
-const faceMesh = new mpFaceMesh.FaceMesh(config);
+const faceMesh = new FaceMesh({locateFile: (file) => {
+    return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
+  }});
 faceMesh.setOptions(solutionOptions);
 
 // Present a control panel through which the user can manipulate the solution
