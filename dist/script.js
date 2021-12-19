@@ -406,7 +406,7 @@ async function onResults(results) {
         }
         blinkVal = "RESET";
     }
-/*
+
     if (!blinkRun) return;
     if (
         horizontalLookRatio > maxThreshold &&
@@ -434,6 +434,26 @@ async function onResults(results) {
         leftarrowelement.style.backgroundColor = backgroundColorChange(0);
     }
 
+    if (startLookTime + LOOK_DELAY < currentTime) {
+        if (lookDirection === "LEFT") {
+            lookDirection = "STOP"
+            startLookTime = Number.POSITIVE_INFINITY;
+        } else if (lookDirection === "RIGHT") {
+            lookDirection = "STOP"
+            startLookTime = Number.POSITIVE_INFINITY;
+        }
+        lookDirection = "RESET";
+    } else {
+
+    if (lookDirection === "LEFT" && LOOK_DELAY / 2 > currentTime - startLookTime) {
+        var timestampdiff = (currentTime - startLookTime) / (LOOK_DELAY / 2);
+        leftarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
+    } else if (lookDirection === "RIGHT" && LOOK_DELAY / 2 > currentTime - startLookTime) {
+        var timestampdiff = (currentTime - startLookTime) / (LOOK_DELAY / 2);
+        rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
+    }
+}
+/*
     if (startLookTime + LOOK_DELAY < currentTime) {
         if (lookDirection === "LEFT") {
             if (leftImages.length == 1) {
@@ -649,6 +669,8 @@ async function onResults(results) {
 
         }
         lookDirection = "RESET";
+
+
     } else {
 
         if (lookDirection === "LEFT" && LOOK_DELAY / 2 > currentTime - startLookTime) {
@@ -660,6 +682,8 @@ async function onResults(results) {
         }
     }
 */
+
+
 }
 const faceMesh = new mpFaceMesh.FaceMesh(config);
 faceMesh.setOptions(solutionOptions);
