@@ -73,7 +73,7 @@ function onResults(results) {
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
     canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
     if (results.multiFaceLandmarks) {
-        console.log(results);
+        //console.log(results);
     }
     canvasCtx.restore();
 }

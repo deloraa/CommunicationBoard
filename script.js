@@ -38,7 +38,7 @@ timetoactivatelookupslider.oninput = function() {
     LOOK_UP_DELAY = parseInt(this.value);
 }
 
-const eye = document.querySelector('.iris');
+//const eye = document.querySelector('.iris');
 /*
 window.addEventListener('mousemove', (event) => {
     const x = -(window.innerWidth / 2 - event.pageX) / 35;
