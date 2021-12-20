@@ -11,7 +11,6 @@ long lastMsg = 0;
 String rxload="";
 bool ledstatus = false;
 
-#define PIN_LED 2
 #define SERVICE_UUID           "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" 
 #define CHARACTERISTIC_UUID_RX "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
  
@@ -52,7 +51,13 @@ void setupBLE(String BLEName){
 void setup() {
   Serial.begin(9600);
   setupBLE("ESP32_Bluetooth");
-  pinMode(PIN_LED, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(13, OUTPUT);
+  pinMode(14, OUTPUT);
+  pinMode(25, OUTPUT);
+  pinMode(26, OUTPUT);
+  pinMode(27, OUTPUT);
+  pinMode(32, OUTPUT);
 }
  
 void loop() {
@@ -60,15 +65,22 @@ void loop() {
   if (now - lastMsg > 100) {
     if (deviceConnected&&rxload.length()>0) {
         Serial.println(rxload);
-        if((unsigned)rxload[0] == 3 && ledstatus){
+        unsigned rxloadvalue = (unsigned)rxload[0];
+        if(rxloadvalue == 25 && ledstatus){
            ledstatus = false;
-           digitalWrite(PIN_LED, LOW);
+           digitalWrite(25, LOW);
            Serial.println("Got the 3 false");
-        }else if((unsigned)rxload[0] == 3 && !ledstatus){
+        }else if(rxloadvalue == 25 && !ledstatus){
            ledstatus = true;
-           digitalWrite(PIN_LED, HIGH);
+           digitalWrite(25, HIGH);
            Serial.println("Got the 3 true");
+        }else if(rxloadvalue == 12 || rxloadvalue == 13 || rxloadvalue == 14 || rxloadvalue == 26 || rxloadvalue == 27 || rxloadvalue == 32){
+           digitalWrite((int) rxloadvalue, HIGH);
+           delay(500);
+           digitalWrite((int) rxloadvalue, LOW);
         }
+
+
         rxload="";
     }
     lastMsg = now;

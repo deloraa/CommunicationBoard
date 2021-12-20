@@ -460,8 +460,22 @@ async function onResults(results) {
                 soundButton.className = "btn btn-outline-secondary"
                 soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
             }
-            if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
-                toggleLightCharacteristic.writeValue(Uint8Array.of(3));
+            if(bluetoothConnected){
+            if ($(leftImages[0]).attr('src') === "Icons/21-Situp.jpeg") {
+                toggleLightCharacteristic.writeValue(Uint8Array.of(12));
+            }else if ($(leftImages[0]).attr('src') === "Icons/22-LieDown.jpeg") {
+                toggleLightCharacteristic.writeValue(Uint8Array.of(13));
+            }else if ($(leftImages[0]).attr('src') === "Icons/24-TV_Video.jpeg") {
+                toggleLightCharacteristic.writeValue(Uint8Array.of(14));
+            }else if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg") {
+                toggleLightCharacteristic.writeValue(Uint8Array.of(25));
+            }else if ($(leftImages[0]).attr('src') === "Icons/26-CallLight.jpeg") {
+                toggleLightCharacteristic.writeValue(Uint8Array.of(26));
+            }else if ($(leftImages[0]).attr('src') === "Icons/27-Water.jpeg") {
+                toggleLightCharacteristic.writeValue(Uint8Array.of(27));
+            }else if ($(leftImages[0]).attr('src') === "Icons/29-Suction.jpeg") {
+                toggleLightCharacteristic.writeValue(Uint8Array.of(32));
+            }
             }
             //pause for 5000 ms on selection
             setTimeout(() => {
@@ -560,9 +574,23 @@ async function onResults(results) {
                     soundButton.className = "btn btn-outline-secondary"
                     soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
                 }
-                if ($(rightImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
-                    toggleLightCharacteristic.writeValue(Uint8Array.of(3));
-                }
+                if(bluetoothConnected){
+                    if ($(rightImages[0]).attr('src') === "Icons/21-Situp.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(12));
+                    }else if ($(rightImages[0]).attr('src') === "Icons/22-LieDown.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(13));
+                    }else if ($(rightImages[0]).attr('src') === "Icons/24-TV_Video.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(14));
+                    }else if ($(rightImages[0]).attr('src') === "Icons/25-Light.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(25));
+                    }else if ($(rightImages[0]).attr('src') === "Icons/26-CallLight.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(26));
+                    }else if ($(rightImages[0]).attr('src') === "Icons/27-Water.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(27));
+                    }else if ($(rightImages[0]).attr('src') === "Icons/29-Suction.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(32));
+                    }
+                    }
                 setTimeout(() => {
                     startLookTime = Number.POSITIVE_INFINITY;
                     lookDirection = null;
