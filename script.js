@@ -1,3 +1,37 @@
+import DeviceDetector from "https://cdn.skypack.dev/device-detector-js@2.2.10";
+// Usage: testSupport({client?: string, os?: string}[])
+// Client and os are regular expressions.
+// See: https://cdn.jsdelivr.net/npm/device-detector-js@2.2.10/README.md for
+// legal values for client and os
+testSupport([
+    { client: 'Chrome' },
+]);
+function testSupport(supportedDevices) {
+    const deviceDetector = new DeviceDetector();
+    const detectedDevice = deviceDetector.parse(navigator.userAgent);
+    let isSupported = false;
+    for (const device of supportedDevices) {
+        if (device.client !== undefined) {
+            const re = new RegExp(`^${device.client}$`);
+            if (!re.test(detectedDevice.client.name)) {
+                continue;
+            }
+        }
+        if (device.os !== undefined) {
+            const re = new RegExp(`^${device.os}$`);
+            if (!re.test(detectedDevice.os.name)) {
+                continue;
+            }
+        }
+        isSupported = true;
+        break;
+    }
+    if (!isSupported) {
+        alert(`This demo, running on ${detectedDevice.client.name}/${detectedDevice.os.name}, ` +
+            `is not well supported at this time, continue at your own risk.`);
+    }
+}
+
 //between 0.00-0.5
 var widthThreshold = 0.08;
 var LOOK_DELAY = 300; // 0.5 second
@@ -37,62 +71,6 @@ timetoactivatelookupslider.oninput = function() {
     timetoactivatelookup.innerHTML = this.value;
     LOOK_UP_DELAY = parseInt(this.value);
 }
-
-//const eye = document.querySelector('.iris');
-/*
-window.addEventListener('mousemove', (event) => {
-    const x = -(window.innerWidth / 2 - event.pageX) / 35;
-    // const y = -(window.innerHeight / 2 - event.pageY) / 35;
-    eye.style.transform = `rotate(-45deg) translateY(0px) translateX(${x}px)`;
-});*/
-
-import DeviceDetector from "https://cdn.skypack.dev/device-detector-js@2.2.10";
-// Usage: testSupport({client?: string, os?: string}[])
-// Client and os are regular expressions.
-// See: https://cdn.jsdelivr.net/npm/device-detector-js@2.2.10/README.md for
-// legal values for client and os
-testSupport([
-    { client: 'Chrome' },
-]);
-
-function testSupport(supportedDevices) {
-    const deviceDetector = new DeviceDetector();
-    const detectedDevice = deviceDetector.parse(navigator.userAgent);
-    let isSupported = false;
-    for (const device of supportedDevices) {
-        if (device.client !== undefined) {
-            const re = new RegExp(`^${device.client}$`);
-            if (!re.test(detectedDevice.client.name)) {
-                continue;
-            }
-        }
-        if (device.os !== undefined) {
-            const re = new RegExp(`^${device.os}$`);
-            if (!re.test(detectedDevice.os.name)) {
-                continue;
-            }
-        }
-        isSupported = true;
-        break;
-    }
-    if (!isSupported) {
-        alert(`This demo, running on ${detectedDevice.client.name}/${detectedDevice.os.name}, ` +
-            `is not well supported at this time, continue at your own risk.`);
-    }
-}
-const controls = window;
-const drawingUtils = window;
-const mpFaceMesh = window;
-const config = {
-    locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@` +
-            `${mpFaceMesh.VERSION}/${file}`;
-    }
-};
-
-const videoElement = document.getElementsByClassName('input_video')[0];
-const controlsElement = document.getElementsByClassName('control-panel')[0];
-const canvasElement = document.getElementsByClassName('output_canvas')[0];
 
 var soundButton = document.getElementById('soundButton');
 var soundOnOff = false;
@@ -172,22 +150,6 @@ bluetoothbutton.onclick = () => {
     }
 
 }
-
-
-/**
- * Solution options.
- */
-const solutionOptions = {
-    selfieMode: false,
-    enableFaceGeometry: false,
-    maxNumFaces: 1,
-    refineLandmarks: true,
-    minDetectionConfidence: 0.5,
-    minTrackingConfidence: 0.5,
-    lookDelay: 500,
-    lookWidthThreshold: 0.08
-};
-
 
 var imagelinks = ["Icons/1-Afraid.jpeg", "Icons/2-Pain.jpeg", "Icons/3-Yes.jpeg", "Icons/4-No.jpeg", "Icons/5-Sad.jpeg", "Icons/6-Frustrated.jpeg", "Icons/7-Nurse.jpeg", "Icons/8-Doctor.jpeg", "Icons/9-Tired.jpeg", "Icons/10-FeelSick.jpeg", "Icons/11-Cold_hot.jpeg", "Icons/12-ShortofBreath.jpeg", "Icons/13-Angry.jpeg", "Icons/14-Dizzy.jpeg", "Icons/15-Choking.jpeg", "Icons/16-Hungry.jpeg", "Icons/17-HowamI.jpeg", "Icons/18-WhatTime.jpeg", "Icons/19-WhatsHappening.jpeg", "Icons/20-Comeback.jpeg", "Icons/21-Situp.jpeg", "Icons/22-LieDown.jpeg", "Icons/23-Home.jpeg", "Icons/24-TV_Video.jpeg", "Icons/25-Light.jpeg", "Icons/26-CallLight.jpeg", "Icons/27-Water.jpeg", "Icons/28-Glasses.jpeg", "Icons/29-Suction.jpeg", "Icons/30-LipsMoistened.jpeg", "Icons/31-Sleep.jpeg", "Icons/32-SoundOff.jpeg"];
 
@@ -298,10 +260,8 @@ function getEyeMarkers(eyepts, eyeindicies, irisindicies) {
 
 function leftRightUpDownRatio(landmarks) {
     var rhDistance = euclideanDistance(landmarks[0][RIGHT_EYE[0]].x, landmarks[0][RIGHT_EYE[0]].y, landmarks[0][RIGHT_EYE[8]].x, landmarks[0][RIGHT_EYE[8]].y);
-    var rvDistance = euclideanDistance(landmarks[0][RIGHT_EYE[12]].x, landmarks[0][RIGHT_EYE[12]].y, landmarks[0][RIGHT_EYE[4]].x, landmarks[0][RIGHT_EYE[4]].y);
 
     var lhDistance = euclideanDistance(landmarks[0][LEFT_EYE[0]].x, landmarks[0][LEFT_EYE[0]].y, landmarks[0][LEFT_EYE[8]].x, landmarks[0][LEFT_EYE[8]].y);
-    var lvDistance = euclideanDistance(landmarks[0][LEFT_EYE[12]].x, landmarks[0][LEFT_EYE[12]].y, landmarks[0][LEFT_EYE[4]].x, landmarks[0][LEFT_EYE[4]].y);
     var avgIrisXLeft = 0;
     var avgIrisYLeft = 0;
     var avgIrisXRight = 0;
@@ -322,13 +282,6 @@ function leftRightUpDownRatio(landmarks) {
 
     var horizontalLookRatio = (rhIrisDistance / rhDistance + lhIrisDistance / lhDistance) / 2;
 
-    //    var averageXHorizontalRight = (landmarks[0][RIGHT_EYE[0]].x + landmarks[0][RIGHT_EYE[8]].x) / 2;
-    //    var averageYHorizontalRight = (landmarks[0][RIGHT_EYE[0]].y + landmarks[0][RIGHT_EYE[8]].y) / 2;
-    //    var averageXHorizontalLeft = (landmarks[0][LEFT_EYE[0]].x + landmarks[0][LEFT_EYE[8]].x) / 2;
-    //    var averageYHorizontalLeft = (landmarks[0][LEFT_EYE[0]].y + landmarks[0][LEFT_EYE[8]].y) / 2;
-
-    //    var distanceRIristoMidpoint = euclideanDistance(averageXHorizontalRight, averageYHorizontalRight, avgIrisXRight, avgIrisYRight);
-    //    var distanceLIristoMidpoint = euclideanDistance(averageXHorizontalLeft, averageYHorizontalLeft, avgIrisXLeft, avgIrisYLeft);
     var leftIrisToEyebrow = euclideanDistance(landmarks[0][296].x, landmarks[0][296].y, avgIrisXLeft, avgIrisYLeft);
     var rightIrisToEyebrow = euclideanDistance(landmarks[0][65].x, landmarks[0][65].y, avgIrisXRight, avgIrisYRight);
     var verticalLookRatio = (rightIrisToEyebrow / rhDistance + leftIrisToEyebrow / lhDistance) / 2;
@@ -375,43 +328,73 @@ function buildMap(keys, values) {
     return map;
 };
 
+const controls = window;
+const drawingUtils = window;
+const mpFaceMesh = window;
+const config = { locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@` +
+            `${mpFaceMesh.VERSION}/${file}`;
+    } };
+// Our input frames will come from here.
+const videoElement = document.getElementsByClassName('input_video')[0];
+const canvasElement = document.getElementsByClassName('output_canvas')[0];
+const controlsElement = document.getElementsByClassName('control-panel')[0];
+const canvasCtx = canvasElement.getContext('2d');
+/**
+ * Solution options.
+ */
+const solutionOptions = {
+    selfieMode: true,
+    enableFaceGeometry: false,
+    maxNumFaces: 1,
+    refineLandmarks: true,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5,
+    accuracy: 0.5
+};
+// We'll add this to our control panel later, but we'll save it here so we can
+// call tick() each time the graph runs.
+const fpsControl = new controls.FPS();
+// Optimization: Turn off animated spinner after its hiding animation is done.
+const spinner = document.querySelector('.loading');
+spinner.ontransitionend = () => {
+    spinner.style.display = 'none';
+};
 async function onResults(results) {
-
-   // if (!results.multiFaceLandmarks) return
+      // if (!results.multiFaceLandmarks) return
+    //  if(typeof results === "undefined") return
+    // Hide the spinner.
+    document.body.classList.add('loaded');
+    // Update the frame rate.
+    fpsControl.tick();
+    // Draw the overlays.
+    canvasCtx.save();
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+    canvasCtx.restore();
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
-
-    loaderelement.style.display = 'none';
-    //loadingtext.style.display = 'none';
     if (blinkRun) {
         loadingtext.innerText = 'Running. Blink either eye to pause';
     } else {
         loadingtext.innerText = 'Paused. Blink either eye to start';
     }
 
-    var timestamp = +new Date();
-
+    var currentTime = +new Date();
+    
     if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
 
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
-    (verticalLookRatio + movingAverageN * verticalLookMovingAverage) / (movingAverageN + 1);
-
-    //    const x = (window.innerWidth * (0.5 - horizontalLookRatio)) / 5;
-    // const y = -(window.innerHeight / 2 - event.pageY) / 35;
-    //    eye.style.transform = `rotate(-45deg) translateY(0px) translateX(${x}px)`;
-
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
-
-
     if (((leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff) || (leyeblinkratio < upperBlinkCutoff && reyeblinkratio > lowerBlinkCutoff)) && blinkVal !== "RESET" && blinkVal !== "BLINK") {
         blinkVal = "BLINK";
-        blinkStartTime = timestamp;
+        blinkStartTime = currentTime;
     } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
         blinkVal = null;
         blinkStartTime = Number.POSITIVE_INFINITY;
     }
 
-    if (blinkStartTime + LOOK_DELAY < timestamp) {
+    if (blinkStartTime + LOOK_DELAY < currentTime) {
         if (blinkVal === "BLINK") {
             if (blinkRun) {
                 blinkRun = false;
@@ -425,22 +408,21 @@ async function onResults(results) {
     }
 
     if (!blinkRun) return;
-
     if (
-        horizontalLookRatio > maxThreshold &&
+        horizontalLookRatio < minThreshold &&
         lookDirection !== "LEFT" &&
         lookDirection !== "RESET"
     ) {
-        startLookTime = timestamp;
+        startLookTime = currentTime;
         lookDirection = "LEFT";
         rightarrowelement.style.backgroundColor = backgroundColorChange(0);
 
     } else if (
-        horizontalLookRatio < minThreshold &&
+        horizontalLookRatio > maxThreshold &&
         lookDirection !== "RIGHT" &&
         lookDirection !== "RESET"
     ) {
-        startLookTime = timestamp;
+        startLookTime = currentTime;
         lookDirection = "RIGHT";
         leftarrowelement.style.backgroundColor = backgroundColorChange(0);
     } else if (horizontalLookRatio <= maxThreshold && horizontalLookRatio >= minThreshold) {
@@ -452,117 +434,110 @@ async function onResults(results) {
         leftarrowelement.style.backgroundColor = backgroundColorChange(0);
     }
 
-    if (startLookTime + LOOK_DELAY < timestamp) {
+    if (startLookTime + LOOK_DELAY < currentTime) {
         if (lookDirection === "LEFT") {
-            if (leftImages.length == 1) {
-                // Get the modal
-                modal.style.display = "block";
-                if ($(leftImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
-                    $(leftImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
-                    imagelinks[31] = "Icons/32-SoundOn.jpeg"
-                    soundOnOff = true
-                } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
-                    $(leftImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
-                    imagelinks[31] = "Icons/32-SoundOff.jpeg"
-                    soundOnOff = false
-                }
-                modalImg.src = $(leftImages[0]).attr('src');
-                if (soundOnOff) {
-                    var audio = new Audio(imageSoundMap.get($(leftImages[0]).attr('src')));
-                    audio.play();
-                }
-                if (soundOnOff) {
-                    soundButton.className = "btn btn-outline-primary"
-                    soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
-                } else {
-                    soundButton.className = "btn btn-outline-secondary"
-                    soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
-                }
-                if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
-                    toggleLightCharacteristic.writeValue(Uint8Array.of(3));
-                }
-                //pause for 5000 ms on selection
-                setTimeout(() => {
-                    startLookTime = Number.POSITIVE_INFINITY;
-                    lookDirection = null;
-                    resetImages();
-                    modal.style.display = "none";
 
-                }, 5000);
-
-                //do something with last image
-            } else {
-
-
-                var mapRightToLeft = buildMap(rightImages.slice(0, Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
-                var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length), rightImages.slice(0, Math.floor(leftImages.length / 2)))
-                var top = new Array(Math.ceil(leftImages.length / 2))
-                var left = new Array(Math.ceil(leftImages.length / 2))
-                var promises = new Array(Math.ceil(leftImages.length / 2))
-                var slidepromises = new Array(Math.ceil(leftImages.length / 2))
-
-                $(rightImages).each(function(i) {
-                    //$(this).css({'position':'absolute'});
-                    top[i] = $(this)[0].getBoundingClientRect().top
-                    left[i] = $(this)[0].getBoundingClientRect().left
-                    $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
-                })
-                $(rightImages).each(function(i) {
-                    $(this).css({ 'position': 'absolute' });
-                })
-
-                $(rightImages).each(function(i) {
-
-                    $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': top[i], 'left': left[i] });
-            
-                    promises[i] = $(this).animate({
-                        width: 0,
-                        height: 0
-                    }, {
-                        duration: 400,
-                        queue: true,
-                        complete: function() {
-                            $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
-                            $(this).css('visibility', 'hidden');
-
-                            if (i < Math.ceil(leftImages.length / 2)) {
-                                
-                                var atrID = '#' + $(this).attr('id')
-                                $(mapRightToLeft.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
-                                slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
-                                    top: top[i],
-                                    left: left[i]
-                                }, {
-                                    duration: 700,
-                                    complete: function() {
-                                        atrID = '#' + $(this).attr('id')
-                                        var leftImgSrc = $(this).attr('src')
-                                        $(mapLeftToRight.get(atrID)).attr("src", leftImgSrc);
-                                        $(mapLeftToRight.get(atrID)).css({ 'visibility': 'visible' });
-                                        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
-                                        $(this).css('visibility', 'hidden');
-
-                                    }
-                                }).promise();
-                            }
-                        }
-                    }).promise();
-
-                })
-                var results = await Promise.allSettled(promises);
-                var slideresults = await Promise.allSettled(slidepromises);
-
-                var initsize = leftImages.length
-                rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
-                leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
-
-                lookDirection = "STOP"
-                startLookTime = Number.POSITIVE_INFINITY;
+        if (leftImages.length == 1) {
+            modal.style.display = "block";
+            if ($(leftImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
+                $(leftImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
+                imagelinks[31] = "Icons/32-SoundOn.jpeg"
+                soundOnOff = true
+            } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
+                $(leftImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
+                imagelinks[31] = "Icons/32-SoundOff.jpeg"
+                soundOnOff = false
             }
+            modalImg.src = $(leftImages[0]).attr('src');
+            if (soundOnOff) {
+                var audio = new Audio(imageSoundMap.get($(leftImages[0]).attr('src')));
+                audio.play();
+            }
+            if (soundOnOff) {
+                soundButton.className = "btn btn-outline-primary"
+                soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
+            } else {
+                soundButton.className = "btn btn-outline-secondary"
+                soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
+            }
+            if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
+                toggleLightCharacteristic.writeValue(Uint8Array.of(3));
+            }
+            //pause for 5000 ms on selection
+            setTimeout(() => {
+                startLookTime = Number.POSITIVE_INFINITY;
+                lookDirection = null;
+                resetImages();
+                modal.style.display = "none";
 
+            }, 5000);
+        }else{
+            var mapRightToLeft = buildMap(rightImages.slice(0, Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
+            var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length), rightImages.slice(0, Math.floor(leftImages.length / 2)))
+            var topLocation = new Array(Math.ceil(leftImages.length / 2))
+            var leftLocation = new Array(Math.ceil(leftImages.length / 2))
+            var fadepromises = new Array(Math.ceil(leftImages.length / 2))
+            var slidepromises = new Array(Math.ceil(leftImages.length / 2))
 
+            $(rightImages).each(function(i) {
+                //$(this).css({'position':'absolute'});
+                topLocation[i] = $(this)[0].getBoundingClientRect().top
+                leftLocation[i] = $(this)[0].getBoundingClientRect().left
+                $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
+            });
+            
+            $(rightImages).each(function(i) {
+                $(this).css({ 'position': 'absolute' });
+            })
+
+            $(rightImages).each(function(i) {
+
+                $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': topLocation[i], 'left': leftLocation[i] });
+        
+                fadepromises[i] = $(this).animate({
+                    width: 0,
+                    height: 0
+                }, {
+                    duration: 400,
+                    queue: true,
+                    complete: function() {
+                        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                        $(this).css('visibility', 'hidden');
+
+                        if (i < Math.ceil(leftImages.length / 2)) {
+                            
+                            var atrID = '#' + $(this).attr('id')
+                            $(mapRightToLeft.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
+                            slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
+                                top: topLocation[i],
+                                left: leftLocation[i]
+                            }, {
+                                duration: 700,
+                                complete: function() {
+                                    atrID = '#' + $(this).attr('id')
+                                    var leftImgSrc = $(this).attr('src')
+                                    $(mapLeftToRight.get(atrID)).attr("src", leftImgSrc);
+                                    $(mapLeftToRight.get(atrID)).css({ 'visibility': 'visible' });
+                                    $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                                    $(this).css('visibility', 'hidden');
+
+                                }
+                            }).promise();
+                        }
+                    }
+                }).promise();
+
+            })
+            await Promise.allSettled(fadepromises);
+            await Promise.allSettled(slidepromises);
+            var initsize = leftImages.length
+            rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
+            leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
+            lookDirection = "STOP"
+            startLookTime = Number.POSITIVE_INFINITY;
+        }
         } else if (lookDirection === "RIGHT") {
-            if (rightImages.length === 1) {
+            if (rightImages.length == 1) {
                 modal.style.display = "block";
                 if ($(rightImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
                     $(rightImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
@@ -594,21 +569,19 @@ async function onResults(results) {
                     resetImages();
                     modal.style.display = "none";
                 }, 5000);
-                //do something with last image
-            } else {
-
+            }else{
                 var mapLeftToRight = buildMap(leftImages.slice(0, Math.floor(rightImages.length / 2)), rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length))
                 var mapRightToLeft = buildMap(rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length), leftImages.slice(0, Math.floor(rightImages.length / 2)))
 
-                var top = new Array(Math.ceil(rightImages.length / 2))
-                var left = new Array(Math.ceil(rightImages.length / 2))
-                var promises = new Array(Math.ceil(rightImages.length / 2))
+                var topLocation = new Array(Math.ceil(rightImages.length / 2))
+                var leftLocation = new Array(Math.ceil(rightImages.length / 2))
+                var fadepromises = new Array(Math.ceil(rightImages.length / 2))
                 var slidepromises = new Array(Math.ceil(rightImages.length / 2))
 
                 $(leftImages).each(function(i) {
                     //$(this).css({'position':'absolute'});
-                    top[i] = $(this)[0].getBoundingClientRect().top
-                    left[i] = $(this)[0].getBoundingClientRect().left
+                    topLocation[i] = $(this)[0].getBoundingClientRect().top
+                    leftLocation[i] = $(this)[0].getBoundingClientRect().left
                     $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
                 })
                 $(leftImages).each(function(i) {
@@ -617,8 +590,8 @@ async function onResults(results) {
 
                 $(leftImages).each(function(i) {
 
-                    $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': top[i], 'left': left[i] });
-                    promises[i] = $(this).animate({
+                    $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': topLocation[i], 'left': leftLocation[i] });
+                    fadepromises[i] = $(this).animate({
                         width: 0,
                         height: 0
                     }, {
@@ -633,8 +606,8 @@ async function onResults(results) {
                                 var atrID = '#' + $(this).attr('id')
                                 $(mapLeftToRight.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
                                 slidepromises[i] = $(mapLeftToRight.get(atrID)).animate({
-                                    top: top[i],
-                                    left: left[i]
+                                    top: topLocation[i],
+                                    left: leftLocation[i]
                                 }, {
                                     duration: 700,
                                     complete: function() {
@@ -652,35 +625,29 @@ async function onResults(results) {
                     }).promise();
 
                 })
-                var results = await Promise.allSettled(promises);
-                var slideresults = await Promise.allSettled(slidepromises);
-               
-
-                var initsize = rightImages.length
-
-                rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
-                leftImages = leftImagesGlobal.slice(0, Math.floor(initsize / 2));
-
-                lookDirection = "STOP"
-                startLookTime = Number.POSITIVE_INFINITY;
-            }
-
+ 
+                await Promise.allSettled(fadepromises);
+                await Promise.allSettled(slidepromises);
+            var initsize = rightImages.length
+            rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
+            leftImages = leftImagesGlobal.slice(0, Math.floor(initsize / 2));
+            lookDirection = "STOP"
+            startLookTime = Number.POSITIVE_INFINITY;
+        }
         }
         lookDirection = "RESET";
     } else {
 
-        if (lookDirection === "LEFT" && LOOK_DELAY / 2 > timestamp - startLookTime) {
-            var timestampdiff = (timestamp - startLookTime) / (LOOK_DELAY / 2);
-            leftarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
-        } else if (lookDirection === "RIGHT" && LOOK_DELAY / 2 > timestamp - startLookTime) {
-            var timestampdiff = (timestamp - startLookTime) / (LOOK_DELAY / 2);
-            rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
-        }
+    if (lookDirection === "LEFT" && LOOK_DELAY / 2 > currentTime - startLookTime) {
+        var timestampdiff = (currentTime - startLookTime) / (LOOK_DELAY / 2);
+        leftarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
+    } else if (lookDirection === "RIGHT" && LOOK_DELAY / 2 > currentTime - startLookTime) {
+        var timestampdiff = (currentTime - startLookTime) / (LOOK_DELAY / 2);
+        rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
     }
-
-
 }
 
+}
 const faceMesh = new mpFaceMesh.FaceMesh(config);
 faceMesh.setOptions(solutionOptions);
 faceMesh.onResults(onResults);
@@ -689,15 +656,55 @@ faceMesh.onResults(onResults);
 new controls
     .ControlPanel(controlsElement, solutionOptions)
     .add([
-        new controls.SourcePicker({
-            onFrame: async(input, size) => {
-                await faceMesh.send({ image: input });
-            },
-        }),
-    ])
+    new controls.StaticText({ title: 'MediaPipe Face Mesh' }),
+    fpsControl,
+    new controls.Toggle({ title: 'Selfie Mode', field: 'selfieMode' }),
+    new controls.SourcePicker({
+        onFrame: async (input, size) => {
+            const aspect = size.height / size.width;
+            let width, height;
+            if (window.innerWidth > window.innerHeight) {
+                height = window.innerHeight;
+                width = height / aspect;
+            }
+            else {
+                width = window.innerWidth;
+                height = width * aspect;
+            }
+            canvasElement.width = width;
+            canvasElement.height = height;
+            await faceMesh.send({ image: input });
+        },
+    }),
+    new controls.Slider({
+        title: 'Max Number of Faces',
+        field: 'maxNumFaces',
+        range: [1, 4],
+        step: 1
+    }),
+    new controls.Toggle({ title: 'Refine Landmarks', field: 'refineLandmarks' }),
+    new controls.Slider({
+        title: 'Min Detection Confidence',
+        field: 'minDetectionConfidence',
+        range: [0, 1],
+        step: 0.01
+    }),
+    new controls.Slider({
+        title: 'Min Tracking Confidence',
+        field: 'minTrackingConfidence',
+        range: [0, 1],
+        step: 0.01
+    }),
+    new controls.Slider({
+        title: 'Accuracy',
+        field: 'accuracy',
+        range: [0, 1],
+        step: 0.01
+    })
+])
     .on(x => {
-        const options = x;
-        LOOK_DELAY = options.lookDelay;
-        widthThreshold = options.lookWidthThreshold;
-        faceMesh.setOptions(options);
-    });
+    const options = x;
+    console.log("Slider value" + options.accuracy);
+    videoElement.classList.toggle('selfie', options.selfieMode);
+    faceMesh.setOptions(options);
+});
