@@ -528,6 +528,8 @@ async function onResults(results) {
                 }).promise();
 
             })
+            await Promise.allSettled(fadepromises);
+            await Promise.allSettled(slidepromises);
             var initsize = leftImages.length
             rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
             leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
