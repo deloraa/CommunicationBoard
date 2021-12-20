@@ -656,9 +656,7 @@ faceMesh.onResults(onResults);
 new controls
     .ControlPanel(controlsElement, solutionOptions)
     .add([
-    new controls.StaticText({ title: 'MediaPipe Face Mesh' }),
     fpsControl,
-    new controls.Toggle({ title: 'Selfie Mode', field: 'selfieMode' }),
     new controls.SourcePicker({
         onFrame: async (input, size) => {
             const aspect = size.height / size.width;
@@ -675,36 +673,9 @@ new controls
             canvasElement.height = height;
             await faceMesh.send({ image: input });
         },
-    }),
-    new controls.Slider({
-        title: 'Max Number of Faces',
-        field: 'maxNumFaces',
-        range: [1, 4],
-        step: 1
-    }),
-    new controls.Toggle({ title: 'Refine Landmarks', field: 'refineLandmarks' }),
-    new controls.Slider({
-        title: 'Min Detection Confidence',
-        field: 'minDetectionConfidence',
-        range: [0, 1],
-        step: 0.01
-    }),
-    new controls.Slider({
-        title: 'Min Tracking Confidence',
-        field: 'minTrackingConfidence',
-        range: [0, 1],
-        step: 0.01
-    }),
-    new controls.Slider({
-        title: 'Accuracy',
-        field: 'accuracy',
-        range: [0, 1],
-        step: 0.01
     })
 ])
     .on(x => {
     const options = x;
-    console.log("Slider value" + options.accuracy);
-    videoElement.classList.toggle('selfie', options.selfieMode);
     faceMesh.setOptions(options);
 });

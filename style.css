@@ -58,12 +58,28 @@
     left: -30px;
     top: 20px;
   }
-  
+  /*
   .control-panel {
     position: absolute;
     left: 10px;
     top: 10px;
-  }
+  }*/
+  .control-panel-entry {
+    width: 250px;
+    background-color: #fff;
+    border: none; 
+    border-radius: none;
+    box-shadow: none;
+    cursor: pointer;
+    font-family: "Titillium Web",sans-serif;
+    font-size: 15px;
+    line-height: 25px;
+    opacity: .8;
+    padding: 0px 0px;
+    position: relative;
+    z-index: 100;
+    color:white;
+}
   
   .loading {
     display: flex;
