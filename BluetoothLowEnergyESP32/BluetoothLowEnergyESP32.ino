@@ -69,11 +69,9 @@ void loop() {
         if(rxloadvalue == 25 && ledstatus){
            ledstatus = false;
            digitalWrite(25, LOW);
-           Serial.println("Got the 3 false");
         }else if(rxloadvalue == 25 && !ledstatus){
            ledstatus = true;
            digitalWrite(25, HIGH);
-           Serial.println("Got the 3 true");
         }else if(rxloadvalue == 12 || rxloadvalue == 13 || rxloadvalue == 14 || rxloadvalue == 26 || rxloadvalue == 27 || rxloadvalue == 32){
            digitalWrite((int) rxloadvalue, HIGH);
            delay(500);
