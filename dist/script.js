@@ -476,8 +476,8 @@ async function onResults(results) {
             var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length), rightImages.slice(0, Math.floor(leftImages.length / 2)))
             var topLocation = new Array(Math.ceil(leftImages.length / 2))
             var leftLocation = new Array(Math.ceil(leftImages.length / 2))
-            //var promises = new Array(Math.ceil(leftImages.length / 2))
-            //var slidepromises = new Array(Math.ceil(leftImages.length / 2))
+            var fadepromises = new Array(Math.ceil(leftImages.length / 2))
+            var slidepromises = new Array(Math.ceil(leftImages.length / 2))
 
             $(rightImages).each(function(i) {
                 //$(this).css({'position':'absolute'});
@@ -494,7 +494,7 @@ async function onResults(results) {
 
                 $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': topLocation[i], 'left': leftLocation[i] });
         
-                /*promises[i] =*/ $(this).animate({
+                fadepromises[i] = $(this).animate({
                     width: 0,
                     height: 0
                 }, {
@@ -508,7 +508,7 @@ async function onResults(results) {
                             
                             var atrID = '#' + $(this).attr('id')
                             $(mapRightToLeft.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
-                            /*slidepromises[i] = */$(mapRightToLeft.get(atrID)).animate({
+                            slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
                                 top: topLocation[i],
                                 left: leftLocation[i]
                             }, {
