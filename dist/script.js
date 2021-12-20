@@ -436,9 +436,33 @@ async function onResults(results) {
 
     if (startLookTime + LOOK_DELAY < currentTime) {
         if (lookDirection === "LEFT") {
+            for (let i = leftImages.length/2; i < leftImages.length; i++) {
+                document.getElementById(leftImages[i].substring(1)).style.visibility = "hidden";
+            }
+            for (let i = leftImages.length/2; i < leftImages.length; i++) {
+                document.getElementById(rightImages[i-leftImages.length/2].substring(1)).src = document.getElementById(leftImages[i].substring(1)).src;
+            } 
+            for (let i = leftImages.length/2; i < leftImages.length; i++) {
+                document.getElementById(rightImages[i].substring(1)).style.visibility = "hidden";
+            } 
+            var initsize = leftImages.length
+            rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
+            leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
             lookDirection = "STOP"
             startLookTime = Number.POSITIVE_INFINITY;
         } else if (lookDirection === "RIGHT") {
+            for (let i = rightImages.length/2; i < rightImages.length; i++) {
+                document.getElementById(rightImages[i].substring(1)).style.visibility = "hidden";
+            }
+            for (let i = rightImages.length/2; i < rightImages.length; i++) {
+                document.getElementById(leftImages[i-rightImages.length/2].substring(1)).src = document.getElementById(rightImages[i].substring(1)).src;
+            } 
+            for (let i = rightImages.length/2; i < rightImages.length; i++) {
+                document.getElementById(leftImages[i].substring(1)).style.visibility = "hidden";
+            } 
+            var initsize = rightImages.length
+            rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
+            leftImages = leftImagesGlobal.slice(0, Math.floor(initsize / 2));
             lookDirection = "STOP"
             startLookTime = Number.POSITIVE_INFINITY;
         }
