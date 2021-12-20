@@ -485,15 +485,16 @@ async function onResults(results) {
                 leftLocation[i] = $(this)[0].getBoundingClientRect().left
                 $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
             });
+            
             $(rightImages).each(function(i) {
                 $(this).css({ 'position': 'absolute' });
             })
 
             $(rightImages).each(function(i) {
 
-                $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': top[i], 'left': left[i] });
+                $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': topLocation[i], 'left': leftLocation[i] });
         
-                promises[i] = $(this).animate({
+                /*promises[i] =*/ $(this).animate({
                     width: 0,
                     height: 0
                 }, {
@@ -507,9 +508,9 @@ async function onResults(results) {
                             
                             var atrID = '#' + $(this).attr('id')
                             $(mapRightToLeft.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
-                            slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
-                                top: top[i],
-                                left: left[i]
+                            /*slidepromises[i] = */$(mapRightToLeft.get(atrID)).animate({
+                                top: topLocation[i],
+                                left: leftLocation[i]
                             }, {
                                 duration: 700,
                                 complete: function() {
@@ -525,15 +526,8 @@ async function onResults(results) {
                         }
                     }
                 }).promise();
-/*            for (let i = leftImages.length/2; i < leftImages.length; i++) {
-                document.getElementById(leftImages[i].substring(1)).style.visibility = "hidden";
-            }
-            for (let i = leftImages.length/2; i < leftImages.length; i++) {
-                document.getElementById(rightImages[i-leftImages.length/2].substring(1)).src = document.getElementById(leftImages[i].substring(1)).src;
-            } 
-            for (let i = leftImages.length/2; i < leftImages.length; i++) {
-                document.getElementById(rightImages[i].substring(1)).style.visibility = "hidden";
-            } */
+
+            })
             var initsize = leftImages.length
             rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
             leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
