@@ -145,7 +145,7 @@ bluetoothbutton.onclick = () => {
                 console.error(error);
                 bluetoothConnected = false;
                 bluetoothbutton.className = "btn btn-outline-secondary"
-                bluetoothbutton.innerHTML = '<img src="images/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Connected';
+                bluetoothbutton.innerHTML = '<img src="images/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Disconnected';
             });
     }
 

@@ -131,51 +131,63 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-      </div>
+        <p style="text-align: center;">          
+          <button id="bluetoothButton" type="button" class="btn btn-outline-secondary" style="margin-left:auto">
+          <img src="Icons/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>
+          Bluetooth Disconnected
+        </button>
+
+        <button id="soundButton" type="button" class="btn btn-outline-secondary" style="margin-right:auto">
+          <img src="Icons/volume-mute.svg" width="16" height="16" viewBox="0 0 16 16"></img>
+          Sound Off
+        </button>
+      </p>
+        <div class="container-fluid" style="margin-left:auto; margin-right:auto">
+          <div class="row row-cols-3">
+            <div class="col">
+            <h6 style="text-align: center;">Frame rate and camera selector</h6>
       <div class="control-panel">
       </div>
-        <p>
-          <button id="bluetoothButton" type="button" class="btn btn-outline-secondary">
-            <img src="Icons/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>
-            Bluetooth Disconnected
-          </button>
-  
-          <button id="soundButton" type="button" class="btn btn-outline-secondary">
-            <img src="Icons/volume-mute.svg" width="16" height="16" viewBox="0 0 16 16"></img>
-            Sound Off
-          </button>
-      </p>
-        <h6>Camera Selector</h6>
-        <!--<div class="control-panel"></div>-->
+      
+
+        </div>
+        <div class="col">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-              <h6>Look left/right sensitivity</h6>
-              <input id="lookleftrightsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.08"> <span id="lookleftrightsens">0.08</span>
+              <h6 style="text-align: center;">Look left/right sensitivity</h6>
+              <div style="text-align: center;"><input  id="lookleftrightsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.08"> <span id="lookleftrightsens">0.08</span></div>
           </li>
           <li class="nav-item">
-            <h6>Look up sensitivity</h6>
-            <input id="lookupsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.11"> <span id="lookupsens">0.11</span>
+            <h6 style="text-align: center;">Look up sensitivity</h6>
+            <div style="text-align: center;"><input style="margin: 0px auto; text-align:center;" id="lookupsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.11"> <span id="lookupsens">0.11</span></div>
         </li>
           <li class="nav-item">
-              <h6>Time needed to activate selection</h6>
-              <input id="timetoactivateslider" type="range" step="10" min="100" max="3000" value="300"> <span id="timetoactivate">300</span>
+              <h6 style="text-align: center;">Time needed to activate selection</h6>
+              <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="timetoactivateslider" type="range" step="10" min="100" max="3000" value="300"> <span id="timetoactivate">300</span></div>
           </li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <h6>Time needed to activate look up to pause</h6>
-            <input id="timetoactivatelookupslider" type="range" step="10" min="50" max="2500" value="200"> <span id="timetoactivatelookup">200</span>
+            <h6 style="text-align: center;">Time needed to activate look up to pause</h6>
+            <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="timetoactivatelookupslider" type="range" step="10" min="50" max="2500" value="200"> <span id="timetoactivatelookup">200</span></div>
         </li>
         <li class="nav-item">
-          <h6>Eye Blink Sensitivity</h6>
-          <input id="eyeblinksensslider" type="range" step="0.1" min="2" max="10" value="5.5"> <span id="eyeblinksens">5.5</span>
+          <h6 style="text-align: center;">Eye Blink Sensitivity</h6>
+          <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="eyeblinksensslider" type="range" step="0.1" min="2" max="10" value="5.5"> <span id="eyeblinksens">5.5</span></div>
       </li>
       <li class="nav-item">
-        <h6>Eye Open Sensitivity</h6>
-        <input id="eyeopensensslider" type="range" step="0.1" min="2" max="10" value="4"> <span id="eyeopensens">4</span>
+        <h6 style="text-align: center;">Eye Open Sensitivity</h6>
+        <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="eyeopensensslider" type="range" step="0.1" min="2" max="10" value="4"> <span id="eyeopensens">4</span></div>
     </li>     
       </ul>
       </div>
     </div>
-  
+    </div>
+  </div>
+</div>
+  </div>
     <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasAbout" aria-labelledby="offcanvasBottomLabel" style="height:50vh">
       <div class="offcanvas-header">
         <h5 style="margin-left: auto;margin-right: auto" class="offcanvas-title" id="offcanvasBottomLabel">About</h5>
