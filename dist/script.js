@@ -570,15 +570,64 @@ async function onResults(results) {
                     modal.style.display = "none";
                 }, 5000);
             }else{
-            for (let i = rightImages.length/2; i < rightImages.length; i++) {
-                document.getElementById(rightImages[i].substring(1)).style.visibility = "hidden";
-            }
-            for (let i = rightImages.length/2; i < rightImages.length; i++) {
-                document.getElementById(leftImages[i-rightImages.length/2].substring(1)).src = document.getElementById(rightImages[i].substring(1)).src;
-            }
-            for (let i = rightImages.length/2; i < rightImages.length; i++) {
-                document.getElementById(leftImages[i].substring(1)).style.visibility = "hidden";
-            }
+                var mapLeftToRight = buildMap(leftImages.slice(0, Math.floor(rightImages.length / 2)), rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length))
+                var mapRightToLeft = buildMap(rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length), leftImages.slice(0, Math.floor(rightImages.length / 2)))
+
+                var topLocation = new Array(Math.ceil(rightImages.length / 2))
+                var leftLocation = new Array(Math.ceil(rightImages.length / 2))
+                var fadepromises = new Array(Math.ceil(rightImages.length / 2))
+                var slidepromises = new Array(Math.ceil(rightImages.length / 2))
+
+                $(leftImages).each(function(i) {
+                    //$(this).css({'position':'absolute'});
+                    topLocation[i] = $(this)[0].getBoundingClientRect().top
+                    leftLocation[i] = $(this)[0].getBoundingClientRect().left
+                    $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
+                })
+                $(leftImages).each(function(i) {
+                    $(this).css({ 'position': 'absolute' });
+                })
+
+                $(leftImages).each(function(i) {
+
+                    $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': topLocation[i], 'left': leftLocation[i] });
+                    fadepromises[i] = $(this).animate({
+                        width: 0,
+                        height: 0
+                    }, {
+                        duration: 400,
+                        queue: true,
+                        complete: function() {
+                            $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                            $(this).css('visibility', 'hidden');
+
+                            if (i < Math.ceil(rightImages.length / 2)) {
+                                
+                                var atrID = '#' + $(this).attr('id')
+                                $(mapLeftToRight.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
+                                slidepromises[i] = $(mapLeftToRight.get(atrID)).animate({
+                                    top: topLocation[i],
+                                    left: leftLocation[i]
+                                }, {
+                                    duration: 700,
+                                    complete: function() {
+                                        atrID = '#' + $(this).attr('id')
+                                        var leftImgSrc = $(this).attr('src')
+                                        $(mapRightToLeft.get(atrID)).attr("src", leftImgSrc);
+                                        $(mapRightToLeft.get(atrID)).css({ 'visibility': 'visible' });
+                                        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                                        $(this).css('visibility', 'hidden');
+
+                                    }
+                                }).promise();
+                            }
+                        }
+                    }).promise();
+
+                })
+ 
+                await Promise.allSettled(fadepromises);
+                await Promise.allSettled(slidepromises);
             var initsize = rightImages.length
             rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
             leftImages = leftImagesGlobal.slice(0, Math.floor(initsize / 2));
@@ -597,236 +646,6 @@ async function onResults(results) {
         rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
     }
 }
-/*
-    if (startLookTime + LOOK_DELAY < currentTime) {
-        if (lookDirection === "LEFT") {
-            if (leftImages.length == 1) {
-                // Get the modal
-                modal.style.display = "block";
-                if ($(leftImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
-                    $(leftImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
-                    imagelinks[31] = "Icons/32-SoundOn.jpeg"
-                    soundOnOff = true
-                } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
-                    $(leftImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
-                    imagelinks[31] = "Icons/32-SoundOff.jpeg"
-                    soundOnOff = false
-                }
-                modalImg.src = $(leftImages[0]).attr('src');
-                if (soundOnOff) {
-                    var audio = new Audio(imageSoundMap.get($(leftImages[0]).attr('src')));
-                    audio.play();
-                }
-                if (soundOnOff) {
-                    soundButton.className = "btn btn-outline-primary"
-                    soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
-                } else {
-                    soundButton.className = "btn btn-outline-secondary"
-                    soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
-                }
-                if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
-                    toggleLightCharacteristic.writeValue(Uint8Array.of(3));
-                }
-                //pause for 5000 ms on selection
-                setTimeout(() => {
-                    startLookTime = Number.POSITIVE_INFINITY;
-                    lookDirection = null;
-                    resetImages();
-                    modal.style.display = "none";
-
-                }, 5000);
-
-                //do something with last image
-            } else {
-
-
-                var mapRightToLeft = buildMap(rightImages.slice(0, Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
-                var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length), rightImages.slice(0, Math.floor(leftImages.length / 2)))
-                var top = new Array(Math.ceil(leftImages.length / 2))
-                var left = new Array(Math.ceil(leftImages.length / 2))
-                var promises = new Array(Math.ceil(leftImages.length / 2))
-                var slidepromises = new Array(Math.ceil(leftImages.length / 2))
-
-                $(rightImages).each(function(i) {
-                    //$(this).css({'position':'absolute'});
-                    top[i] = $(this)[0].getBoundingClientRect().top
-                    left[i] = $(this)[0].getBoundingClientRect().left
-                    $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
-                })
-                $(rightImages).each(function(i) {
-                    $(this).css({ 'position': 'absolute' });
-                })
-
-                $(rightImages).each(function(i) {
-
-                    $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': top[i], 'left': left[i] });
-            
-                    promises[i] = $(this).animate({
-                        width: 0,
-                        height: 0
-                    }, {
-                        duration: 400,
-                        queue: true,
-                        complete: function() {
-                            $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
-                            $(this).css('visibility', 'hidden');
-
-                            if (i < Math.ceil(leftImages.length / 2)) {
-                                
-                                var atrID = '#' + $(this).attr('id')
-                                $(mapRightToLeft.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
-                                slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
-                                    top: top[i],
-                                    left: left[i]
-                                }, {
-                                    duration: 700,
-                                    complete: function() {
-                                        atrID = '#' + $(this).attr('id')
-                                        var leftImgSrc = $(this).attr('src')
-                                        $(mapLeftToRight.get(atrID)).attr("src", leftImgSrc);
-                                        $(mapLeftToRight.get(atrID)).css({ 'visibility': 'visible' });
-                                        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
-                                        $(this).css('visibility', 'hidden');
-
-                                    }
-                                }).promise();
-                            }
-                        }
-                    }).promise();
-
-                })
-                var results = await Promise.allSettled(promises);
-                var slideresults = await Promise.allSettled(slidepromises);
-
-                var initsize = leftImages.length
-                rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
-                leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
-
-                lookDirection = "STOP"
-                startLookTime = Number.POSITIVE_INFINITY;
-            }
-
-
-        } else if (lookDirection === "RIGHT") {
-            if (rightImages.length === 1) {
-                modal.style.display = "block";
-                if ($(rightImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
-                    $(rightImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
-                    imagelinks[31] = "Icons/32-SoundOn.jpeg"
-                    soundOnOff = true
-                } else if ($(rightImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
-                    $(rightImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
-                    imagelinks[31] = "Icons/32-SoundOff.jpeg"
-                    soundOnOff = false
-                }
-                modalImg.src = $(rightImages[0]).attr('src');
-                if (soundOnOff) {
-                    var audio = new Audio(imageSoundMap.get($(rightImages[0]).attr('src')));
-                    audio.play();
-                }
-                if (soundOnOff) {
-                    soundButton.className = "btn btn-outline-primary"
-                    soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
-                } else {
-                    soundButton.className = "btn btn-outline-secondary"
-                    soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
-                }
-                if ($(rightImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
-                    toggleLightCharacteristic.writeValue(Uint8Array.of(3));
-                }
-                setTimeout(() => {
-                    startLookTime = Number.POSITIVE_INFINITY;
-                    lookDirection = null;
-                    resetImages();
-                    modal.style.display = "none";
-                }, 5000);
-                //do something with last image
-            } else {
-
-                var mapLeftToRight = buildMap(leftImages.slice(0, Math.floor(rightImages.length / 2)), rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length))
-                var mapRightToLeft = buildMap(rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length), leftImages.slice(0, Math.floor(rightImages.length / 2)))
-
-                var top = new Array(Math.ceil(rightImages.length / 2))
-                var left = new Array(Math.ceil(rightImages.length / 2))
-                var promises = new Array(Math.ceil(rightImages.length / 2))
-                var slidepromises = new Array(Math.ceil(rightImages.length / 2))
-
-                $(leftImages).each(function(i) {
-                    //$(this).css({'position':'absolute'});
-                    top[i] = $(this)[0].getBoundingClientRect().top
-                    left[i] = $(this)[0].getBoundingClientRect().left
-                    $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
-                })
-                $(leftImages).each(function(i) {
-                    $(this).css({ 'position': 'absolute' });
-                })
-
-                $(leftImages).each(function(i) {
-
-                    $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': top[i], 'left': left[i] });
-                    promises[i] = $(this).animate({
-                        width: 0,
-                        height: 0
-                    }, {
-                        duration: 400,
-                        queue: true,
-                        complete: function() {
-                            $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
-                            $(this).css('visibility', 'hidden');
-
-                            if (i < Math.ceil(rightImages.length / 2)) {
-                                
-                                var atrID = '#' + $(this).attr('id')
-                                $(mapLeftToRight.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
-                                slidepromises[i] = $(mapLeftToRight.get(atrID)).animate({
-                                    top: top[i],
-                                    left: left[i]
-                                }, {
-                                    duration: 700,
-                                    complete: function() {
-                                        atrID = '#' + $(this).attr('id')
-                                        var leftImgSrc = $(this).attr('src')
-                                        $(mapRightToLeft.get(atrID)).attr("src", leftImgSrc);
-                                        $(mapRightToLeft.get(atrID)).css({ 'visibility': 'visible' });
-                                        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
-                                        $(this).css('visibility', 'hidden');
-
-                                    }
-                                }).promise();
-                            }
-                        }
-                    }).promise();
-
-                })
-                var results = await Promise.allSettled(promises);
-                var slideresults = await Promise.allSettled(slidepromises);
-               
-
-                var initsize = rightImages.length
-
-                rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
-                leftImages = leftImagesGlobal.slice(0, Math.floor(initsize / 2));
-
-                lookDirection = "STOP"
-                startLookTime = Number.POSITIVE_INFINITY;
-            }
-
-        }
-        lookDirection = "RESET";
-
-
-    } else {
-
-        if (lookDirection === "LEFT" && LOOK_DELAY / 2 > currentTime - startLookTime) {
-            var timestampdiff = (currentTime - startLookTime) / (LOOK_DELAY / 2);
-            leftarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
-        } else if (lookDirection === "RIGHT" && LOOK_DELAY / 2 > currentTime - startLookTime) {
-            var timestampdiff = (currentTime - startLookTime) / (LOOK_DELAY / 2);
-            rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
-        }
-    }
-*/
-
 
 }
 const faceMesh = new mpFaceMesh.FaceMesh(config);
