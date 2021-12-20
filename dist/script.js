@@ -472,6 +472,19 @@ async function onResults(results) {
 
             }, 5000);
         }else{
+            var mapRightToLeft = buildMap(rightImages.slice(0, Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
+            var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length), rightImages.slice(0, Math.floor(leftImages.length / 2)))
+            var top = new Array(Math.ceil(leftImages.length / 2))
+            var left = new Array(Math.ceil(leftImages.length / 2))
+            var promises = new Array(Math.ceil(leftImages.length / 2))
+            var slidepromises = new Array(Math.ceil(leftImages.length / 2))
+
+            $(rightImages).each(function(i) {
+                //$(this).css({'position':'absolute'});
+                top[i] = $(this)[0].getBoundingClientRect().top
+                left[i] = $(this)[0].getBoundingClientRect().left
+                $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
+            })
             for (let i = leftImages.length/2; i < leftImages.length; i++) {
                 document.getElementById(leftImages[i].substring(1)).style.visibility = "hidden";
             }
