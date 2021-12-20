@@ -474,18 +474,58 @@ async function onResults(results) {
         }else{
             var mapRightToLeft = buildMap(rightImages.slice(0, Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
             var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length), rightImages.slice(0, Math.floor(leftImages.length / 2)))
-            var top = new Array(Math.ceil(leftImages.length / 2))
-            var left = new Array(Math.ceil(leftImages.length / 2))
-            var promises = new Array(Math.ceil(leftImages.length / 2))
-            var slidepromises = new Array(Math.ceil(leftImages.length / 2))
+            var topLocation = new Array(Math.ceil(leftImages.length / 2))
+            var leftLocation = new Array(Math.ceil(leftImages.length / 2))
+            //var promises = new Array(Math.ceil(leftImages.length / 2))
+            //var slidepromises = new Array(Math.ceil(leftImages.length / 2))
 
             $(rightImages).each(function(i) {
                 //$(this).css({'position':'absolute'});
-                top[i] = $(this)[0].getBoundingClientRect().top
-                left[i] = $(this)[0].getBoundingClientRect().left
+                topLocation[i] = $(this)[0].getBoundingClientRect().top
+                leftLocation[i] = $(this)[0].getBoundingClientRect().left
                 $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
+            });
+            $(rightImages).each(function(i) {
+                $(this).css({ 'position': 'absolute' });
             })
-            for (let i = leftImages.length/2; i < leftImages.length; i++) {
+
+            $(rightImages).each(function(i) {
+
+                $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': top[i], 'left': left[i] });
+        
+                promises[i] = $(this).animate({
+                    width: 0,
+                    height: 0
+                }, {
+                    duration: 400,
+                    queue: true,
+                    complete: function() {
+                        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                        $(this).css('visibility', 'hidden');
+
+                        if (i < Math.ceil(leftImages.length / 2)) {
+                            
+                            var atrID = '#' + $(this).attr('id')
+                            $(mapRightToLeft.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
+                            slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
+                                top: top[i],
+                                left: left[i]
+                            }, {
+                                duration: 700,
+                                complete: function() {
+                                    atrID = '#' + $(this).attr('id')
+                                    var leftImgSrc = $(this).attr('src')
+                                    $(mapLeftToRight.get(atrID)).attr("src", leftImgSrc);
+                                    $(mapLeftToRight.get(atrID)).css({ 'visibility': 'visible' });
+                                    $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                                    $(this).css('visibility', 'hidden');
+
+                                }
+                            }).promise();
+                        }
+                    }
+                }).promise();
+/*            for (let i = leftImages.length/2; i < leftImages.length; i++) {
                 document.getElementById(leftImages[i].substring(1)).style.visibility = "hidden";
             }
             for (let i = leftImages.length/2; i < leftImages.length; i++) {
@@ -493,7 +533,7 @@ async function onResults(results) {
             } 
             for (let i = leftImages.length/2; i < leftImages.length; i++) {
                 document.getElementById(rightImages[i].substring(1)).style.visibility = "hidden";
-            } 
+            } */
             var initsize = leftImages.length
             rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
             leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
