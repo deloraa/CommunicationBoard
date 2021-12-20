@@ -409,7 +409,7 @@ async function onResults(results) {
 
     if (!blinkRun) return;
     if (
-        horizontalLookRatio > maxThreshold &&
+        horizontalLookRatio < minThreshold &&
         lookDirection !== "LEFT" &&
         lookDirection !== "RESET"
     ) {
@@ -418,7 +418,7 @@ async function onResults(results) {
         rightarrowelement.style.backgroundColor = backgroundColorChange(0);
 
     } else if (
-        horizontalLookRatio < minThreshold &&
+        horizontalLookRatio > maxThreshold &&
         lookDirection !== "RIGHT" &&
         lookDirection !== "RESET"
     ) {
@@ -436,6 +436,42 @@ async function onResults(results) {
 
     if (startLookTime + LOOK_DELAY < currentTime) {
         if (lookDirection === "LEFT") {
+
+        if (leftImages.length == 1) {
+            modal.style.display = "block";
+            if ($(leftImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
+                $(leftImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
+                imagelinks[31] = "Icons/32-SoundOn.jpeg"
+                soundOnOff = true
+            } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
+                $(leftImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
+                imagelinks[31] = "Icons/32-SoundOff.jpeg"
+                soundOnOff = false
+            }
+            modalImg.src = $(leftImages[0]).attr('src');
+            if (soundOnOff) {
+                var audio = new Audio(imageSoundMap.get($(leftImages[0]).attr('src')));
+                audio.play();
+            }
+            if (soundOnOff) {
+                soundButton.className = "btn btn-outline-primary"
+                soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
+            } else {
+                soundButton.className = "btn btn-outline-secondary"
+                soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
+            }
+            if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
+                toggleLightCharacteristic.writeValue(Uint8Array.of(3));
+            }
+            //pause for 5000 ms on selection
+            setTimeout(() => {
+                startLookTime = Number.POSITIVE_INFINITY;
+                lookDirection = null;
+                resetImages();
+                modal.style.display = "none";
+
+            }, 5000);
+        }else{
             for (let i = leftImages.length/2; i < leftImages.length; i++) {
                 document.getElementById(leftImages[i].substring(1)).style.visibility = "hidden";
             }
@@ -450,21 +486,56 @@ async function onResults(results) {
             leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
             lookDirection = "STOP"
             startLookTime = Number.POSITIVE_INFINITY;
+        }
         } else if (lookDirection === "RIGHT") {
+            if (rightImages.length == 1) {
+                modal.style.display = "block";
+                if ($(rightImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
+                    $(rightImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
+                    imagelinks[31] = "Icons/32-SoundOn.jpeg"
+                    soundOnOff = true
+                } else if ($(rightImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
+                    $(rightImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
+                    imagelinks[31] = "Icons/32-SoundOff.jpeg"
+                    soundOnOff = false
+                }
+                modalImg.src = $(rightImages[0]).attr('src');
+                if (soundOnOff) {
+                    var audio = new Audio(imageSoundMap.get($(rightImages[0]).attr('src')));
+                    audio.play();
+                }
+                if (soundOnOff) {
+                    soundButton.className = "btn btn-outline-primary"
+                    soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
+                } else {
+                    soundButton.className = "btn btn-outline-secondary"
+                    soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
+                }
+                if ($(rightImages[0]).attr('src') === "Icons/25-Light.jpeg" && bluetoothConnected) {
+                    toggleLightCharacteristic.writeValue(Uint8Array.of(3));
+                }
+                setTimeout(() => {
+                    startLookTime = Number.POSITIVE_INFINITY;
+                    lookDirection = null;
+                    resetImages();
+                    modal.style.display = "none";
+                }, 5000);
+            }else{
             for (let i = rightImages.length/2; i < rightImages.length; i++) {
                 document.getElementById(rightImages[i].substring(1)).style.visibility = "hidden";
             }
             for (let i = rightImages.length/2; i < rightImages.length; i++) {
                 document.getElementById(leftImages[i-rightImages.length/2].substring(1)).src = document.getElementById(rightImages[i].substring(1)).src;
-            } 
+            }
             for (let i = rightImages.length/2; i < rightImages.length; i++) {
                 document.getElementById(leftImages[i].substring(1)).style.visibility = "hidden";
-            } 
+            }
             var initsize = rightImages.length
             rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
             leftImages = leftImagesGlobal.slice(0, Math.floor(initsize / 2));
             lookDirection = "STOP"
             startLookTime = Number.POSITIVE_INFINITY;
+        }
         }
         lookDirection = "RESET";
     } else {
