@@ -306,7 +306,7 @@ var loadingtext = document.getElementById("loadingtext");
 var blinkStartTime = Number.POSITIVE_INFINITY;
 var blinkVal = null;
 var blinkRun = true;
-
+var selectionMade = false;
 
 function backgroundColorChange(opacity) {
     return "rgba(11, 94, 215," + opacity + ")";
@@ -360,6 +360,7 @@ const spinner = document.querySelector('.loading');
 spinner.ontransitionend = () => {
     spinner.style.display = 'none';
 };
+
 async function onResults(results) {
       // if (!results.multiFaceLandmarks) return
     //  if(typeof results === "undefined") return
@@ -374,12 +375,15 @@ async function onResults(results) {
     canvasCtx.restore();
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
-    if (blinkRun) {
-        loadingtext.innerText = 'Running. Blink either eye to pause';
-    } else {
-        loadingtext.innerText = 'Paused. Blink either eye to start';
+    if(!selectionMade){
+        if (blinkRun) {
+            loadingtext.innerText = 'Running. Blink either eye to pause';
+        } else {
+            loadingtext.innerText = 'Paused. Blink either eye to start';
+        }
+    }else{
+            loadingtext.innerText = 'Blink either eye to reset';
     }
-
     var currentTime = +new Date();
     
     if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
@@ -396,10 +400,17 @@ async function onResults(results) {
 
     if (blinkStartTime + LOOK_DELAY < currentTime) {
         if (blinkVal === "BLINK") {
-            if (blinkRun) {
-                blinkRun = false;
-            } else {
-                blinkRun = true;
+            if(selectionMade){
+                resetImages();
+                startLookTime = Number.POSITIVE_INFINITY;
+                lookDirection = null;
+                selectionMade=false;
+            }else{
+                if (blinkRun) {
+                    blinkRun = false;
+                } else {
+                    blinkRun = true;
+                }
             }
             blinkStartTime = Number.POSITIVE_INFINITY;
             blinkVal = "STOP";
@@ -435,8 +446,8 @@ async function onResults(results) {
     }
 
     if (startLookTime + LOOK_DELAY < currentTime) {
+        selectionMade = true;
         if (lookDirection === "LEFT") {
-
         if (leftImages.length == 1) {
             modalImg.src = $(leftImages[0]).attr('src');
             $(rightImages[0]).attr('src',$(leftImages[0]).attr('src'));
@@ -486,7 +497,7 @@ async function onResults(results) {
                 lookDirection = null;
                 resetImages();
                 modal.style.display = "none";
-
+                selectionMade = false;
             }, 5000);
         }else{
             var mapRightToLeft = buildMap(rightImages.slice(0, Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
@@ -601,6 +612,7 @@ async function onResults(results) {
                     lookDirection = null;
                     resetImages();
                     modal.style.display = "none";
+                    selectionMade = false;
                 }, 5000);
             }else{
                 var mapLeftToRight = buildMap(leftImages.slice(0, Math.floor(rightImages.length / 2)), rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length))
