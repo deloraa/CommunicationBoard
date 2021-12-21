@@ -438,7 +438,10 @@ async function onResults(results) {
         if (lookDirection === "LEFT") {
 
         if (leftImages.length == 1) {
+            modalImg.src = $(leftImages[0]).attr('src');
+            $(rightImages[0]).attr('src',$(leftImages[0]).attr('src'));
             modal.style.display = "block";
+            
             if ($(leftImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
                 $(leftImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
                 imagelinks[31] = "Icons/32-SoundOn.jpeg"
@@ -448,7 +451,7 @@ async function onResults(results) {
                 imagelinks[31] = "Icons/32-SoundOff.jpeg"
                 soundOnOff = false
             }
-            modalImg.src = $(leftImages[0]).attr('src');
+            
             if (soundOnOff) {
                 var audio = new Audio(imageSoundMap.get($(leftImages[0]).attr('src')));
                 audio.play();
@@ -552,7 +555,9 @@ async function onResults(results) {
         }
         } else if (lookDirection === "RIGHT") {
             if (rightImages.length == 1) {
+                modalImg.src = $(rightImages[0]).attr('src');
                 modal.style.display = "block";
+                $(leftImages[0]).attr('src',$(rightImages[0]).attr('src'));
                 if ($(rightImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
                     $(rightImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
                     imagelinks[31] = "Icons/32-SoundOn.jpeg"
@@ -562,7 +567,7 @@ async function onResults(results) {
                     imagelinks[31] = "Icons/32-SoundOff.jpeg"
                     soundOnOff = false
                 }
-                modalImg.src = $(rightImages[0]).attr('src');
+                
                 if (soundOnOff) {
                     var audio = new Audio(imageSoundMap.get($(rightImages[0]).attr('src')));
                     audio.play();
