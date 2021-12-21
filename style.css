@@ -104,8 +104,8 @@
     width: 120px;
     height: 120px;
     animation: spin 1s linear infinite;
-    border: 32px solid #bebebe;
-    border-top: 32px solid #3498db;
+    border: 15px solid #bebebe;
+    border-top: 15px solid #3498db;
     border-radius: 50%;
   }
   
