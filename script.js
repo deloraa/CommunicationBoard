@@ -241,6 +241,74 @@ function resetImages() {
     });
 }
 
+async function resetImagesAnimation() {
+    var topLocation = new Array(imagesswapIdReset.length);
+    var leftLocation = new Array(imagesswapIdReset.length);
+    var oldwidth = new Array(imagesswapIdReset.length);
+    var oldheight = new Array(imagesswapIdReset.length);
+    var fadepromises = new Array(imagesswapIdReset.length);
+    var viewpromises = new Array(imagesswapIdReset.length);
+    leftImages = imagesswapIdReset.slice(0, Math.ceil(imagelinks.length / 2));
+    rightImages = imagesswapIdReset.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
+
+    var leftHeight = $('#leftcontainer').height()
+    var leftWidth = $('#leftcontainer').width()
+
+    var rightHeight = $('#rightcontainer').height()
+    var rightWidth = $('#rightcontainer').width()
+    $('#leftcontainer').css({ 'width': leftWidth, 'height': leftHeight });
+    $('#rightcontainer').css({ 'width': rightWidth, 'height': rightHeight });
+    $(imagesswapIdReset).each(function(i) {
+        //$(this).css({'position':'absolute'});
+        topLocation[i] = $(this)[0].getBoundingClientRect().top
+        leftLocation[i] = $(this)[0].getBoundingClientRect().left
+        oldwidth[i] = $(this).width();
+        oldheight[i] = $(this).height();
+        $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
+    });
+    
+    $(imagesswapIdReset).each(function(i) {
+        $(this).css({ 'position': 'absolute' });
+    })
+
+    $(imagesswapIdReset).each(function(i) {
+
+        $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': topLocation[i], 'left': leftLocation[i] });
+
+        fadepromises[i] = $(this).animate({
+            width: 0,
+            height: 0
+        }, {
+            duration: 400,
+            queue: true,
+            complete: function() {
+                $(this).attr("src", imagelinks[i]);
+                $(this).css({'visibility': 'visible' });
+                viewpromises[i] = $(this).animate({
+                    width: oldwidth[i],
+                    height: oldheight[i]
+                }, {
+                    duration: 400,
+                    queue: true
+                });
+            }
+        }).promise();
+    });
+
+    await Promise.allSettled(fadepromises);
+    await Promise.allSettled(viewpromises);
+    $(rightImages).each(function(i) {
+        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '', 'visibility': 'visible' });
+        
+    });
+    $(leftImages).each(function(i) {
+        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '', 'visibility': 'visible' });
+      
+    });
+    $('#rightcontainer').css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': ''});
+    $('#leftcontainer').css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': ''});
+}
+
 const LEFT_IRIS = [474, 475, 476, 477];
 const LEFT_EYE = [362, 382, 381, 380, 374, 373, 390, 249, 263, 466, 388, 387, 386, 385, 384, 398];
 
@@ -433,7 +501,7 @@ async function onResults(results) {
     if (blinkStartTime + BLINK_DELAY < currentTime) {
         if (blinkVal === "BLINK") {
             if(selectionMade){
-                resetImages();
+                resetImagesAnimation();
                 startLookTime = Number.POSITIVE_INFINITY;
                 lookDirection = null;
                 selectionMade=false;
