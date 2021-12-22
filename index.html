@@ -141,6 +141,10 @@
           <img src="Icons/volume-mute.svg" width="16" height="16" viewBox="0 0 16 16"></img>
           Sound Off
         </button>
+
+        <button id="resetSettings" type="button" class="btn btn-outline-secondary" style="margin-right:auto">
+          Reset Settings
+        </button>
       </p>
         <div class="container-fluid" style="margin-left:auto; margin-right:auto">
           <div class="row row-cols-3">
@@ -158,11 +162,7 @@
               <div style="text-align: center;"><input  id="lookleftrightsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.08"> <span id="lookleftrightsens">0.08</span></div>
           </li>
           <li class="nav-item">
-            <h6 style="text-align: center;">Look up sensitivity</h6>
-            <div style="text-align: center;"><input style="margin: 0px auto; text-align:center;" id="lookupsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.11"> <span id="lookupsens">0.11</span></div>
-        </li>
-          <li class="nav-item">
-              <h6 style="text-align: center;">Time needed to activate selection</h6>
+              <h6 style="text-align: center;">Left Right Activate Selection Time</h6>
               <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="timetoactivateslider" type="range" step="10" min="100" max="3000" value="300"> <span id="timetoactivate">300</span></div>
           </li>
         </ul>
@@ -170,8 +170,8 @@
       <div class="col">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <h6 style="text-align: center;">Time needed to activate look up to pause</h6>
-            <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="timetoactivatelookupslider" type="range" step="10" min="50" max="2500" value="200"> <span id="timetoactivatelookup">200</span></div>
+            <h6 style="text-align: center;">Blink Delay Time</h6>
+            <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="timetoblinkslider" type="range" step="10" min="50" max="2500" value="400"> <span id="timetoblink">400</span></div>
         </li>
         <li class="nav-item">
           <h6 style="text-align: center;">Eye Blink Sensitivity</h6>

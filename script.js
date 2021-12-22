@@ -34,11 +34,11 @@ function testSupport(supportedDevices) {
 
 //between 0.00-0.5
 var widthThreshold = 0.08;
-var LOOK_DELAY = 300; // 0.5 second
+var LOOK_DELAY = 300; 
 var verticalThreshold = -0.11;
-var LOOK_UP_DELAY = 200;
 var upperBlinkCutoff = 5.5;
 var lowerBlinkCutoff = 4;
+var BLINK_DELAY = 400;
 
 var lookleftrightsensslider = document.getElementById("lookleftrightsensslider");
 var lookleftrightsens = document.getElementById("lookleftrightsens");
@@ -46,14 +46,6 @@ lookleftrightsens.innerHTML = lookleftrightsensslider.value; // Display the defa
 lookleftrightsensslider.oninput = function() {
     lookleftrightsens.innerHTML = this.value;
     widthThreshold = parseFloat(this.value);
-}
-
-var lookupsensslider = document.getElementById("lookupsensslider");
-var lookupsens = document.getElementById("lookupsens");
-lookupsens.innerHTML = lookupsensslider.value; // Display the default slider value
-lookupsensslider.oninput = function() {
-    lookupsens.innerHTML = this.value;
-    verticalThreshold = -1 * parseFloat(this.value);
 }
 
 var timetoactivateslider = document.getElementById("timetoactivateslider");
@@ -64,12 +56,28 @@ timetoactivateslider.oninput = function() {
     LOOK_DELAY = parseInt(this.value);
 }
 
-var timetoactivatelookupslider = document.getElementById("timetoactivatelookupslider");
-var timetoactivatelookup = document.getElementById("timetoactivatelookup");
-timetoactivatelookup.innerHTML = timetoactivatelookupslider.value; // Display the default slider value
-timetoactivatelookupslider.oninput = function() {
-    timetoactivatelookup.innerHTML = this.value;
-    LOOK_UP_DELAY = parseInt(this.value);
+var timetoblinkslider = document.getElementById("timetoblinkslider");
+var timetoblink = document.getElementById("timetoblink");
+timetoblink.innerHTML = timetoblinkslider.value; // Display the default slider value
+timetoblinkslider.oninput = function() {
+    timetoblink.innerHTML = this.value;
+    BLINK_DELAY = parseInt(this.value);
+}
+
+var eyeblinksensslider = document.getElementById("eyeblinksensslider");
+var eyeblinksens = document.getElementById("eyeblinksens");
+eyeblinksens.innerHTML = eyeblinksensslider.value; // Display the default slider value
+eyeblinksensslider.oninput = function() {
+    eyeblinksens.innerHTML = this.value;
+    upperBlinkCutoff = parseInt(this.value);
+}
+
+var eyeopensensslider = document.getElementById("eyeopensensslider");
+var eyeopensens = document.getElementById("eyeopensens");
+eyeopensens.innerHTML = eyeopensensslider.value; // Display the default slider value
+eyeopensensslider.oninput = function() {
+    eyeopensens.innerHTML = this.value;
+    lowerBlinkCutoff = parseInt(this.value);
 }
 
 var soundButton = document.getElementById('soundButton');
@@ -149,6 +157,30 @@ bluetoothbutton.onclick = () => {
             });
     }
 
+}
+
+var resetSettings = document.getElementById('resetSettings');
+resetSettings.onclick = () => {
+    //----
+    widthThreshold = 0.08;
+    lookleftrightsensslider.value = 0.08;
+    lookleftrightsens.innerHTML = 0.08;
+    //----
+    LOOK_DELAY = 300;
+    timetoactivate.innerHTML = 300;
+    timetoactivateslider.value = 300;
+    //----
+    BLINK_DELAY = 400;
+    timetoblink.innerHTML = 400; // Display the default slider value
+    timetoblinkslider.value = 400;
+    //----
+    upperBlinkCutoff = 5.5;
+    eyeblinksens.innerHTML = 5.5;
+    eyeblinksensslider.value = 5.5;
+    //----
+    lowerBlinkCutoff = 4;
+    eyeopensens.innerHTML = 4;
+    eyeopensensslider.value = 4; 
 }
 
 var imagelinks = ["Icons/1-Afraid.jpeg", "Icons/2-Pain.jpeg", "Icons/3-Yes.jpeg", "Icons/4-No.jpeg", "Icons/5-Sad.jpeg", "Icons/6-Frustrated.jpeg", "Icons/7-Nurse.jpeg", "Icons/8-Doctor.jpeg", "Icons/9-Tired.jpeg", "Icons/10-FeelSick.jpeg", "Icons/11-Cold_hot.jpeg", "Icons/12-ShortofBreath.jpeg", "Icons/13-Angry.jpeg", "Icons/14-Dizzy.jpeg", "Icons/15-Choking.jpeg", "Icons/16-Hungry.jpeg", "Icons/17-HowamI.jpeg", "Icons/18-WhatTime.jpeg", "Icons/19-WhatsHappening.jpeg", "Icons/20-Comeback.jpeg", "Icons/21-Situp.jpeg", "Icons/22-LieDown.jpeg", "Icons/23-Home.jpeg", "Icons/24-TV_Video.jpeg", "Icons/25-Light.jpeg", "Icons/26-CallLight.jpeg", "Icons/27-Water.jpeg", "Icons/28-Glasses.jpeg", "Icons/29-Suction.jpeg", "Icons/30-LipsMoistened.jpeg", "Icons/31-Sleep.jpeg", "Icons/32-SoundOff.jpeg"];
@@ -398,7 +430,7 @@ async function onResults(results) {
         blinkStartTime = Number.POSITIVE_INFINITY;
     }
 
-    if (blinkStartTime + LOOK_DELAY < currentTime) {
+    if (blinkStartTime + BLINK_DELAY < currentTime) {
         if (blinkVal === "BLINK") {
             if(selectionMade){
                 resetImages();
