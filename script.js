@@ -38,7 +38,7 @@ var LOOK_DELAY = 300;
 var verticalThreshold = -0.11;
 var upperBlinkCutoff = 5.5;
 var lowerBlinkCutoff = 4;
-var BLINK_DELAY = 400;
+var BLINK_DELAY = 1000;
 
 var lookleftrightsensslider = document.getElementById("lookleftrightsensslider");
 var lookleftrightsens = document.getElementById("lookleftrightsens");
@@ -170,9 +170,9 @@ resetSettings.onclick = () => {
     timetoactivate.innerHTML = 300;
     timetoactivateslider.value = 300;
     //----
-    BLINK_DELAY = 400;
-    timetoblink.innerHTML = 400; // Display the default slider value
-    timetoblinkslider.value = 400;
+    BLINK_DELAY = 1000;
+    timetoblink.innerHTML = 1000; // Display the default slider value
+    timetoblinkslider.value = 1000;
     //----
     upperBlinkCutoff = 5.5;
     eyeblinksens.innerHTML = 5.5;
@@ -460,7 +460,9 @@ const spinner = document.querySelector('.loading');
 spinner.ontransitionend = () => {
     spinner.style.display = 'none';
 };
-
+var playElement = document.getElementById("play");
+var pauseElement = document.getElementById("pause");
+var resetElement = document.getElementById("reset");
 async function onResults(results) {
       // if (!results.multiFaceLandmarks) return
     //  if(typeof results === "undefined") return
@@ -480,6 +482,7 @@ async function onResults(results) {
             loadingtext.innerText = 'Running. Blink either eye to pause';
         } else {
             loadingtext.innerText = 'Paused. Blink either eye to start';
+            
         }
     }else{
             loadingtext.innerText = 'Blink either eye to reset';
@@ -496,6 +499,13 @@ async function onResults(results) {
     } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
         blinkVal = null;
         blinkStartTime = Number.POSITIVE_INFINITY;
+        resetElement.style.opacity = 0;
+        playElement.style.opacity = 0;
+        if(!blinkRun){
+            pauseElement.style.opacity = 1;
+        }else{
+            pauseElement.style.opacity = 0;
+        }
     }
 
     if (blinkStartTime + BLINK_DELAY < currentTime) {
@@ -516,7 +526,23 @@ async function onResults(results) {
             blinkVal = "STOP";
         }
         blinkVal = "RESET";
+    }else{
+    
+    if (blinkVal === "BLINK" && BLINK_DELAY / 2 > currentTime - blinkStartTime) {
+        var timestampdiff = (currentTime - blinkStartTime) / (BLINK_DELAY / 2);
+        console.log(timestampdiff)
+        if(selectionMade){
+            resetElement.style.opacity = timestampdiff;
+        }else{
+            if (blinkRun) {
+                pauseElement.style.opacity = timestampdiff;
+            } else {
+                playElement.style.opacity = timestampdiff;
+                pause.style.opacity = 1-timestampdiff;
+            }
+        }
     }
+}
 
     if (!blinkRun) return;
     if (
