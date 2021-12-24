@@ -73,7 +73,7 @@ function testSupport(supportedDevices) {
         isSupported = true;
         break;
     }
-    if (isSupported) {
+    if (!isSupported) {
 
         incompatibleOSModalID.style.visibility = "visible"
         incompatibleOSText.innerHTML = `This app is running on ${detectedDevice.client.name}/${detectedDevice.os.name}, ` +
