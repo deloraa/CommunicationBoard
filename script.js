@@ -3,9 +3,22 @@ import DeviceDetector from "https://cdn.skypack.dev/device-detector-js@2.2.10";
 // Client and os are regular expressions.
 // See: https://cdn.jsdelivr.net/npm/device-detector-js@2.2.10/README.md for
 // legal values for client and os
+
+var incompatibleOSText = document.getElementById("incompatibleOSText");
+var incompatibleOSModalID = document.getElementById("incompatibleOSModalID");
+
+incompatibleOSModalID.onclick = function () {
+    for (var key in imageSoundMap) {
+        imageSoundMap[key].play()
+        imageSoundMap[key].pause()
+        imageSoundMap[key].currentTime = 0
+    }
+    incompatibleOSModalID.style.visibility = "hidden"
+}
 testSupport([
     { client: 'Chrome' },
 ]);
+
 function testSupport(supportedDevices) {
     const deviceDetector = new DeviceDetector();
     const detectedDevice = deviceDetector.parse(navigator.userAgent);
@@ -27,10 +40,13 @@ function testSupport(supportedDevices) {
         break;
     }
     if (!isSupported) {
-        alert(`This demo, running on ${detectedDevice.client.name}/${detectedDevice.os.name}, ` +
-            `is not well supported at this time, continue at your own risk.`);
+
+        incompatibleOSModalID.style.visibility = "visible"
+        incompatibleOSText.innerHTML = `This app is running on ${detectedDevice.client.name}/${detectedDevice.os.name}, ` +
+            `and is not well supported at this time. Touch or click anywhere on screen to continue.`;
     }
 }
+
 
 //between 0.00-0.5
 var widthThreshold = 0.08;
@@ -192,39 +208,39 @@ const rightImagesGlobal = ["#img100", "#img101", "#img102", "#img103", "#img110"
 var leftImages = leftImagesGlobal;
 var rightImages = rightImagesGlobal;
 const imageSoundMap = new Map();
-imageSoundMap.set("Icons/1-Afraid.jpeg", "Audio/1-IamAfraid.mp3");
-imageSoundMap.set("Icons/2-Pain.jpeg", "Audio/2-IaminPain.mp3");
-imageSoundMap.set("Icons/3-Yes.jpeg", "Audio/3-Yes.mp3");
-imageSoundMap.set("Icons/4-No.jpeg", "Audio/4-No.mp3");
-imageSoundMap.set("Icons/5-Sad.jpeg", "Audio/5-IamSad.mp3");
-imageSoundMap.set("Icons/6-Frustrated.jpeg", "Audio/6-IamFrustrated.mp3");
-imageSoundMap.set("Icons/7-Nurse.jpeg", "Audio/7-Nurse.mp3");
-imageSoundMap.set("Icons/8-Doctor.jpeg", "Audio/8-Doctor.mp3");
-imageSoundMap.set("Icons/9-Tired.jpeg", "Audio/9-Iamtired.mp3");
-imageSoundMap.set("Icons/10-FeelSick.jpeg", "Audio/10-IamFeelingSick.mp3");
-imageSoundMap.set("Icons/11-Cold_hot.jpeg", "Audio/11-IamColdHot.mp3");
-imageSoundMap.set("Icons/12-ShortofBreath.jpeg", "Audio/12-IamShortofBreath.mp3");
-imageSoundMap.set("Icons/13-Angry.jpeg", "Audio/13-IamAngry.mp3");
-imageSoundMap.set("Icons/14-Dizzy.jpeg", "Audio/14-IamDizzy.mp3");
-imageSoundMap.set("Icons/15-Choking.jpeg", "Audio/15-IamChoking.mp3");
-imageSoundMap.set("Icons/16-Hungry.jpeg", "Audio/16-IamHungryorThirsty.mp3");
-imageSoundMap.set("Icons/17-HowamI.jpeg", "Audio/17-HowamIDoing.mp3");
-imageSoundMap.set("Icons/18-WhatTime.jpeg", "Audio/18-WhatTime.mp3");
-imageSoundMap.set("Icons/19-WhatsHappening.jpeg", "Audio/19-WhatisHappening.mp3");
-imageSoundMap.set("Icons/20-Comeback.jpeg", "Audio/20-ComeBack.mp3");
-imageSoundMap.set("Icons/21-Situp.jpeg", "Audio/21-IWantHeadofbeduporDown.mp3");
-imageSoundMap.set("Icons/22-LieDown.jpeg", "Audio/22-IwanttoLieDown.mp3");
-imageSoundMap.set("Icons/23-Home.jpeg", "Audio/23-IwanttoGoHome.mp3");
-imageSoundMap.set("Icons/24-TV_Video.jpeg", "Audio/24-IwanttheTVorVideo.mp3");
-imageSoundMap.set("Icons/25-Light.jpeg", "Audio/25-IwantTheLightsOnorOffPlease.mp3");
-imageSoundMap.set("Icons/26-CallLight.jpeg", "Audio/26-IwanttheCalllightOrtheRemote.mp3");
-imageSoundMap.set("Icons/27-Water.jpeg", "Audio/27-IwantWater.mp3");
-imageSoundMap.set("Icons/28-Glasses.jpeg", "Audio/28-Glasses.mp3");
-imageSoundMap.set("Icons/29-Suction.jpeg", "Audio/29-IwanttobeSuctioned.mp3");
-imageSoundMap.set("Icons/30-LipsMoistened.jpeg", "Audio/30-LipsMoistened.mp3");
-imageSoundMap.set("Icons/31-Sleep.jpeg", "Audio/31-Sleep.mp3");
-imageSoundMap.set("Icons/32-SoundOff.jpeg", "Audio/32-SoundOff.mp3");
-imageSoundMap.set("Icons/32-SoundOn.jpeg", "Audio/32-SoundOn.mp3");
+imageSoundMap.set("Icons/1-Afraid.jpeg", new Audio("Audio/1-IamAfraid.mp3"));
+imageSoundMap.set("Icons/2-Pain.jpeg", new Audio("Audio/2-IaminPain.mp3"));
+imageSoundMap.set("Icons/3-Yes.jpeg", new Audio("Audio/3-Yes.mp3"));
+imageSoundMap.set("Icons/4-No.jpeg", new Audio("Audio/4-No.mp3"));
+imageSoundMap.set("Icons/5-Sad.jpeg", new Audio("Audio/5-IamSad.mp3"));
+imageSoundMap.set("Icons/6-Frustrated.jpeg", new Audio("Audio/6-IamFrustrated.mp3"));
+imageSoundMap.set("Icons/7-Nurse.jpeg", new Audio("Audio/7-Nurse.mp3"));
+imageSoundMap.set("Icons/8-Doctor.jpeg", new Audio("Audio/8-Doctor.mp3"));
+imageSoundMap.set("Icons/9-Tired.jpeg", new Audio("Audio/9-Iamtired.mp3"));
+imageSoundMap.set("Icons/10-FeelSick.jpeg", new Audio("Audio/10-IamFeelingSick.mp3"));
+imageSoundMap.set("Icons/11-Cold_hot.jpeg", new Audio("Audio/11-IamColdorHot.mp3"));
+imageSoundMap.set("Icons/12-ShortofBreath.jpeg", new Audio("Audio/12-IamShortofBreath.mp3"));
+imageSoundMap.set("Icons/13-Angry.jpeg", new Audio("Audio/13-IamAngry.mp3"));
+imageSoundMap.set("Icons/14-Dizzy.jpeg", new Audio("Audio/14-IamDizzy.mp3"));
+imageSoundMap.set("Icons/15-Choking.jpeg", new Audio("Audio/15-IamChoking.mp3"));
+imageSoundMap.set("Icons/16-Hungry.jpeg", new Audio("Audio/16-IamHungryorThirsty.mp3"));
+imageSoundMap.set("Icons/17-HowamI.jpeg", new Audio("Audio/17-HowamIDoing.mp3"));
+imageSoundMap.set("Icons/18-WhatTime.jpeg", new Audio("Audio/18-WhatTime.mp3"));
+imageSoundMap.set("Icons/19-WhatsHappening.jpeg", new Audio("Audio/19-WhatisHappening.mp3"));
+imageSoundMap.set("Icons/20-Comeback.jpeg", new Audio("Audio/20-ComeBack.mp3"));
+imageSoundMap.set("Icons/21-Situp.jpeg", new Audio("Audio/21-IWantHeadofbeduporDown.mp3"));
+imageSoundMap.set("Icons/22-LieDown.jpeg", new Audio("Audio/22-IwanttoLieDown.mp3"));
+imageSoundMap.set("Icons/23-Home.jpeg", new Audio("Audio/23-IwanttoGoHome.mp3"));
+imageSoundMap.set("Icons/24-TV_Video.jpeg", new Audio("Audio/24-IwanttheTVorVideo.mp3"));
+imageSoundMap.set("Icons/25-Light.jpeg", new Audio("Audio/25-IwantTheLightsOnorOffPlease.mp3"));
+imageSoundMap.set("Icons/26-CallLight.jpeg", new Audio("Audio/26-IwanttheCalllightOrtheRemote.mp3"));
+imageSoundMap.set("Icons/27-Water.jpeg", new Audio("Audio/27-IwantWater.mp3"));
+imageSoundMap.set("Icons/28-Glasses.jpeg", new Audio("Audio/28-Glasses.mp3"));
+imageSoundMap.set("Icons/29-Suction.jpeg", new Audio("Audio/29-IwanttobeSuctioned.mp3"));
+imageSoundMap.set("Icons/30-LipsMoistened.jpeg", new Audio("Audio/30-LipsMoistened.mp3"));
+imageSoundMap.set("Icons/31-Sleep.jpeg", new Audio("Audio/31-Sleep.mp3"));
+imageSoundMap.set("Icons/32-SoundOff.jpeg", new Audio("Audio/32-SoundOff.mp3"));
+imageSoundMap.set("Icons/32-SoundOn.jpeg", new Audio("Audio/32-SoundOn.mp3"));
 
 function resetImages() {
     leftImages = imagesswapIdReset.slice(0, Math.ceil(imagelinks.length / 2));
@@ -479,9 +495,9 @@ async function onResults(results) {
     var maxThreshold = 0.5 + widthThreshold;
     if(!selectionMade){
         if (blinkRun) {
-            loadingtext.innerText = 'Running. Blink either eye to pause';
+            loadingtext.innerText = 'Blink either eye to pause';
         } else {
-            loadingtext.innerText = 'Paused. Blink either eye to start';
+            loadingtext.innerText = 'Blink either eye to start';
             
         }
     }else{
@@ -590,8 +606,7 @@ async function onResults(results) {
             }
             
             if (soundOnOff) {
-                var audio = new Audio(imageSoundMap.get($(leftImages[0]).attr('src')));
-                audio.play();
+                imageSoundMap.get($(leftImages[0]).attr('src')).play();
             }
             if (soundOnOff) {
                 soundButton.className = "btn btn-outline-primary"
@@ -706,8 +721,7 @@ async function onResults(results) {
                 }
                 
                 if (soundOnOff) {
-                    var audio = new Audio(imageSoundMap.get($(rightImages[0]).attr('src')));
-                    audio.play();
+                    imageSoundMap.get($(rightImages[0]).attr('src')).play();
                 }
                 if (soundOnOff) {
                     soundButton.className = "btn btn-outline-primary"

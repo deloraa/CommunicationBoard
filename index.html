@@ -15,6 +15,12 @@
 </head>
 <body style="background:#dceaf2">
 <!-- partial:index.partial.html -->
+<div id="incompatibleOSModalID" class="incompatiblemodal">
+  <div style="display: block; margin-left: auto; margin-right: auto;width:20%;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%)">
+  <img style="width:100%;padding: 20% " src="Icons/caution.svg" alt="caution">
+  <h4 id="incompatibleOSText" style="text-align: center;display: block"></h4>
+</div>
+</div>
 
 <div class="container" style="background:#dceaf2">
     <video hidden class="input_video" style="visibility: hidden"></video>
@@ -30,7 +36,7 @@
     <img id="reset" class="resetImage" src="Icons/arrow-counterclockwise.svg" alt="reset image">
 
     <h6 id="loadingtext" style="Text-align: center">Loading...</h6>
-    <div class="container-fluid" style="max-width:210vh; margin-left:auto, 0%">
+    <div class="container-fluid" >
       <div class="row">
         <div class="col-xs-1" style="max-width:7%; margin-left:auto">
           <div id="leftarrow" class="row" style="height:100%">

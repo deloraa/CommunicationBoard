@@ -112,6 +112,7 @@
 }
 
   .loading {
+    z-index:2;
     display: flex;
     position: absolute;
     top: 0;
@@ -125,9 +126,11 @@
     transition: opacity 1s;
   }
   .loading .message {
+    z-index:2;
     font-size: x-large;
   }
   .loading .spinner {
+    z-index:2;
     position: absolute;
     width: 120px;
     height: 120px;
@@ -138,6 +141,7 @@
   }
   
   .loaded .loading {
+    z-index:2;
     opacity: 0;
   }
   
@@ -178,4 +182,17 @@
     -webkit-animation-duration: 0.6s;
     animation-name: zoom;
     animation-duration: 0.6s;
+  }
+
+  .incompatiblemodal {
+    z-index:2;
+    background-color: #fff;
+    visibility: hidden;
+    opacity: 1;
+    transition: opacity 0.5s, visibility 0s 0.5s;
+    position: absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width: 100%;
   }
