@@ -39,7 +39,7 @@ imageSoundMap.set("Icons/32-SoundOff.jpeg", new Audio("Audio/32-SoundOff.mp3"));
 imageSoundMap.set("Icons/32-SoundOn.jpeg", new Audio("Audio/32-SoundOn.mp3"));
 var incompatibleOSText = document.getElementById("incompatibleOSText");
 var incompatibleOSModalID = document.getElementById("incompatibleOSModalID");
-
+var holdInteractionModal = false;
 incompatibleOSModalID.onclick = function () {
     for (let key of imageSoundMap) {
         key[1].play()
@@ -47,6 +47,7 @@ incompatibleOSModalID.onclick = function () {
         key[1].currentTime = 0
     }
     incompatibleOSModalID.style.visibility = "hidden"
+    holdInteractionModal = false;
 }
 
 testSupport([
@@ -74,7 +75,7 @@ function testSupport(supportedDevices) {
         break;
     }
     if (!isSupported) {
-
+        holdInteractionModal = true;
         incompatibleOSModalID.style.visibility = "visible"
         incompatibleOSText.innerHTML = `This app is running on ${detectedDevice.client.name}/${detectedDevice.os.name}, ` +
             `and is not well supported at this time. Touch or click anywhere on screen to continue.`;
@@ -485,6 +486,7 @@ async function onResults(results) {
     //  if(typeof results === "undefined") return
     // Hide the spinner.
     document.body.classList.add('loaded');
+    if(holdInteractionModal) return;
     // Update the frame rate.
     fpsControl.tick();
     // Draw the overlays.
