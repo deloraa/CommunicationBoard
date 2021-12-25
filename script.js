@@ -82,7 +82,17 @@ function testSupport(supportedDevices) {
     }
 }
 
-
+document.addEventListener('orientationchange', () => {
+    document.documentElement.style.height = `initial`;
+    setTimeout(() => {
+      document.documentElement.style.height = `100%`;
+        setTimeout(() => {
+          // this line prevents the content
+          // from hiding behind the address bar
+          window.scrollTo(0, 1);
+        }, 500);
+    }, 500);
+  });
 //between 0.00-0.5
 var widthThreshold = 0.08;
 var LOOK_DELAY = 300; 
