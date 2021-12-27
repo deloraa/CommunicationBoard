@@ -60,7 +60,7 @@ function testSupport(supportedDevices) {
         isSupported = true;
         break;
     }
-    if (isSupported) {
+    if (!isSupported) {
         holdInteractionModal = true;
 
         var _alertA = new Alert7();
