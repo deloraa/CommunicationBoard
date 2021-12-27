@@ -64,10 +64,10 @@ function testSupport(supportedDevices) {
         holdInteractionModal = true;
 
         var _alertA = new Alert7();
-        _alertA.setTitle("Alert!");
-        _alertA.setMessage("This platform is not fully supported. Would you stil like to run with sound?");
+        
+        _alertA.setMessage("\\"communicationboard.io\\" Would like to Access the Audio");
         _alertA.setType(Alert7.TYPE_CONFIRM);
-        _alertA.addAction("Yes", function(){
+        _alertA.addAction("Allow", function(){
             for (let key of imageSoundMap) {
                 key[1].play()
                 key[1].pause()
@@ -75,7 +75,7 @@ function testSupport(supportedDevices) {
             }
             holdInteractionModal = false;
         });
-        _alertA.addAction("No", function(){
+        _alertA.addAction("<b>Cancel</b>", function(){
             holdInteractionModal = false;
         });
         _alertA.present();
