@@ -37,22 +37,8 @@ imageSoundMap.set("Icons/30-LipsMoistened.jpeg", new Audio("Audio/30-LipsMoisten
 imageSoundMap.set("Icons/31-Sleep.jpeg", new Audio("Audio/31-Sleep.mp3"));
 imageSoundMap.set("Icons/32-SoundOff.jpeg", new Audio("Audio/32-SoundOff.mp3"));
 imageSoundMap.set("Icons/32-SoundOn.jpeg", new Audio("Audio/32-SoundOn.mp3"));
-var incompatibleOSText = document.getElementById("incompatibleOSText");
-var incompatibleOSModalID = document.getElementById("incompatibleOSModalID");
-var holdInteractionModal = false;
-incompatibleOSModalID.onclick = function () {
-    for (let key of imageSoundMap) {
-        key[1].play()
-        key[1].pause()
-        key[1].currentTime = 0
-    }
-    incompatibleOSModalID.style.visibility = "hidden"
-    holdInteractionModal = false;
-}
 
-testSupport([
-    { client: 'Chrome' },
-]);
+var holdInteractionModal = false;
 
 function testSupport(supportedDevices) {
     const deviceDetector = new DeviceDetector();
@@ -74,11 +60,22 @@ function testSupport(supportedDevices) {
         isSupported = true;
         break;
     }
-    if (!isSupported) {
+    if (isSupported) {
         holdInteractionModal = true;
-        incompatibleOSModalID.style.visibility = "visible"
-        incompatibleOSText.innerHTML = `This app is running on ${detectedDevice.client.name}/${detectedDevice.os.name}, ` +
-            `and is not well supported at this time. Touch or click anywhere on screen to continue.`;
+
+        var _alertA = new Alert7();
+        _alertA.setTitle("Alert!");
+        _alertA.setMessage("This platform is not fully supported. Would you stil like to run?");
+        _alertA.setType(Alert7.TYPE_CONFIRM);
+        _alertA.addAction("Yes", function(){
+            for (let key of imageSoundMap) {
+                key[1].play()
+                key[1].pause()
+                key[1].currentTime = 0
+            }
+            holdInteractionModal = false;
+        });
+        _alertA.present();
     }
 }
 
@@ -491,11 +488,19 @@ spinner.ontransitionend = () => {
 var playElement = document.getElementById("play");
 var pauseElement = document.getElementById("pause");
 var resetElement = document.getElementById("reset");
+var firstRun = true;
 async function onResults(results) {
+    document.body.classList.add('loaded');
+    if(firstRun){
+        firstRun = false;
+        testSupport([
+            { client: 'Chrome' },
+        ]);
+
+    }
       // if (!results.multiFaceLandmarks) return
     //  if(typeof results === "undefined") return
     // Hide the spinner.
-    document.body.classList.add('loaded');
     if(holdInteractionModal) return;
     // Update the frame rate.
     fpsControl.tick();
