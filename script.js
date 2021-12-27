@@ -38,7 +38,6 @@ imageSoundMap.set("Icons/31-Sleep.jpeg", new Audio("Audio/31-Sleep.mp3"));
 imageSoundMap.set("Icons/32-SoundOff.jpeg", new Audio("Audio/32-SoundOff.mp3"));
 imageSoundMap.set("Icons/32-SoundOn.jpeg", new Audio("Audio/32-SoundOn.mp3"));
 
-var holdInteractionModal = false;
 
 function testSupport(supportedDevices) {
     const deviceDetector = new DeviceDetector();
@@ -61,11 +60,9 @@ function testSupport(supportedDevices) {
         break;
     }
     if (!isSupported) {
-        holdInteractionModal = true;
-
         var _alertA = new Alert7();
         _alertA.setTitle("Alert!");
-        _alertA.setMessage("This platform is not fully supported. Would you stil like to run?");
+        _alertA.setMessage("This platform is not fully supported. Would you stil like to run with sound?");
         _alertA.setType(Alert7.TYPE_CONFIRM);
         _alertA.addAction("Yes", function(){
             for (let key of imageSoundMap) {
@@ -73,7 +70,8 @@ function testSupport(supportedDevices) {
                 key[1].pause()
                 key[1].currentTime = 0
             }
-            holdInteractionModal = false;
+        });
+        _alertA.addAction("No", function(){ 
         });
         _alertA.present();
     }
@@ -501,7 +499,6 @@ async function onResults(results) {
       // if (!results.multiFaceLandmarks) return
     //  if(typeof results === "undefined") return
     // Hide the spinner.
-    if(holdInteractionModal) return;
     // Update the frame rate.
     fpsControl.tick();
     // Draw the overlays.
