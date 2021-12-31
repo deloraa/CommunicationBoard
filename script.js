@@ -65,17 +65,14 @@ function testSupport(supportedDevices) {
 
         var _alertA = new Alert7();
         _alertA.setTitle("");
-        _alertA.setMessage("\"communicationboard.io\"\n Would Like to Access the Audio");
+        _alertA.setMessage(`\"communicationboard.io\"\n Is not supported on ${detectedDevice.client.name}/${detectedDevice.os.name}. Tap continue to try.`);
         _alertA.setType(Alert7.TYPE_CONFIRM);
-        _alertA.addAction("Allow", function(){
+        _alertA.addAction("Continue", function(){
             for (let key of imageSoundMap) {
                 key[1].play()
                 key[1].pause()
                 key[1].currentTime = 0
             }
-            holdInteractionModal = false;
-        });
-        _alertA.addAction("Cancel", function(){
             holdInteractionModal = false;
         });
         _alertA.present();
