@@ -196,3 +196,34 @@
     height:100%;
     width: 100%;
   }
+
+  .circular-progress {
+    z-index:2;
+    height: 250px;
+    width: 250px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  .circular-progress:before {
+    z-index:2;
+    content: "";
+    position: absolute;
+    height: 84%;
+    width: 84%;
+    background-color: #ffffff;
+    border-radius: 50%;
+  }
+  .value-container {
+    z-index:2;
+    position: relative;
+    font-family: "Poppins", sans-serif;
+    font-size: 50px;
+    color: #231c3d;
+  }
+  

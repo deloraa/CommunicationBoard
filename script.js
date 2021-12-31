@@ -485,11 +485,26 @@ const spinner = document.querySelector('.loading');
 spinner.ontransitionend = () => {
     spinner.style.display = 'none';
 };
-var playElement = document.getElementById("play");
+/*var playElement = document.getElementById("play");
 var pauseElement = document.getElementById("pause");
-var resetElement = document.getElementById("reset");
+var resetElement = document.getElementById("reset");*/
 var firstRun = true;
+let progressBar = document.querySelector(".circular-progress");
+let valueContainer = document.getElementById("playpausevalue");
+
+
+function setProgressBarValue(opacityValue,progressValue,textContent){
+    progressBar.style.opacity = opacityValue;
+    valueContainer.innerHTML = textContent;
+    progressBar.style.background = `conic-gradient(
+        #4d5bf9 ${progressValue * 360}deg,
+        #cadcff ${progressValue * 360}deg
+    )`;
+
+}
+
 async function onResults(results) {
+    
     document.body.classList.add('loaded');
     if(firstRun){
         firstRun = false;
@@ -533,12 +548,15 @@ async function onResults(results) {
     } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
         blinkVal = null;
         blinkStartTime = Number.POSITIVE_INFINITY;
-        resetElement.style.opacity = 0;
-        playElement.style.opacity = 0;
+        //resetElement.style.opacity = 0;
+        //playElement.style.opacity = 0;
+        setProgressBarValue(0,0,`pause`);
         if(!blinkRun){
-            pauseElement.style.opacity = 1;
+            //pauseElement.style.opacity = 1;
+            setProgressBarValue(1,0,`pause`);
         }else{
-            pauseElement.style.opacity = 0;
+            //pauseElement.style.opacity = 0;
+            setProgressBarValue(0,0,`pause`);
         }
     }
 
@@ -565,13 +583,16 @@ async function onResults(results) {
     if (blinkVal === "BLINK" && BLINK_DELAY / 2 > currentTime - blinkStartTime) {
         var timestampdiff = (currentTime - blinkStartTime) / (BLINK_DELAY / 2);
         if(selectionMade){
-            resetElement.style.opacity = timestampdiff;
+            //resetElement.style.opacity = timestampdiff;
+            setProgressBarValue(1,timestampdiff,`loop`);
         }else{
             if (blinkRun) {
-                pauseElement.style.opacity = timestampdiff;
+                //pauseElement.style.opacity = timestampdiff;
+                setProgressBarValue(1,timestampdiff,`pause`);
             } else {
-                playElement.style.opacity = timestampdiff;
-                pause.style.opacity = 1-timestampdiff;
+                setProgressBarValue(1,timestampdiff,`play_arrow`);
+                //playElement.style.opacity = timestampdiff;
+                //pause.style.opacity = 1-timestampdiff;
             }
         }
     }
