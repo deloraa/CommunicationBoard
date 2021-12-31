@@ -93,17 +93,19 @@ document.addEventListener('orientationchange', () => {
 //between 0.00-0.5
 var widthThreshold = 0.08;
 var LOOK_DELAY = 300; 
-var verticalThreshold = -0.11;
 var upperBlinkCutoff = 7;
 var lowerBlinkCutoff = 7;
-var BLINK_DELAY = 2000;
+var BLINK_DELAY = 1200;
+var timeactivateleftright = 3/10*LOOK_DELAY;
+
+
 
 var lookleftrightsensslider = document.getElementById("lookleftrightsensslider");
 var lookleftrightsens = document.getElementById("lookleftrightsens");
 lookleftrightsens.innerHTML = lookleftrightsensslider.value; // Display the default slider value
 lookleftrightsensslider.oninput = function() {
     lookleftrightsens.innerHTML = this.value;
-    widthThreshold = parseFloat(this.value);
+    widthThreshold = parseFloat(this.value)/100;
 }
 
 var timetoactivateslider = document.getElementById("timetoactivateslider");
@@ -111,7 +113,15 @@ var timetoactivate = document.getElementById("timetoactivate");
 timetoactivate.innerHTML = timetoactivateslider.value; // Display the default slider value
 timetoactivateslider.oninput = function() {
     timetoactivate.innerHTML = this.value;
-    LOOK_DELAY = parseInt(this.value);
+    LOOK_DELAY = parseInt(this.value)*100;
+}
+
+var timetoactivateanimationleftrightslider = document.getElementById("timetoactivateanimationleftrightslider");
+var timetoactivateanimationleftright = document.getElementById("timetoactivateanimationleftright");
+timetoactivateanimationleftright.innerHTML = timetoactivateanimationleftrightslider.value; // Display the default slider value
+timetoactivateanimationleftrightslider.oninput = function() {
+    timetoactivateanimationleftright.innerHTML = this.value;
+    timeactivateleftright = parseFloat(this.value)/10*LOOK_DELAY;
 }
 
 var timetoblinkslider = document.getElementById("timetoblinkslider");
@@ -119,7 +129,7 @@ var timetoblink = document.getElementById("timetoblink");
 timetoblink.innerHTML = timetoblinkslider.value; // Display the default slider value
 timetoblinkslider.oninput = function() {
     timetoblink.innerHTML = this.value;
-    BLINK_DELAY = parseInt(this.value);
+    BLINK_DELAY = parseInt(this.value)*100;
 }
 
 var eyeblinksensslider = document.getElementById("eyeblinksensslider");
@@ -221,16 +231,16 @@ var resetSettings = document.getElementById('resetSettings');
 resetSettings.onclick = () => {
     //----
     widthThreshold = 0.08;
-    lookleftrightsensslider.value = 0.08;
-    lookleftrightsens.innerHTML = 0.08;
+    lookleftrightsensslider.value = 8;
+    lookleftrightsens.innerHTML = 8;
     //----
     LOOK_DELAY = 300;
-    timetoactivate.innerHTML = 300;
-    timetoactivateslider.value = 300;
+    timetoactivate.innerHTML = 3;
+    timetoactivateslider.value = 3;
     //----
-    BLINK_DELAY = 2000;
-    timetoblink.innerHTML = 2000; // Display the default slider value
-    timetoblinkslider.value = 2000;
+    BLINK_DELAY = 1200;
+    timetoblink.innerHTML = 12; // Display the default slider value
+    timetoblinkslider.value = 12;
     //----
     upperBlinkCutoff = 7;
     eyeblinksens.innerHTML = 7;
@@ -239,6 +249,12 @@ resetSettings.onclick = () => {
     lowerBlinkCutoff = 7;
     eyeopensens.innerHTML = 7;
     eyeopensensslider.value = 7; 
+    //----
+    timeactivateleftright = 3/10*LOOK_DELAY;
+    timetoactivateanimationleftright.innerHTML = 3;
+    timetoactivateanimationleftrightslider.value = 3; 
+    
+
 }
 
 var imagelinks = ["Icons/1-Afraid.jpeg", "Icons/2-Pain.jpeg", "Icons/3-Yes.jpeg", "Icons/4-No.jpeg", "Icons/5-Sad.jpeg", "Icons/6-Frustrated.jpeg", "Icons/7-Nurse.jpeg", "Icons/8-Doctor.jpeg", "Icons/9-Tired.jpeg", "Icons/10-FeelSick.jpeg", "Icons/11-Cold_hot.jpeg", "Icons/12-ShortofBreath.jpeg", "Icons/13-Angry.jpeg", "Icons/14-Dizzy.jpeg", "Icons/15-Choking.jpeg", "Icons/16-Hungry.jpeg", "Icons/17-HowamI.jpeg", "Icons/18-WhatTime.jpeg", "Icons/19-WhatsHappening.jpeg", "Icons/20-Comeback.jpeg", "Icons/21-Situp.jpeg", "Icons/22-LieDown.jpeg", "Icons/23-Home.jpeg", "Icons/24-TV_Video.jpeg", "Icons/25-Light.jpeg", "Icons/26-CallLight.jpeg", "Icons/27-Water.jpeg", "Icons/28-Glasses.jpeg", "Icons/29-Suction.jpeg", "Icons/30-LipsMoistened.jpeg", "Icons/31-Sleep.jpeg", "Icons/32-SoundOff.jpeg"];
@@ -503,8 +519,7 @@ function setProgressBarValue(opacityValue,progressValue,textContent){
 
 }
 
-let lefteyevalue = document.getElementById("lefteyevalue");
-let righteyevalue = document.getElementById("righteyevalue");
+
 
 async function onResults(results) {
     
@@ -545,8 +560,7 @@ async function onResults(results) {
 
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
-    lefteyevalue.innerHTML = leyeblinkratio;
-    righteyevalue.innerHTML = reyeblinkratio;
+
     if (((leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff) || (leyeblinkratio < upperBlinkCutoff && reyeblinkratio > lowerBlinkCutoff)) && blinkVal !== "RESET" && blinkVal !== "BLINK") {
         blinkVal = "BLINK";
         blinkStartTime = currentTime;
@@ -584,9 +598,9 @@ async function onResults(results) {
         blinkVal = "RESET";
     }else{
     
-    if (blinkVal === "BLINK" && BLINK_DELAY / 2 < currentTime - blinkStartTime) {
+    if (blinkVal === "BLINK" && BLINK_DELAY / 3 < currentTime - blinkStartTime) {
 
-        var timestampdiff = (currentTime - blinkStartTime - (BLINK_DELAY / 2)) / (BLINK_DELAY / 2);
+        var timestampdiff = (currentTime - blinkStartTime - (BLINK_DELAY / 3)) / (BLINK_DELAY - BLINK_DELAY / 3);
         if(selectionMade){
             //resetElement.style.opacity = timestampdiff;
             setProgressBarValue(1,timestampdiff,`loop`);
@@ -866,11 +880,11 @@ async function onResults(results) {
         lookDirection = "RESET";
     } else {
 
-    if (lookDirection === "LEFT" && LOOK_DELAY / 2 < currentTime - startLookTime) {
-        var timestampdiff = (currentTime - startLookTime - (LOOK_DELAY / 2)) / (LOOK_DELAY / 2);
+    if (lookDirection === "LEFT" && timeactivateleftright < currentTime - startLookTime) {
+        var timestampdiff = (currentTime - startLookTime - timeactivateleftright) / (LOOK_DELAY - timeactivateleftright);
         leftarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
     } else if (lookDirection === "RIGHT" && LOOK_DELAY / 2 < currentTime - startLookTime) {
-        var timestampdiff = (currentTime - startLookTime - (LOOK_DELAY / 2)) / (LOOK_DELAY / 2);
+        var timestampdiff = (currentTime - startLookTime - timeactivateleftright) / (LOOK_DELAY - timeactivateleftright);
         rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
     }
 }

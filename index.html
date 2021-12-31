@@ -158,8 +158,6 @@
         <div class="container-fluid" style="margin-left:auto; margin-right:auto">
           <div class="row row-cols-3">
             <div class="col">
-            <p id="lefteyevalue"></p>
-            <p id="righteyevalue"></p>
             <h6 style="text-align: center;">Frame rate and camera selector</h6>
       <div class="control-panel">
       </div>
@@ -170,27 +168,31 @@
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
               <h6 style="text-align: center;">Look left/right sensitivity</h6>
-              <div style="text-align: center;"><input  id="lookleftrightsensslider" type="range" step="0.01" min="0.02" max="0.3" value="0.08"> <span id="lookleftrightsens">0.08</span></div>
+              <div style="text-align: center;"><input  id="lookleftrightsensslider" type="range" step="1" min="1" max="20" value="8"> <span id="lookleftrightsens">8</span></div>
           </li>
           <li class="nav-item">
               <h6 style="text-align: center;">Left Right Activate Selection Time</h6>
-              <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="timetoactivateslider" type="range" step="10" min="100" max="3000" value="300"> <span id="timetoactivate">300</span></div>
+              <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="timetoactivateslider" type="range" step="1" min="1" max="10" value="3"> <span id="timetoactivate">3</span></div>
           </li>
+          <li class="nav-item">
+            <h6 style="text-align: center;">Left Right Begin Activation Animation Time</h6>
+            <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="timetoactivateanimationleftrightslider" type="range" step="1" min="1" max="10" value="3"> <span id="timetoactivateanimationleftright">3</span></div>
+        </li>
         </ul>
       </div>
       <div class="col">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
             <h6 style="text-align: center;">Blink Delay Time</h6>
-            <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="timetoblinkslider" type="range" step="10" min="50" max="2500" value="1000"> <span id="timetoblink">2000</span></div>
+            <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="timetoblinkslider" type="range" step="1" min="1" max="20" value="12"> <span id="timetoblink">12</span></div>
         </li>
         <li class="nav-item">
           <h6 style="text-align: center;">Eye Blink Sensitivity</h6>
-          <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="eyeblinksensslider" type="range" step="0.1" min="2" max="10" value="7"> <span id="eyeblinksens">7</span></div>
+          <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="eyeblinksensslider" type="range" step="0.1" min="1" max="10" value="7"> <span id="eyeblinksens">7</span></div>
       </li>
       <li class="nav-item">
         <h6 style="text-align: center;">Eye Open Sensitivity</h6>
-        <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="eyeopensensslider" type="range" step="0.1" min="2" max="10" value="7"> <span id="eyeopensens">7</span></div>
+        <div style="text-align: center;"><input style="margin-left:auto; margin-right:auto" id="eyeopensensslider" type="range" step="0.1" min="1" max="10" value="7"> <span id="eyeopensens">7</span></div>
     </li>     
       </ul>
       </div>
