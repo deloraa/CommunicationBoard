@@ -97,7 +97,7 @@ var upperBlinkCutoff = 7;
 var lowerBlinkCutoff = 7;
 var BLINK_DELAY = 1200;
 var timeactivateleftright = 3/10*LOOK_DELAY;
-
+var timeactivateblink = 3/10*BLINK_DELAY;
 
 
 var lookleftrightsensslider = document.getElementById("lookleftrightsensslider");
@@ -146,6 +146,14 @@ eyeopensens.innerHTML = eyeopensensslider.value; // Display the default slider v
 eyeopensensslider.oninput = function() {
     eyeopensens.innerHTML = this.value;
     lowerBlinkCutoff = parseInt(this.value);
+}
+
+var blinkanimationdelayslider = document.getElementById("blinkanimationdelayslider");
+var blinkanimationdelay = document.getElementById("blinkanimationdelay");
+blinkanimationdelay.innerHTML = blinkanimationdelayslider.value; // Display the default slider value
+blinkanimationdelayslider.oninput = function() {
+    blinkanimationdelay.innerHTML = this.value;
+    timeactivateblink = parseFloat(this.value)/10*BLINK_DELAY;
 }
 
 var soundButton = document.getElementById('soundButton');
@@ -254,7 +262,9 @@ resetSettings.onclick = () => {
     timetoactivateanimationleftright.innerHTML = 3;
     timetoactivateanimationleftrightslider.value = 3; 
     
-
+    timeactivateblink = 3/10*BLINK_DELAY;
+    blinkanimationdelay.innerHTML = 3
+    blinkanimationdelayslider.value = 3;
 }
 
 var imagelinks = ["Icons/1-Afraid.jpeg", "Icons/2-Pain.jpeg", "Icons/3-Yes.jpeg", "Icons/4-No.jpeg", "Icons/5-Sad.jpeg", "Icons/6-Frustrated.jpeg", "Icons/7-Nurse.jpeg", "Icons/8-Doctor.jpeg", "Icons/9-Tired.jpeg", "Icons/10-FeelSick.jpeg", "Icons/11-Cold_hot.jpeg", "Icons/12-ShortofBreath.jpeg", "Icons/13-Angry.jpeg", "Icons/14-Dizzy.jpeg", "Icons/15-Choking.jpeg", "Icons/16-Hungry.jpeg", "Icons/17-HowamI.jpeg", "Icons/18-WhatTime.jpeg", "Icons/19-WhatsHappening.jpeg", "Icons/20-Comeback.jpeg", "Icons/21-Situp.jpeg", "Icons/22-LieDown.jpeg", "Icons/23-Home.jpeg", "Icons/24-TV_Video.jpeg", "Icons/25-Light.jpeg", "Icons/26-CallLight.jpeg", "Icons/27-Water.jpeg", "Icons/28-Glasses.jpeg", "Icons/29-Suction.jpeg", "Icons/30-LipsMoistened.jpeg", "Icons/31-Sleep.jpeg", "Icons/32-SoundOff.jpeg"];
@@ -501,9 +511,6 @@ const spinner = document.querySelector('.loading');
 spinner.ontransitionend = () => {
     spinner.style.display = 'none';
 };
-/*var playElement = document.getElementById("play");
-var pauseElement = document.getElementById("pause");
-var resetElement = document.getElementById("reset");*/
 var firstRun = true;
 let progressBar = document.querySelector(".circular-progress");
 let valueContainer = document.getElementById("playpausevalue");
@@ -598,20 +605,16 @@ async function onResults(results) {
         blinkVal = "RESET";
     }else{
     
-    if (blinkVal === "BLINK" && BLINK_DELAY / 3 < currentTime - blinkStartTime) {
+    if (blinkVal === "BLINK" && timeactivateblink < currentTime - blinkStartTime) {
 
-        var timestampdiff = (currentTime - blinkStartTime - (BLINK_DELAY / 3)) / (BLINK_DELAY - BLINK_DELAY / 3);
+        var timestampdiff = (currentTime - blinkStartTime - timeactivateblink) / (BLINK_DELAY - timeactivateblink);
         if(selectionMade){
-            //resetElement.style.opacity = timestampdiff;
             setProgressBarValue(1,timestampdiff,`loop`);
         }else{
             if (blinkRun) {
-                //pauseElement.style.opacity = timestampdiff;
                 setProgressBarValue(1,timestampdiff,`pause`);
             } else {
                 setProgressBarValue(1,timestampdiff,`play_arrow`);
-                //playElement.style.opacity = timestampdiff;
-                //pause.style.opacity = 1-timestampdiff;
             }
         }
     }
@@ -682,6 +685,8 @@ async function onResults(results) {
             }else if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg") {
                 toggleLightCharacteristic.writeValue(Uint8Array.of(25));
             }else if ($(leftImages[0]).attr('src') === "Icons/26-CallLight.jpeg") {
+                toggleLightCharacteristic.writeValue(Uint8Array.of(26));
+            }else if ($(leftImages[0]).attr('src') === "Icons/7-Nurse.jpeg"){
                 toggleLightCharacteristic.writeValue(Uint8Array.of(26));
             }else if ($(leftImages[0]).attr('src') === "Icons/27-Water.jpeg") {
                 toggleLightCharacteristic.writeValue(Uint8Array.of(27));
@@ -798,6 +803,8 @@ async function onResults(results) {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(25));
                     }else if ($(rightImages[0]).attr('src') === "Icons/26-CallLight.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(26));
+                    }else if ($(rightImages[0]).attr('src') === "Icons/7-Nurse.jpeg"){
+                            toggleLightCharacteristic.writeValue(Uint8Array.of(26));
                     }else if ($(rightImages[0]).attr('src') === "Icons/27-Water.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(27));
                     }else if ($(rightImages[0]).attr('src') === "Icons/29-Suction.jpeg") {
@@ -883,7 +890,7 @@ async function onResults(results) {
     if (lookDirection === "LEFT" && timeactivateleftright < currentTime - startLookTime) {
         var timestampdiff = (currentTime - startLookTime - timeactivateleftright) / (LOOK_DELAY - timeactivateleftright);
         leftarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
-    } else if (lookDirection === "RIGHT" && LOOK_DELAY / 2 < currentTime - startLookTime) {
+    } else if (lookDirection === "RIGHT" && timeactivateleftright < currentTime - startLookTime) {
         var timestampdiff = (currentTime - startLookTime - timeactivateleftright) / (LOOK_DELAY - timeactivateleftright);
         rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
     }
