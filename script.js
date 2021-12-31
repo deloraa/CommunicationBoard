@@ -553,14 +553,10 @@ async function onResults(results) {
     } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
         blinkVal = null;
         blinkStartTime = Number.POSITIVE_INFINITY;
-        //resetElement.style.opacity = 0;
-        //playElement.style.opacity = 0;
         setProgressBarValue(0,0,`pause`);
         if(!blinkRun){
-            //pauseElement.style.opacity = 1;
             setProgressBarValue(1,0,`pause`);
         }else{
-            //pauseElement.style.opacity = 0;
             setProgressBarValue(0,0,`pause`);
         }
     }
