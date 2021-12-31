@@ -156,6 +156,33 @@ blinkanimationdelayslider.oninput = function() {
     timeactivateblink = parseFloat(this.value)/10*BLINK_DELAY;
 }
 
+var settingsOpen = false;
+var offcanvasHowTo = document.getElementById("offcanvasHowTo");
+offcanvasHowTo.addEventListener('show.bs.offcanvas', function () {
+    settingsOpen = true;
+  })
+
+offcanvasHowTo.addEventListener('hidden.bs.offcanvas', function () {
+    settingsOpen = false;
+})
+
+var offcanvasSettings = document.getElementById("offcanvasSettings");
+offcanvasSettings.addEventListener('show.bs.offcanvas', function () {
+    settingsOpen = true;
+  })
+
+offcanvasSettings.addEventListener('hidden.bs.offcanvas', function () {
+    settingsOpen = false;
+})
+var offcanvasAbout = document.getElementById("offcanvasAbout");
+offcanvasAbout.addEventListener('show.bs.offcanvas', function () {
+    settingsOpen = true;
+  })
+
+  offcanvasAbout.addEventListener('hidden.bs.offcanvas', function () {
+    settingsOpen = false;
+})
+
 var soundButton = document.getElementById('soundButton');
 var soundOnOff = false;
 soundButton.onclick = () => {
@@ -549,6 +576,7 @@ async function onResults(results) {
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
     canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
     canvasCtx.restore();
+    if(settingsOpen)return;
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
     if(!selectionMade){
