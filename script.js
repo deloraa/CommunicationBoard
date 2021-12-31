@@ -94,7 +94,7 @@ document.addEventListener('orientationchange', () => {
 var widthThreshold = 0.08;
 var LOOK_DELAY = 300; 
 var verticalThreshold = -0.11;
-var upperBlinkCutoff = 5.5;
+var upperBlinkCutoff = 6;
 var lowerBlinkCutoff = 4;
 var BLINK_DELAY = 1000;
 
@@ -232,9 +232,9 @@ resetSettings.onclick = () => {
     timetoblink.innerHTML = 1000; // Display the default slider value
     timetoblinkslider.value = 1000;
     //----
-    upperBlinkCutoff = 5.5;
-    eyeblinksens.innerHTML = 5.5;
-    eyeblinksensslider.value = 5.5;
+    upperBlinkCutoff = 6;
+    eyeblinksens.innerHTML = 6;
+    eyeblinksensslider.value = 6;
     //----
     lowerBlinkCutoff = 4;
     eyeopensens.innerHTML = 4;
@@ -503,6 +503,9 @@ function setProgressBarValue(opacityValue,progressValue,textContent){
 
 }
 
+let lefteyevalue = document.getElementById("lefteyevalue");
+let righteyevalue = document.getElementById("righteyevalue");
+
 async function onResults(results) {
     
     document.body.classList.add('loaded');
@@ -528,9 +531,9 @@ async function onResults(results) {
     var maxThreshold = 0.5 + widthThreshold;
     if(!selectionMade){
         if (blinkRun) {
-            loadingtext.innerText = 'Blink either eye to pause';
+            loadingtext.innerText = 'Running. Blink either eye to pause';
         } else {
-            loadingtext.innerText = 'Blink either eye to start';
+            loadingtext.innerText = 'Paused. Blink either eye to start';
             
         }
     }else{
@@ -542,6 +545,8 @@ async function onResults(results) {
 
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
     var [leyeblinkratio, reyeblinkratio] = blinkRatio(results.multiFaceLandmarks);
+    lefteyevalue.innerHTML = leyeblinkratio;
+    righteyevalue.innerHTML = reyeblinkratio;
     if (((leyeblinkratio > upperBlinkCutoff && reyeblinkratio < lowerBlinkCutoff) || (leyeblinkratio < upperBlinkCutoff && reyeblinkratio > lowerBlinkCutoff)) && blinkVal !== "RESET" && blinkVal !== "BLINK") {
         blinkVal = "BLINK";
         blinkStartTime = currentTime;
