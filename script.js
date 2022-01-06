@@ -789,6 +789,11 @@ async function onResults(results) {
             })
             await Promise.allSettled(fadepromises);
             await Promise.allSettled(slidepromises);
+            for(var i = Math.ceil(leftImages.length/2); i < leftImages.length; i++){
+                $(leftImages[i]).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                $(leftImages[i]).css('visibility', 'hidden');
+            }
+
             var initsize = leftImages.length
             rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
             leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
@@ -903,8 +908,12 @@ async function onResults(results) {
 
                 })
  
-                await Promise.allSettled(fadepromises);
-                await Promise.allSettled(slidepromises);
+            await Promise.allSettled(fadepromises);
+            await Promise.allSettled(slidepromises);
+            for(var i = Math.ceil(rightImages.length/2); i < rightImages.length; i++){
+                $(rightImages[i]).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                $(rightImages[i]).css('visibility', 'hidden');
+            }
             var initsize = rightImages.length
             rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
             leftImages = leftImagesGlobal.slice(0, Math.floor(initsize / 2));
