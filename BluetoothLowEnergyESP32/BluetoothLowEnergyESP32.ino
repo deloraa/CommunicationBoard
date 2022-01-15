@@ -5,13 +5,14 @@
 #include "String.h"
  
 BLECharacteristic *pCharacteristic;
+bool deviceReady = true;
 bool deviceConnected = false;
 uint8_t txValue = 0;
 long lastMsg = 0;
 String rxload="";
 bool ledstatus = false;
 
-#define SERVICE_UUID           "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" 
+#define SERVICE_UUID           "6e400001-b5a3-f393-e0a9-e50e24dcca9e" 
 #define CHARACTERISTIC_UUID_RX "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
  
 class MyServerCallbacks: public BLEServerCallbacks {
@@ -20,6 +21,9 @@ class MyServerCallbacks: public BLEServerCallbacks {
     };
     void onDisconnect(BLEServer* pServer) {
       deviceConnected = false;
+      pServer->getAdvertising()->start();
+      
+
     }
 };
  
@@ -73,6 +77,7 @@ void loop() {
            ledstatus = true;
            digitalWrite(25, HIGH);
         }else if(rxloadvalue == 12 || rxloadvalue == 13 || rxloadvalue == 14 || rxloadvalue == 26 || rxloadvalue == 27 || rxloadvalue == 32){
+           Serial.println("started from the bottom");
            digitalWrite((int) rxloadvalue, HIGH);
            delay(500);
            digitalWrite((int) rxloadvalue, LOW);
@@ -83,4 +88,8 @@ void loop() {
     }
     lastMsg = now;
   }
+
+ //if(deviceConnected == false && deviceReady == false){
+   //setupBLE("ESP32_Bluetooth");
+ //}
 }
