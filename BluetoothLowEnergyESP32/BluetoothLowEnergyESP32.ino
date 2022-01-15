@@ -18,9 +18,11 @@ bool ledstatus = false;
 class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
       deviceConnected = true;
+      Serial.println("Connected");
     };
     void onDisconnect(BLEServer* pServer) {
       deviceConnected = false;
+      Serial.println("Disconnected");
       pServer->getAdvertising()->start();
       
 
@@ -68,8 +70,8 @@ void loop() {
   long now = millis();
   if (now - lastMsg > 100) {
     if (deviceConnected&&rxload.length()>0) {
-        Serial.println(rxload);
         unsigned rxloadvalue = (unsigned)rxload[0];
+        Serial.println("Received value: " + String(rxloadvalue));
         if(rxloadvalue == 25 && ledstatus){
            ledstatus = false;
            digitalWrite(25, LOW);
@@ -77,7 +79,6 @@ void loop() {
            ledstatus = true;
            digitalWrite(25, HIGH);
         }else if(rxloadvalue == 12 || rxloadvalue == 13 || rxloadvalue == 14 || rxloadvalue == 26 || rxloadvalue == 27 || rxloadvalue == 32){
-           Serial.println("started from the bottom");
            digitalWrite((int) rxloadvalue, HIGH);
            delay(500);
            digitalWrite((int) rxloadvalue, LOW);
@@ -89,7 +90,4 @@ void loop() {
     lastMsg = now;
   }
 
- //if(deviceConnected == false && deviceReady == false){
-   //setupBLE("ESP32_Bluetooth");
- //}
 }
