@@ -711,16 +711,16 @@ async function onResults(results) {
                     soundButton.className = "btn btn-outline-secondary"
                     soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
                 }
-                if (bluetoothDevice.gatt.connected) {
-                    if ($(leftImages[0]).attr('src') === "Icons/21-Situp.jpeg") {
+                if (typeof bluetoothDevice !== 'undefined' && bluetoothDevice.gatt.connected) {
+                    if ($(leftImages[0]).attr('src') === "Icons/21-BedUp.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(12));
-                    } else if ($(leftImages[0]).attr('src') === "Icons/22-LieDown.jpeg") {
+                    } else if ($(leftImages[0]).attr('src') === "Icons/22-BedDown.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(13));
                     } else if ($(leftImages[0]).attr('src') === "Icons/24-TV_Video.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(14));
                     } else if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(25));
-                    } else if ($(leftImages[0]).attr('src') === "Icons/26-CallLight.jpeg") {
+                    } else if ($(leftImages[0]).attr('src') === "Icons/26-Alarm.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(26));
                     } else if ($(leftImages[0]).attr('src') === "Icons/7-Nurse.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(26));
@@ -833,16 +833,16 @@ async function onResults(results) {
                     soundButton.className = "btn btn-outline-secondary"
                     soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
                 }
-                if (bluetoothDevice.gatt.connected) {
-                    if ($(rightImages[0]).attr('src') === "Icons/21-Situp.jpeg") {
+                if (typeof bluetoothDevice !== 'undefined' && bluetoothDevice.gatt.connected) {
+                    if ($(rightImages[0]).attr('src') === "Icons/21-BedUp.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(12));
-                    } else if ($(rightImages[0]).attr('src') === "Icons/22-LieDown.jpeg") {
+                    } else if ($(rightImages[0]).attr('src') === "Icons/22-BedDown.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(13));
                     } else if ($(rightImages[0]).attr('src') === "Icons/24-TV_Video.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(14));
                     } else if ($(rightImages[0]).attr('src') === "Icons/25-Light.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(25));
-                    } else if ($(rightImages[0]).attr('src') === "Icons/26-CallLight.jpeg") {
+                    } else if ($(rightImages[0]).attr('src') === "Icons/26-Alarm.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(26));
                     } else if ($(rightImages[0]).attr('src') === "Icons/7-Nurse.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(26));
