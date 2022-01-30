@@ -67,7 +67,7 @@ function testSupport(supportedDevices) {
         _alertA.setTitle("");
         _alertA.setMessage(`\"communicationboard.io\"\n Is not supported on ${detectedDevice.client.name}/${detectedDevice.os.name}. Tap continue to try.`);
         _alertA.setType(Alert7.TYPE_CONFIRM);
-        _alertA.addAction("Continue", function(){
+        _alertA.addAction("Continue", function () {
             for (let key of imageSoundMap) {
                 key[1].play()
                 key[1].pause()
@@ -82,60 +82,60 @@ function testSupport(supportedDevices) {
 document.addEventListener('orientationchange', () => {
     document.documentElement.style.height = `initial`;
     setTimeout(() => {
-      document.documentElement.style.height = `100%`;
+        document.documentElement.style.height = `100%`;
         setTimeout(() => {
-          // this line prevents the content
-          // from hiding behind the address bar
-          window.scrollTo(0, 1);
+            // this line prevents the content
+            // from hiding behind the address bar
+            window.scrollTo(0, 1);
         }, 500);
     }, 500);
-  });
+});
 //between 0.00-0.5
 var widthThreshold = 0.08;
-var LOOK_DELAY = 300; 
+var LOOK_DELAY = 300;
 var upperBlinkCutoff = 7;
 var lowerBlinkCutoff = 7;
 var BLINK_DELAY = 1200;
-var timeactivateleftright = 3/10*LOOK_DELAY;
-var timeactivateblink = 3/10*BLINK_DELAY;
+var timeactivateleftright = 3 / 10 * LOOK_DELAY;
+var timeactivateblink = 3 / 10 * BLINK_DELAY;
 
 
 var lookleftrightsensslider = document.getElementById("lookleftrightsensslider");
 var lookleftrightsens = document.getElementById("lookleftrightsens");
 lookleftrightsens.innerHTML = lookleftrightsensslider.value; // Display the default slider value
-lookleftrightsensslider.oninput = function() {
+lookleftrightsensslider.oninput = function () {
     lookleftrightsens.innerHTML = this.value;
-    widthThreshold = parseFloat(this.value)/100;
+    widthThreshold = parseFloat(this.value) / 100;
 }
 
 var timetoactivateslider = document.getElementById("timetoactivateslider");
 var timetoactivate = document.getElementById("timetoactivate");
 timetoactivate.innerHTML = timetoactivateslider.value; // Display the default slider value
-timetoactivateslider.oninput = function() {
+timetoactivateslider.oninput = function () {
     timetoactivate.innerHTML = this.value;
-    LOOK_DELAY = parseInt(this.value)*100;
+    LOOK_DELAY = parseInt(this.value) * 100;
 }
 
 var timetoactivateanimationleftrightslider = document.getElementById("timetoactivateanimationleftrightslider");
 var timetoactivateanimationleftright = document.getElementById("timetoactivateanimationleftright");
 timetoactivateanimationleftright.innerHTML = timetoactivateanimationleftrightslider.value; // Display the default slider value
-timetoactivateanimationleftrightslider.oninput = function() {
+timetoactivateanimationleftrightslider.oninput = function () {
     timetoactivateanimationleftright.innerHTML = this.value;
-    timeactivateleftright = parseFloat(this.value)/10*LOOK_DELAY;
+    timeactivateleftright = parseFloat(this.value) / 10 * LOOK_DELAY;
 }
 
 var timetoblinkslider = document.getElementById("timetoblinkslider");
 var timetoblink = document.getElementById("timetoblink");
 timetoblink.innerHTML = timetoblinkslider.value; // Display the default slider value
-timetoblinkslider.oninput = function() {
+timetoblinkslider.oninput = function () {
     timetoblink.innerHTML = this.value;
-    BLINK_DELAY = parseInt(this.value)*100;
+    BLINK_DELAY = parseInt(this.value) * 100;
 }
 
 var eyeblinksensslider = document.getElementById("eyeblinksensslider");
 var eyeblinksens = document.getElementById("eyeblinksens");
 eyeblinksens.innerHTML = eyeblinksensslider.value; // Display the default slider value
-eyeblinksensslider.oninput = function() {
+eyeblinksensslider.oninput = function () {
     eyeblinksens.innerHTML = this.value;
     upperBlinkCutoff = parseInt(this.value);
 }
@@ -143,7 +143,7 @@ eyeblinksensslider.oninput = function() {
 var eyeopensensslider = document.getElementById("eyeopensensslider");
 var eyeopensens = document.getElementById("eyeopensens");
 eyeopensens.innerHTML = eyeopensensslider.value; // Display the default slider value
-eyeopensensslider.oninput = function() {
+eyeopensensslider.oninput = function () {
     eyeopensens.innerHTML = this.value;
     lowerBlinkCutoff = parseInt(this.value);
 }
@@ -151,16 +151,16 @@ eyeopensensslider.oninput = function() {
 var blinkanimationdelayslider = document.getElementById("blinkanimationdelayslider");
 var blinkanimationdelay = document.getElementById("blinkanimationdelay");
 blinkanimationdelay.innerHTML = blinkanimationdelayslider.value; // Display the default slider value
-blinkanimationdelayslider.oninput = function() {
+blinkanimationdelayslider.oninput = function () {
     blinkanimationdelay.innerHTML = this.value;
-    timeactivateblink = parseFloat(this.value)/10*BLINK_DELAY;
+    timeactivateblink = parseFloat(this.value) / 10 * BLINK_DELAY;
 }
 
 var settingsOpen = false;
 var offcanvasHowTo = document.getElementById("offcanvasHowTo");
 offcanvasHowTo.addEventListener('show.bs.offcanvas', function () {
     settingsOpen = true;
-  })
+})
 
 offcanvasHowTo.addEventListener('hidden.bs.offcanvas', function () {
     settingsOpen = false;
@@ -169,7 +169,7 @@ offcanvasHowTo.addEventListener('hidden.bs.offcanvas', function () {
 var offcanvasSettings = document.getElementById("offcanvasSettings");
 offcanvasSettings.addEventListener('show.bs.offcanvas', function () {
     settingsOpen = true;
-  })
+})
 
 offcanvasSettings.addEventListener('hidden.bs.offcanvas', function () {
     settingsOpen = false;
@@ -177,9 +177,9 @@ offcanvasSettings.addEventListener('hidden.bs.offcanvas', function () {
 var offcanvasAbout = document.getElementById("offcanvasAbout");
 offcanvasAbout.addEventListener('show.bs.offcanvas', function () {
     settingsOpen = true;
-  })
+})
 
-  offcanvasAbout.addEventListener('hidden.bs.offcanvas', function () {
+offcanvasAbout.addEventListener('hidden.bs.offcanvas', function () {
     settingsOpen = false;
 })
 
@@ -191,12 +191,12 @@ soundButton.onclick = () => {
         imagelinks[31] = "Icons/32-SoundOff.jpeg"
         soundButton.className = "btn btn-outline-secondary"
         soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
-        $(rightImages).each(function(i) {
+        $(rightImages).each(function (i) {
             if ($(this).attr("src") === "Icons/32-SoundOn.jpeg") {
                 $(this).attr("src", "Icons/32-SoundOff.jpeg")
             }
         });
-        $(leftImages).each(function(i) {
+        $(leftImages).each(function (i) {
             if ($(this).attr("src") === "Icons/32-SoundOn.jpeg") {
                 $(this).attr("src", "Icons/32-SoundOff.jpeg")
             }
@@ -207,12 +207,12 @@ soundButton.onclick = () => {
         imagelinks[31] = "Icons/32-SoundOn.jpeg"
         soundButton.className = "btn btn-outline-primary"
         soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
-        $(rightImages).each(function(i) {
+        $(rightImages).each(function (i) {
             if ($(this).attr("src") === "Icons/32-SoundOff.jpeg") {
                 $(this).attr("src", "Icons/32-SoundOn.jpeg")
             }
         });
-        $(leftImages).each(function(i) {
+        $(leftImages).each(function (i) {
             if ($(this).attr("src") === "Icons/32-SoundOff.jpeg") {
                 $(this).attr("src", "Icons/32-SoundOn.jpeg")
             }
@@ -235,9 +235,9 @@ bluetoothbutton.onclick = () => {
             return;
         }
         navigator.bluetooth.requestDevice({
-                acceptAllDevices: true,
-                optionalServices: [SEND_SERVICE]
-            })
+            acceptAllDevices: true,
+            optionalServices: [SEND_SERVICE]
+        })
             .then(device => {
                 bluetoothDevice = device;
 
@@ -283,18 +283,18 @@ resetSettings.onclick = () => {
     //----
     lowerBlinkCutoff = 7;
     eyeopensens.innerHTML = 7;
-    eyeopensensslider.value = 7; 
+    eyeopensensslider.value = 7;
     //----
-    timeactivateleftright = 3/10*LOOK_DELAY;
+    timeactivateleftright = 3 / 10 * LOOK_DELAY;
     timetoactivateanimationleftright.innerHTML = 3;
-    timetoactivateanimationleftrightslider.value = 3; 
-    
-    timeactivateblink = 3/10*BLINK_DELAY;
+    timetoactivateanimationleftrightslider.value = 3;
+
+    timeactivateblink = 3 / 10 * BLINK_DELAY;
     blinkanimationdelay.innerHTML = 3
     blinkanimationdelayslider.value = 3;
 }
 
-var imagelinks = ["Icons/1-Afraid.jpeg", "Icons/2-Pain.jpeg", "Icons/3-Yes.jpeg", "Icons/4-No.jpeg", "Icons/5-Sad.jpeg", "Icons/6-Frustrated.jpeg", "Icons/7-Nurse.jpeg", "Icons/8-Doctor.jpeg", "Icons/9-Tired.jpeg", "Icons/10-FeelSick.jpeg", "Icons/11-Cold_hot.jpeg", "Icons/12-ShortofBreath.jpeg", "Icons/13-Angry.jpeg", "Icons/14-Dizzy.jpeg", "Icons/15-Choking.jpeg", "Icons/16-Hungry.jpeg", "Icons/17-HowamI.jpeg", "Icons/18-WhatTime.jpeg", "Icons/19-WhatsHappening.jpeg", "Icons/20-Comeback.jpeg", "Icons/21-Situp.jpeg", "Icons/22-LieDown.jpeg", "Icons/23-Home.jpeg", "Icons/24-TV_Video.jpeg", "Icons/25-Light.jpeg", "Icons/26-CallLight.jpeg", "Icons/27-Water.jpeg", "Icons/28-Glasses.jpeg", "Icons/29-Suction.jpeg", "Icons/30-LipsMoistened.jpeg", "Icons/31-Sleep.jpeg", "Icons/32-SoundOff.jpeg"];
+var imagelinks = ["Icons/1-Afraid.jpeg", "Icons/2-Pain.jpeg", "Icons/3-Yes.jpeg", "Icons/4-No.jpeg", "Icons/5-Sad.jpeg", "Icons/6-Tired.jpeg", "Icons/7-Nurse.jpeg", "Icons/8-Doctor.jpeg", "Icons/9-Sick.jpeg", "Icons/10-Frustrated.jpeg", "Icons/11-ShortofBreath.jpeg", "Icons/12-Choking.jpeg", "Icons/13-Angry.jpeg", "Icons/14-Dizzy.jpeg", "Icons/15-Hot.jpeg", "Icons/16-Cold.jpeg", "Icons/17-HowamI.jpeg", "Icons/18-WhatsHappening.jpeg", "Icons/19-WhatTime.jpeg", "Icons/20-ComeBack.jpeg", "Icons/21-BedUp.jpeg", "Icons/22-BedDown.jpeg", "Icons/23-Home.jpeg", "Icons/24-TV_Video.jpeg", "Icons/25-Light.jpeg", "Icons/26-Alarm.jpeg", "Icons/27-Water.jpeg", "Icons/28-Glasses.jpeg", "Icons/29-Suction.jpeg", "Icons/30-LipsMoistened.jpeg", "Icons/31-Sleep.jpeg", "Icons/32-SoundOff.jpeg"];
 
 var imagesswapIdReset = ["#img000", "#img001", "#img002", "#img003", "#img010", "#img011", "#img012", "#img013", "#img020", "#img021", "#img022", "#img023", "#img030", "#img031", "#img032", "#img033", "#img100", "#img101", "#img102", "#img103", "#img110", "#img111", "#img112", "#img113", "#img120", "#img121", "#img122", "#img123", "#img130", "#img131", "#img132", "#img133"];
 
@@ -309,11 +309,11 @@ function resetImages() {
     rightImages = imagesswapIdReset.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
     var leftImageLinks = imagelinks.slice(0, Math.ceil(imagelinks.length / 2));
     var rightImageLinks = imagelinks.slice(Math.ceil(imagelinks.length / 2), imagelinks.length);
-    $(rightImages).each(function(i) {
+    $(rightImages).each(function (i) {
         $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '', 'visibility': 'visible' });
         $(this).attr("src", rightImageLinks[i]);
     });
-    $(leftImages).each(function(i) {
+    $(leftImages).each(function (i) {
         $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '', 'visibility': 'visible' });
         $(this).attr("src", leftImageLinks[i]);
     });
@@ -336,7 +336,7 @@ async function resetImagesAnimation() {
     var rightWidth = $('#rightcontainer').width()
     $('#leftcontainer').css({ 'width': leftWidth, 'height': leftHeight });
     $('#rightcontainer').css({ 'width': rightWidth, 'height': rightHeight });
-    $(imagesswapIdReset).each(function(i) {
+    $(imagesswapIdReset).each(function (i) {
         //$(this).css({'position':'absolute'});
         topLocation[i] = $(this)[0].getBoundingClientRect().top
         leftLocation[i] = $(this)[0].getBoundingClientRect().left
@@ -344,12 +344,12 @@ async function resetImagesAnimation() {
         oldheight[i] = $(this).height();
         $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
     });
-    
-    $(imagesswapIdReset).each(function(i) {
+
+    $(imagesswapIdReset).each(function (i) {
         $(this).css({ 'position': 'absolute' });
     })
 
-    $(imagesswapIdReset).each(function(i) {
+    $(imagesswapIdReset).each(function (i) {
 
         $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': topLocation[i], 'left': leftLocation[i] });
 
@@ -359,9 +359,9 @@ async function resetImagesAnimation() {
         }, {
             duration: 400,
             queue: true,
-            complete: function() {
+            complete: function () {
                 $(this).attr("src", imagelinks[i]);
-                $(this).css({'visibility': 'visible' });
+                $(this).css({ 'visibility': 'visible' });
                 viewpromises[i] = $(this).animate({
                     width: oldwidth[i],
                     height: oldheight[i]
@@ -375,16 +375,16 @@ async function resetImagesAnimation() {
 
     await Promise.allSettled(fadepromises);
     await Promise.allSettled(viewpromises);
-    $(rightImages).each(function(i) {
+    $(rightImages).each(function (i) {
         $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '', 'visibility': 'visible' });
-        
+
     });
-    $(leftImages).each(function(i) {
+    $(leftImages).each(function (i) {
         $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '', 'visibility': 'visible' });
-      
+
     });
-    $('#rightcontainer').css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': ''});
-    $('#leftcontainer').css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': ''});
+    $('#rightcontainer').css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+    $('#leftcontainer').css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
 }
 
 const LEFT_IRIS = [474, 475, 476, 477];
@@ -509,10 +509,12 @@ function buildMap(keys, values) {
 const controls = window;
 const drawingUtils = window;
 const mpFaceMesh = window;
-const config = { locateFile: (file) => {
+const config = {
+    locateFile: (file) => {
         return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@` +
             `${mpFaceMesh.VERSION}/${file}`;
-    } };
+    }
+};
 // Our input frames will come from here.
 const videoElement = document.getElementsByClassName('input_video')[0];
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
@@ -543,7 +545,7 @@ let progressBar = document.querySelector(".circular-progress");
 let valueContainer = document.getElementById("playpausevalue");
 
 
-function setProgressBarValue(opacityValue,progressValue,textContent){
+function setProgressBarValue(opacityValue, progressValue, textContent) {
     progressBar.style.opacity = opacityValue;
     valueContainer.innerHTML = textContent;
     progressBar.style.background = `conic-gradient(
@@ -556,19 +558,19 @@ function setProgressBarValue(opacityValue,progressValue,textContent){
 
 
 async function onResults(results) {
-    
+
     document.body.classList.add('loaded');
-    if(firstRun){
+    if (firstRun) {
         firstRun = false;
         testSupport([
             { client: 'Chrome' },
         ]);
 
     }
-      // if (!results.multiFaceLandmarks) return
+    // if (!results.multiFaceLandmarks) return
     //  if(typeof results === "undefined") return
     // Hide the spinner.
-    if(holdInteractionModal) return;
+    if (holdInteractionModal) return;
     // Update the frame rate.
     fpsControl.tick();
     // Draw the overlays.
@@ -576,21 +578,21 @@ async function onResults(results) {
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
     canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
     canvasCtx.restore();
-    if(settingsOpen)return;
+    if (settingsOpen) return;
     var minThreshold = 0.5 - widthThreshold;
     var maxThreshold = 0.5 + widthThreshold;
-    if(!selectionMade){
+    if (!selectionMade) {
         if (blinkRun) {
             loadingtext.innerText = 'Running. Blink either eye to pause';
         } else {
             loadingtext.innerText = 'Paused. Blink either eye to start';
-            
+
         }
-    }else{
-            loadingtext.innerText = 'Blink either eye to reset';
+    } else {
+        loadingtext.innerText = 'Blink either eye to reset';
     }
     var currentTime = +new Date();
-    
+
     if (results.multiFaceLandmarks.length !== 1 || lookDirection === "STOP") return
 
     var [horizontalLookRatio, verticalLookRatio] = leftRightUpDownRatio(results.multiFaceLandmarks);
@@ -602,28 +604,28 @@ async function onResults(results) {
     } else if (leyeblinkratio <= lowerBlinkCutoff && reyeblinkratio <= lowerBlinkCutoff) {
         blinkVal = null;
         blinkStartTime = Number.POSITIVE_INFINITY;
-        setProgressBarValue(0,0,`pause`);
-        if(!blinkRun){
-            setProgressBarValue(1,0,`pause`);
-        }else{
-            setProgressBarValue(0,0,`pause`);
+        setProgressBarValue(0, 0, `pause`);
+        if (!blinkRun) {
+            setProgressBarValue(1, 0, `pause`);
+        } else {
+            setProgressBarValue(0, 0, `pause`);
         }
     }
 
     if (blinkStartTime + BLINK_DELAY < currentTime) {
         if (blinkVal === "BLINK") {
-            if(selectionMade){
-                setProgressBarValue(1,1,`loop`);
+            if (selectionMade) {
+                setProgressBarValue(1, 1, `loop`);
                 resetImagesAnimation();
                 startLookTime = Number.POSITIVE_INFINITY;
                 lookDirection = null;
-                selectionMade=false;
-            }else{
+                selectionMade = false;
+            } else {
                 if (blinkRun) {
-                    setProgressBarValue(1,1,`pause`);
+                    setProgressBarValue(1, 1, `pause`);
                     blinkRun = false;
                 } else {
-                    setProgressBarValue(1,1,`play_arrow`);
+                    setProgressBarValue(1, 1, `play_arrow`);
                     blinkRun = true;
                 }
             }
@@ -631,22 +633,22 @@ async function onResults(results) {
             blinkVal = "STOP";
         }
         blinkVal = "RESET";
-    }else{
-    
-    if (blinkVal === "BLINK" && timeactivateblink < currentTime - blinkStartTime) {
+    } else {
 
-        var timestampdiff = (currentTime - blinkStartTime - timeactivateblink) / (BLINK_DELAY - timeactivateblink);
-        if(selectionMade){
-            setProgressBarValue(1,timestampdiff,`loop`);
-        }else{
-            if (blinkRun) {
-                setProgressBarValue(1,timestampdiff,`pause`);
+        if (blinkVal === "BLINK" && timeactivateblink < currentTime - blinkStartTime) {
+
+            var timestampdiff = (currentTime - blinkStartTime - timeactivateblink) / (BLINK_DELAY - timeactivateblink);
+            if (selectionMade) {
+                setProgressBarValue(1, timestampdiff, `loop`);
             } else {
-                setProgressBarValue(1,timestampdiff,`play_arrow`);
+                if (blinkRun) {
+                    setProgressBarValue(1, timestampdiff, `pause`);
+                } else {
+                    setProgressBarValue(1, timestampdiff, `play_arrow`);
+                }
             }
         }
     }
-}
 
     if (!blinkRun) return;
     if (
@@ -678,133 +680,133 @@ async function onResults(results) {
     if (startLookTime + LOOK_DELAY < currentTime) {
         selectionMade = true;
         if (lookDirection === "LEFT") {
-        if (leftImages.length == 1) {
-            modalImg.src = $(leftImages[0]).attr('src');
-            $(rightImages[0]).attr('src',$(leftImages[0]).attr('src'));
-            modal.style.display = "block";
-            
-            if ($(leftImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
-                $(leftImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
-                imagelinks[31] = "Icons/32-SoundOn.jpeg"
-                soundOnOff = true
-            } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
-                $(leftImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
-                imagelinks[31] = "Icons/32-SoundOff.jpeg"
-                soundOnOff = false
-            }
-            
-            if (soundOnOff) {
-                imageSoundMap.get($(leftImages[0]).attr('src')).play();
-            }
-            if (soundOnOff) {
-                soundButton.className = "btn btn-outline-primary"
-                soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
-            } else {
-                soundButton.className = "btn btn-outline-secondary"
-                soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
-            }
-            if(bluetoothConnected){
-            if ($(leftImages[0]).attr('src') === "Icons/21-Situp.jpeg") {
-                toggleLightCharacteristic.writeValue(Uint8Array.of(12));
-            }else if ($(leftImages[0]).attr('src') === "Icons/22-LieDown.jpeg") {
-                toggleLightCharacteristic.writeValue(Uint8Array.of(13));
-            }else if ($(leftImages[0]).attr('src') === "Icons/24-TV_Video.jpeg") {
-                toggleLightCharacteristic.writeValue(Uint8Array.of(14));
-            }else if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg") {
-                toggleLightCharacteristic.writeValue(Uint8Array.of(25));
-            }else if ($(leftImages[0]).attr('src') === "Icons/26-CallLight.jpeg") {
-                toggleLightCharacteristic.writeValue(Uint8Array.of(26));
-            }else if ($(leftImages[0]).attr('src') === "Icons/7-Nurse.jpeg"){
-                toggleLightCharacteristic.writeValue(Uint8Array.of(26));
-            }else if ($(leftImages[0]).attr('src') === "Icons/27-Water.jpeg") {
-                toggleLightCharacteristic.writeValue(Uint8Array.of(27));
-            }else if ($(leftImages[0]).attr('src') === "Icons/29-Suction.jpeg") {
-                toggleLightCharacteristic.writeValue(Uint8Array.of(32));
-            }
-            }
-            //pause for 5000 ms on selection
-            setTimeout(() => {
-                startLookTime = Number.POSITIVE_INFINITY;
-                lookDirection = null;
-                resetImages();
-                modal.style.display = "none";
-                selectionMade = false;
-            }, 5000);
-        }else{
-            var mapRightToLeft = buildMap(rightImages.slice(0, Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
-            var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length), rightImages.slice(0, Math.floor(leftImages.length / 2)))
-            var topLocation = new Array(Math.ceil(leftImages.length / 2))
-            var leftLocation = new Array(Math.ceil(leftImages.length / 2))
-            var fadepromises = new Array(Math.ceil(leftImages.length / 2))
-            var slidepromises = new Array(Math.ceil(leftImages.length / 2))
+            if (leftImages.length == 1) {
+                modalImg.src = $(leftImages[0]).attr('src');
+                $(rightImages[0]).attr('src', $(leftImages[0]).attr('src'));
+                modal.style.display = "block";
 
-            $(rightImages).each(function(i) {
-                //$(this).css({'position':'absolute'});
-                topLocation[i] = $(this)[0].getBoundingClientRect().top
-                leftLocation[i] = $(this)[0].getBoundingClientRect().left
-                $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
-            });
-            
-            $(rightImages).each(function(i) {
-                $(this).css({ 'position': 'absolute' });
-            })
+                if ($(leftImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
+                    $(leftImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
+                    imagelinks[31] = "Icons/32-SoundOn.jpeg"
+                    soundOnOff = true
+                } else if ($(leftImages[0]).attr('src') === "Icons/32-SoundOn.jpeg") {
+                    $(leftImages[0]).attr('src', "Icons/32-SoundOff.jpeg");
+                    imagelinks[31] = "Icons/32-SoundOff.jpeg"
+                    soundOnOff = false
+                }
 
-            $(rightImages).each(function(i) {
-
-                $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': topLocation[i], 'left': leftLocation[i] });
-        
-                fadepromises[i] = $(this).animate({
-                    width: 0,
-                    height: 0
-                }, {
-                    duration: 400,
-                    queue: true,
-                    complete: function() {
-                        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
-                        $(this).css('visibility', 'hidden');
-
-                        if (i < Math.ceil(leftImages.length / 2)) {
-                            
-                            var atrID = '#' + $(this).attr('id')
-                            $(mapRightToLeft.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
-                            slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
-                                top: topLocation[i],
-                                left: leftLocation[i]
-                            }, {
-                                duration: 700,
-                                complete: function() {
-                                    atrID = '#' + $(this).attr('id')
-                                    var leftImgSrc = $(this).attr('src')
-                                    $(mapLeftToRight.get(atrID)).attr("src", leftImgSrc);
-                                    $(mapLeftToRight.get(atrID)).css({ 'visibility': 'visible' });
-                                    $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
-                                    $(this).css('visibility', 'hidden');
-
-                                }
-                            }).promise();
-                        }
+                if (soundOnOff) {
+                    imageSoundMap.get($(leftImages[0]).attr('src')).play();
+                }
+                if (soundOnOff) {
+                    soundButton.className = "btn btn-outline-primary"
+                    soundButton.innerHTML = '<img src="images/volume-up-fill.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound On'
+                } else {
+                    soundButton.className = "btn btn-outline-secondary"
+                    soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
+                }
+                if (bluetoothConnected) {
+                    if ($(leftImages[0]).attr('src') === "Icons/21-Situp.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(12));
+                    } else if ($(leftImages[0]).attr('src') === "Icons/22-LieDown.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(13));
+                    } else if ($(leftImages[0]).attr('src') === "Icons/24-TV_Video.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(14));
+                    } else if ($(leftImages[0]).attr('src') === "Icons/25-Light.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(25));
+                    } else if ($(leftImages[0]).attr('src') === "Icons/26-CallLight.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(26));
+                    } else if ($(leftImages[0]).attr('src') === "Icons/7-Nurse.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(26));
+                    } else if ($(leftImages[0]).attr('src') === "Icons/27-Water.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(27));
+                    } else if ($(leftImages[0]).attr('src') === "Icons/29-Suction.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(32));
                     }
-                }).promise();
+                }
+                //pause for 5000 ms on selection
+                setTimeout(() => {
+                    startLookTime = Number.POSITIVE_INFINITY;
+                    lookDirection = null;
+                    resetImages();
+                    modal.style.display = "none";
+                    selectionMade = false;
+                }, 5000);
+            } else {
+                var mapRightToLeft = buildMap(rightImages.slice(0, Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
+                var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length), rightImages.slice(0, Math.floor(leftImages.length / 2)))
+                var topLocation = new Array(Math.ceil(leftImages.length / 2))
+                var leftLocation = new Array(Math.ceil(leftImages.length / 2))
+                var fadepromises = new Array(Math.ceil(leftImages.length / 2))
+                var slidepromises = new Array(Math.ceil(leftImages.length / 2))
 
-            })
-            await Promise.allSettled(fadepromises);
-            await Promise.allSettled(slidepromises);
-            for(var i = Math.ceil(leftImages.length/2); i < leftImages.length; i++){
-                $(leftImages[i]).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
-                $(leftImages[i]).css('visibility', 'hidden');
+                $(rightImages).each(function (i) {
+                    //$(this).css({'position':'absolute'});
+                    topLocation[i] = $(this)[0].getBoundingClientRect().top
+                    leftLocation[i] = $(this)[0].getBoundingClientRect().left
+                    $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
+                });
+
+                $(rightImages).each(function (i) {
+                    $(this).css({ 'position': 'absolute' });
+                })
+
+                $(rightImages).each(function (i) {
+
+                    $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': topLocation[i], 'left': leftLocation[i] });
+
+                    fadepromises[i] = $(this).animate({
+                        width: 0,
+                        height: 0
+                    }, {
+                        duration: 400,
+                        queue: true,
+                        complete: function () {
+                            $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                            $(this).css('visibility', 'hidden');
+
+                            if (i < Math.ceil(leftImages.length / 2)) {
+
+                                var atrID = '#' + $(this).attr('id')
+                                $(mapRightToLeft.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
+                                slidepromises[i] = $(mapRightToLeft.get(atrID)).animate({
+                                    top: topLocation[i],
+                                    left: leftLocation[i]
+                                }, {
+                                    duration: 700,
+                                    complete: function () {
+                                        atrID = '#' + $(this).attr('id')
+                                        var leftImgSrc = $(this).attr('src')
+                                        $(mapLeftToRight.get(atrID)).attr("src", leftImgSrc);
+                                        $(mapLeftToRight.get(atrID)).css({ 'visibility': 'visible' });
+                                        $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                                        $(this).css('visibility', 'hidden');
+
+                                    }
+                                }).promise();
+                            }
+                        }
+                    }).promise();
+
+                })
+                await Promise.allSettled(fadepromises);
+                await Promise.allSettled(slidepromises);
+                for (var i = Math.ceil(leftImages.length / 2); i < leftImages.length; i++) {
+                    $(leftImages[i]).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                    $(leftImages[i]).css('visibility', 'hidden');
+                }
+
+                var initsize = leftImages.length
+                rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
+                leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
+                lookDirection = "STOP"
+                startLookTime = Number.POSITIVE_INFINITY;
             }
-
-            var initsize = leftImages.length
-            rightImages = rightImagesGlobal.slice(0, Math.floor(initsize / 2));
-            leftImages = leftImagesGlobal.slice(0, Math.ceil(initsize / 2));
-            lookDirection = "STOP"
-            startLookTime = Number.POSITIVE_INFINITY;
-        }
         } else if (lookDirection === "RIGHT") {
             if (rightImages.length == 1) {
                 modalImg.src = $(rightImages[0]).attr('src');
                 modal.style.display = "block";
-                $(leftImages[0]).attr('src',$(rightImages[0]).attr('src'));
+                $(leftImages[0]).attr('src', $(rightImages[0]).attr('src'));
                 if ($(rightImages[0]).attr('src') === "Icons/32-SoundOff.jpeg") {
                     $(rightImages[0]).attr('src', "Icons/32-SoundOn.jpeg");
                     imagelinks[31] = "Icons/32-SoundOn.jpeg"
@@ -814,7 +816,7 @@ async function onResults(results) {
                     imagelinks[31] = "Icons/32-SoundOff.jpeg"
                     soundOnOff = false
                 }
-                
+
                 if (soundOnOff) {
                     imageSoundMap.get($(rightImages[0]).attr('src')).play();
                 }
@@ -825,25 +827,25 @@ async function onResults(results) {
                     soundButton.className = "btn btn-outline-secondary"
                     soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
                 }
-                if(bluetoothConnected){
+                if (bluetoothConnected) {
                     if ($(rightImages[0]).attr('src') === "Icons/21-Situp.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(12));
-                    }else if ($(rightImages[0]).attr('src') === "Icons/22-LieDown.jpeg") {
+                    } else if ($(rightImages[0]).attr('src') === "Icons/22-LieDown.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(13));
-                    }else if ($(rightImages[0]).attr('src') === "Icons/24-TV_Video.jpeg") {
+                    } else if ($(rightImages[0]).attr('src') === "Icons/24-TV_Video.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(14));
-                    }else if ($(rightImages[0]).attr('src') === "Icons/25-Light.jpeg") {
+                    } else if ($(rightImages[0]).attr('src') === "Icons/25-Light.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(25));
-                    }else if ($(rightImages[0]).attr('src') === "Icons/26-CallLight.jpeg") {
+                    } else if ($(rightImages[0]).attr('src') === "Icons/26-CallLight.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(26));
-                    }else if ($(rightImages[0]).attr('src') === "Icons/7-Nurse.jpeg"){
-                            toggleLightCharacteristic.writeValue(Uint8Array.of(26));
-                    }else if ($(rightImages[0]).attr('src') === "Icons/27-Water.jpeg") {
+                    } else if ($(rightImages[0]).attr('src') === "Icons/7-Nurse.jpeg") {
+                        toggleLightCharacteristic.writeValue(Uint8Array.of(26));
+                    } else if ($(rightImages[0]).attr('src') === "Icons/27-Water.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(27));
-                    }else if ($(rightImages[0]).attr('src') === "Icons/29-Suction.jpeg") {
+                    } else if ($(rightImages[0]).attr('src') === "Icons/29-Suction.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(32));
                     }
-                    }
+                }
                 setTimeout(() => {
                     startLookTime = Number.POSITIVE_INFINITY;
                     lookDirection = null;
@@ -851,7 +853,7 @@ async function onResults(results) {
                     modal.style.display = "none";
                     selectionMade = false;
                 }, 5000);
-            }else{
+            } else {
                 var mapLeftToRight = buildMap(leftImages.slice(0, Math.floor(rightImages.length / 2)), rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length))
                 var mapRightToLeft = buildMap(rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length), leftImages.slice(0, Math.floor(rightImages.length / 2)))
 
@@ -860,17 +862,17 @@ async function onResults(results) {
                 var fadepromises = new Array(Math.ceil(rightImages.length / 2))
                 var slidepromises = new Array(Math.ceil(rightImages.length / 2))
 
-                $(leftImages).each(function(i) {
+                $(leftImages).each(function (i) {
                     //$(this).css({'position':'absolute'});
                     topLocation[i] = $(this)[0].getBoundingClientRect().top
                     leftLocation[i] = $(this)[0].getBoundingClientRect().left
                     $(this).css({ 'width': $(this).width(), 'height': $(this).height() });
                 })
-                $(leftImages).each(function(i) {
+                $(leftImages).each(function (i) {
                     $(this).css({ 'position': 'absolute' });
                 })
 
-                $(leftImages).each(function(i) {
+                $(leftImages).each(function (i) {
 
                     $(this).css({ 'width': $(this).width(), 'height': $(this).height(), 'top': topLocation[i], 'left': leftLocation[i] });
                     fadepromises[i] = $(this).animate({
@@ -879,12 +881,12 @@ async function onResults(results) {
                     }, {
                         duration: 400,
                         queue: true,
-                        complete: function() {
+                        complete: function () {
                             $(this).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
                             $(this).css('visibility', 'hidden');
 
                             if (i < Math.ceil(rightImages.length / 2)) {
-                                
+
                                 var atrID = '#' + $(this).attr('id')
                                 $(mapLeftToRight.get(atrID)).css({ 'width': $(this).width(), 'height': $(this).height(), 'position': 'absolute' });
                                 slidepromises[i] = $(mapLeftToRight.get(atrID)).animate({
@@ -892,7 +894,7 @@ async function onResults(results) {
                                     left: leftLocation[i]
                                 }, {
                                     duration: 700,
-                                    complete: function() {
+                                    complete: function () {
                                         atrID = '#' + $(this).attr('id')
                                         var leftImgSrc = $(this).attr('src')
                                         $(mapRightToLeft.get(atrID)).attr("src", leftImgSrc);
@@ -907,31 +909,31 @@ async function onResults(results) {
                     }).promise();
 
                 })
- 
-            await Promise.allSettled(fadepromises);
-            await Promise.allSettled(slidepromises);
-            for(var i = Math.ceil(rightImages.length/2); i < rightImages.length; i++){
-                $(rightImages[i]).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
-                $(rightImages[i]).css('visibility', 'hidden');
+
+                await Promise.allSettled(fadepromises);
+                await Promise.allSettled(slidepromises);
+                for (var i = Math.ceil(rightImages.length / 2); i < rightImages.length; i++) {
+                    $(rightImages[i]).css({ 'position': '', 'width': '', 'height': '', 'top': '', 'left': '' });
+                    $(rightImages[i]).css('visibility', 'hidden');
+                }
+                var initsize = rightImages.length
+                rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
+                leftImages = leftImagesGlobal.slice(0, Math.floor(initsize / 2));
+                lookDirection = "STOP"
+                startLookTime = Number.POSITIVE_INFINITY;
             }
-            var initsize = rightImages.length
-            rightImages = rightImagesGlobal.slice(0, Math.ceil(initsize / 2));
-            leftImages = leftImagesGlobal.slice(0, Math.floor(initsize / 2));
-            lookDirection = "STOP"
-            startLookTime = Number.POSITIVE_INFINITY;
-        }
         }
         lookDirection = "RESET";
     } else {
 
-    if (lookDirection === "LEFT" && timeactivateleftright < currentTime - startLookTime) {
-        var timestampdiff = (currentTime - startLookTime - timeactivateleftright) / (LOOK_DELAY - timeactivateleftright);
-        leftarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
-    } else if (lookDirection === "RIGHT" && timeactivateleftright < currentTime - startLookTime) {
-        var timestampdiff = (currentTime - startLookTime - timeactivateleftright) / (LOOK_DELAY - timeactivateleftright);
-        rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
+        if (lookDirection === "LEFT" && timeactivateleftright < currentTime - startLookTime) {
+            var timestampdiff = (currentTime - startLookTime - timeactivateleftright) / (LOOK_DELAY - timeactivateleftright);
+            leftarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
+        } else if (lookDirection === "RIGHT" && timeactivateleftright < currentTime - startLookTime) {
+            var timestampdiff = (currentTime - startLookTime - timeactivateleftright) / (LOOK_DELAY - timeactivateleftright);
+            rightarrowelement.style.backgroundColor = backgroundColorChange(timestampdiff);
+        }
     }
-}
 
 }
 const faceMesh = new mpFaceMesh.FaceMesh(config);
@@ -942,26 +944,26 @@ faceMesh.onResults(onResults);
 new controls
     .ControlPanel(controlsElement, solutionOptions)
     .add([
-    fpsControl,
-    new controls.SourcePicker({
-        onFrame: async (input, size) => {
-            const aspect = size.height / size.width;
-            let width, height;
-            if (window.innerWidth > window.innerHeight) {
-                height = window.innerHeight;
-                width = height / aspect;
-            }
-            else {
-                width = window.innerWidth;
-                height = width * aspect;
-            }
-            canvasElement.width = width;
-            canvasElement.height = height;
-            await faceMesh.send({ image: input });
-        },
-    })
-])
+        fpsControl,
+        new controls.SourcePicker({
+            onFrame: async (input, size) => {
+                const aspect = size.height / size.width;
+                let width, height;
+                if (window.innerWidth > window.innerHeight) {
+                    height = window.innerHeight;
+                    width = height / aspect;
+                }
+                else {
+                    width = window.innerWidth;
+                    height = width * aspect;
+                }
+                canvasElement.width = width;
+                canvasElement.height = height;
+                await faceMesh.send({ image: input });
+            },
+        })
+    ])
     .on(x => {
-    const options = x;
-    faceMesh.setOptions(options);
-});
+        const options = x;
+        faceMesh.setOptions(options);
+    });
