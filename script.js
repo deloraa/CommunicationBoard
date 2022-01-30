@@ -24,7 +24,7 @@ imageSoundMap.set("Icons/17-HowamI.jpeg", new Audio("Audio/17-HowamIDoing.mp3"))
 imageSoundMap.set("Icons/18-WhatsHappening.jpeg", new Audio("Audio/18-WhatisHappening.mp3"));
 imageSoundMap.set("Icons/19-WhatTime.jpeg", new Audio("Audio/19-WhatTime.mp3"));
 imageSoundMap.set("Icons/20-ComeBack.jpeg", new Audio("Audio/20-ComeBack.mp3"));
-imageSoundMap.set("Icons/21-BedUp.jpeg", new Audio("Audio/21-IWantHeadofbeduporDown.mp3"));
+imageSoundMap.set("Icons/21-BedUp.jpeg", new Audio("Audio/21-IwanttoSitUp.mp3"));
 imageSoundMap.set("Icons/22-BedDown.jpeg", new Audio("Audio/22-IwanttoLieDown.mp3"));
 imageSoundMap.set("Icons/23-Home.jpeg", new Audio("Audio/23-IwanttoGoHome.mp3"));
 imageSoundMap.set("Icons/24-TV_Video.jpeg", new Audio("Audio/24-IwanttheTVorVideo.mp3"));
