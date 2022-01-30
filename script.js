@@ -227,9 +227,9 @@ let bluetoothDevice;
 const DEVICE_NAME = 'ESP32_Bluetooth';
 const SEND_SERVICE = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
 const SEND_SERVICE_CHARACTERISTIC = '6e400002-b5a3-f393-e0a9-e50e24dcca9e';
-var bluetoothConnected = false;
+
 bluetoothbutton.onclick = () => {
-    if (bluetoothConnected === false) {
+    if (!bluetoothDevice.gatt.connected) {
         if (!navigator.bluetooth) {
             alert('Sorry, your browser doesn\'t support Bluetooth API');
             return;
@@ -240,24 +240,29 @@ bluetoothbutton.onclick = () => {
         })
             .then(device => {
                 bluetoothDevice = device;
-
+                bluetoothDevice.addEventListener('gattserverdisconnected', () => {
+                    bluetoothbutton.className = "btn btn-outline-secondary"
+                    bluetoothbutton.innerHTML = '<img src="images/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Disconnected';
+                });
                 return device.gatt.connect();
             })
             .then(server => server.getPrimaryService(SEND_SERVICE))
             .then(service => service.getCharacteristic(SEND_SERVICE_CHARACTERISTIC))
             .then(characteristic => {
                 toggleLightCharacteristic = characteristic;
-                bluetoothConnected = true;
                 bluetoothbutton.className = "btn btn-outline-primary"
                 bluetoothbutton.innerHTML = '<img src="images/bluetoothOn.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Connected';
                 //toggleLightCharacteristic.writeValue(Uint8Array.of(1));
             })
             .catch(error => {
                 console.error(error);
-                bluetoothConnected = false;
                 bluetoothbutton.className = "btn btn-outline-secondary"
                 bluetoothbutton.innerHTML = '<img src="images/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Disconnected';
             });
+    }else{
+        bluetoothDevice.gatt.disconnect();
+        bluetoothbutton.className = "btn btn-outline-secondary"
+        bluetoothbutton.innerHTML = '<img src="images/bluetoothOff.svg" width="16" height="16" viewBox="0 0 16 16"></img>Bluetooth Disconnected';
     }
 
 }
@@ -705,7 +710,7 @@ async function onResults(results) {
                     soundButton.className = "btn btn-outline-secondary"
                     soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
                 }
-                if (bluetoothConnected) {
+                if (bluetoothDevice.gatt.connected) {
                     if ($(leftImages[0]).attr('src') === "Icons/21-Situp.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(12));
                     } else if ($(leftImages[0]).attr('src') === "Icons/22-LieDown.jpeg") {
@@ -827,7 +832,7 @@ async function onResults(results) {
                     soundButton.className = "btn btn-outline-secondary"
                     soundButton.innerHTML = '<img src="images/volume-mute.svg" width="16" height="16" class="bi bi-volume-mute" viewBox="0 0 16 16"></img>Sound Off'
                 }
-                if (bluetoothConnected) {
+                if (bluetoothDevice.gatt.connected) {
                     if ($(rightImages[0]).attr('src') === "Icons/21-Situp.jpeg") {
                         toggleLightCharacteristic.writeValue(Uint8Array.of(12));
                     } else if ($(rightImages[0]).attr('src') === "Icons/22-LieDown.jpeg") {
