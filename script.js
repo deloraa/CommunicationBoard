@@ -229,11 +229,12 @@ const SEND_SERVICE = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
 const SEND_SERVICE_CHARACTERISTIC = '6e400002-b5a3-f393-e0a9-e50e24dcca9e';
 
 bluetoothbutton.onclick = () => {
-    if (!bluetoothDevice.gatt.connected) {
-        if (!navigator.bluetooth) {
-            alert('Sorry, your browser doesn\'t support Bluetooth API');
-            return;
-        }
+    if (!navigator.bluetooth) {
+        alert('Sorry, your browser doesn\'t support Bluetooth API');
+        return;
+    }
+    if (typeof bluetoothDevice === 'undefined' || !bluetoothDevice.gatt.connected) {
+
         navigator.bluetooth.requestDevice({
             acceptAllDevices: true,
             optionalServices: [SEND_SERVICE]
