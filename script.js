@@ -739,6 +739,10 @@ async function onResults(results) {
                     selectionMade = false;
                 }, 5000);
             } else {
+                //debug code for als
+                if (typeof bluetoothDevice !== 'undefined' && bluetoothDevice.gatt.connected) {
+                    toggleLightCharacteristic.writeValue(Uint8Array.of(18));
+                }
                 var mapRightToLeft = buildMap(rightImages.slice(0, Math.floor(leftImages.length / 2)), leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length))
                 var mapLeftToRight = buildMap(leftImages.slice(Math.ceil(leftImages.length / 2), leftImages.length), rightImages.slice(0, Math.floor(leftImages.length / 2)))
                 var topLocation = new Array(Math.ceil(leftImages.length / 2))
@@ -809,6 +813,7 @@ async function onResults(results) {
                 startLookTime = Number.POSITIVE_INFINITY;
             }
         } else if (lookDirection === "RIGHT") {
+
             if (rightImages.length == 1) {
                 modalImg.src = $(rightImages[0]).attr('src');
                 modal.style.display = "block";
@@ -860,6 +865,9 @@ async function onResults(results) {
                     selectionMade = false;
                 }, 5000);
             } else {
+                if (typeof bluetoothDevice !== 'undefined' && bluetoothDevice.gatt.connected) {
+                    toggleLightCharacteristic.writeValue(Uint8Array.of(19));
+                }
                 var mapLeftToRight = buildMap(leftImages.slice(0, Math.floor(rightImages.length / 2)), rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length))
                 var mapRightToLeft = buildMap(rightImages.slice(Math.ceil(rightImages.length / 2), rightImages.length), leftImages.slice(0, Math.floor(rightImages.length / 2)))
 
