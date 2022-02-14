@@ -77,7 +77,7 @@ void loop() {
         }else if(rxloadvalue == 25 && !ledstatus){
            ledstatus = true;
            digitalWrite(25, HIGH);
-        }else if(rxloadvalue == 12 || rxloadvalue == 13 || rxloadvalue == 14 || rxloadvalue == 26 || rxloadvalue == 27 || rxloadvalue == 32){
+        }else if(rxloadvalue == 12 || rxloadvalue == 13 || rxloadvalue == 14 || rxloadvalue == 26 || rxloadvalue == 27 || rxloadvalue == 32 || rxloadvalue == 18 || rxloadvalue == 19){
            digitalWrite((int) rxloadvalue, HIGH);
            delay(500);
            digitalWrite((int) rxloadvalue, LOW);
